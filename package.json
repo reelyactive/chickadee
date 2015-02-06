@@ -1,0 +1,35 @@
+{
+  "name": "chickadee",
+  "homepage": "https://github.com/reelyactive/chickadee/",
+  "author": "reelyActive <webdev@reelyactive.com>",
+  "description": "Real-time hyperlocal context API.  We believe in an open Internet of Things.",
+  "keywords": [
+    "reelyActive",
+    "API",
+    "IoT",
+    "hyperlocal context"
+  ],
+  "version": "0.0.0",
+  "engines": {
+    "node": "^0.10.0"
+  },
+  "main": "./lib/server.js",
+  "bin": {
+    "chickadee": "./bin/chickadee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reelyactive/chickadee.git"
+  },
+  "dependencies": {
+    "express": ">=4.0.0"
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/reelyactive/chickadee/issues"
+  },
+  "contributors": [
+    { "name": "Jeffrey Dungen" }
+  ],
+  "license": "MIT"
+}
