@@ -2,7 +2,7 @@ chickadee
 =========
 
 
-An API for real-time hyperlocal context
+A hyperlocal context associations store
 ---------------------------------------
 
 A bird almost universally considered "cute" thanks to its oversized round head, tiny body, and curiosity about everything, including humans.
@@ -22,26 +22,8 @@ Hello chickadee
 
 ```javascript
 var chickadee = require('chickadee');
-var api = new chickadee();
+var associations = new chickadee();
 ```
-
-
-Querying real-time hyperlocal context
--------------------------------------
-
-To query the real-time context of a place named reelyactive make the following request:
-
-- [http://localhost:3001/at/reelyactive](http://localhost:3001/at/reelyactive)
-
-
-Options
--------
-
-You can create an instance of chickadee with any or all of the following options (what's shown are the defaults):
-
-    {
-      httpPort: 3001
-    }
 
 
 What's next?
