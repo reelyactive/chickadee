@@ -2,14 +2,13 @@
   "name": "chickadee",
   "homepage": "https://github.com/reelyactive/chickadee/",
   "author": "reelyActive <webdev@reelyactive.com>",
-  "description": "Real-time hyperlocal context API.  We believe in an open Internet of Things.",
+  "description": "Hyperlocal context associations store.  We believe in an open Internet of Things.",
   "keywords": [
     "reelyActive",
-    "API",
     "IoT",
     "hyperlocal context"
   ],
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": "^0.10.0"
   },
@@ -22,7 +21,8 @@
     "url": "https://github.com/reelyactive/chickadee.git"
   },
   "dependencies": {
-    "express": ">=4.0.0"
+    "express": ">=4.0.0",
+    "nedb": ">=1.1.1"
   },
   "devDependencies": {},
   "bugs": {
