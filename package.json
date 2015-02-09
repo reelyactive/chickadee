@@ -2,13 +2,13 @@
   "name": "chickadee",
   "homepage": "https://github.com/reelyactive/chickadee/",
   "author": "reelyActive <webdev@reelyactive.com>",
-  "description": "Hyperlocal context associations store.  We believe in an open Internet of Things.",
+  "description": "Contextual associations store.  We believe in an open Internet of Things.",
   "keywords": [
     "reelyActive",
     "IoT",
     "hyperlocal context"
   ],
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": "^0.10.0"
   },
