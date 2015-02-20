@@ -27,6 +27,53 @@ var associations = new chickadee();
 ```
 
 
+RESTful interactions
+--------------------
+
+__POST /id__
+
+Create a new device association.  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/test](http://myjson.info/story/test) include the following JSON:
+
+    {
+      "identifier": "001bc50940100000",
+      "url": "http://myjson.info/story/test"
+    }
+
+__POST /at__
+
+Create a new place association.  For example, to associate a place named _test_ to the device identifiers 001bc50940800000 and 001bc50940810000 include the following JSON:
+
+    {
+      "place": "test",
+      "identifiers": [ "001bc50940800000", "001bc50940810000" ]
+    }
+
+__GET /at/place__
+
+Retrieve the association for the given place.  For example, the place named _test_ would return:
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+            "href": "http://localhost:3004/at/test"
+        }
+      },
+      "places": {
+        "test": {
+          "identifiers": [
+            "001bc50940800000",
+            "001bc50940810000"
+          ],
+          "href": "http://localhost:3004/at/test"
+        }
+      }
+    }
+
+
 What's next?
 ------------
 
