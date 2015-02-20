@@ -74,6 +74,47 @@ Retrieve the association for the given place.  For example, the place named _tes
     }
 
 
+Implicit Associations
+---------------------
+
+The following implicit associations are supported.  In other words, the implicit _url_ will be provided unless the device is already uniquely associated, via its identifier, with a _url_.  If you're one of the manufacturers below and would like the URL to instead point to an API on your server please [contact us](http://context.reelyactive.com/contact.html).
+
+- reelyActive Active RFID Tag (RA-T411)
+    * Identifier Type: EUI-64
+    * URL: http://reelyactive.com/metadata/ra-t411.json
+    * [Product link](http://shop.reelyactive.com/collections/infrastructure/products/ra-t411)
+- reelyActive Bluetooth Smart reelceiver (RA-R436)
+    * UUID: 7265656c794163746976652055554944
+    * URL: http://reelyactive.com/metadata/ra-r436.json
+    * [Product link](http://shop.reelyactive.com/collections/infrastructure/products/ra-r436)
+- WNDR app
+    * UUID: 2f521f8c4d6f12269c600050e4c00067
+    * [Product link](https://itunes.apple.com/ca/app/wndr/id891132023)
+- Thalmic Labs Myo
+    * UUID: d5060001a904deb947482c7f4a124842
+    * URL: http://reelyactive.com/metadata/myo.json
+    * [Product link](https://www.thalmic.com/en/myo/)
+- Nod (OpenSpatial)
+    * UUID: febf
+    * URL: http://reelyactive.com/metadata/nod.json
+    * [Product link](https://www.hellonod.com/)
+- Estimote beacon
+    * iBeacon UUID: b9407f30f5f8466eaff925556b57fe6d
+    * URL: http://reelyactive.com/metadata/estimote.json
+    * [Product link](http://estimote.com/#jump-to-products)
+- Roximity beacon
+    * iBeacon UUID: 8deefbb9f7384297804096668bb44281
+    * URL: http://reelyactive.com/metadata/roximity.json
+    * [Product link](http://roximity.com/)
+- Apple devices
+    * companyIdentifierCode: 004c
+    * URL: http://reelyactive.com/metadata/apple.json
+- Curious devices (any SCAN_REQ)
+    * URL: http://reelyactive.com/metadata/curious.json
+- Bluetooth Smart devices (anything else which is Bluetooth Smart)
+    * URL: http://reelyactive.com/metadata/bluetoothsmart.json
+
+
 What's next?
 ------------
 
