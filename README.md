@@ -30,6 +30,8 @@ var associations = new chickadee();
 RESTful interactions
 --------------------
 
+Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to chickadee.
+
 __POST /id__
 
 Create a new device association.  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/test](http://myjson.info/story/test) include the following JSON:
@@ -38,6 +40,65 @@ Create a new device association.  For example, to associate a device with identi
       "identifier": "001bc50940100000",
       "url": "http://myjson.info/story/test"
     }
+
+If the static device identifier does not already exist, the association will be created and the response will be similar to the following:
+
+    {
+      "_meta": {
+        "message": "created",
+        "statusCode": 201
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3004/id/001bc50940100000"
+        }
+      },
+      "devices": {
+        "001bc50940100000": {
+          "identifier": {
+            "type": "EUI-64",
+            "value": "001bc50940100000",
+          },
+          "url": "http://myjson.info/story/test",
+          "href": "http://localhost:3004/id/001bc50940100000"
+        }
+      }
+    }
+
+__PUT /id/id__
+
+Update a device association.  For example, to update a device with identifier 001bc50940100000, PUT /id/001bc50940100000 and include the updated JSON, for example:
+
+    {
+      "identifier": "001bc50940100000",
+      "url": "http://myjson.info/story/lonely"
+    }
+
+If the static device identifier already exists, the association will be updated with the included JSON and the response will be similar to the following:
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3004/id/001bc50940100000"
+        }
+      },
+      "devices": {
+        "001bc50940100000": {
+          "identifier": {
+            "type": "EUI-64",
+            "value": "001bc50940100000",
+          },
+          "url": "http://myjson.info/story/lonely",
+          "href": "http://localhost:3004/id/001bc50940100000"
+        }
+      }
+    }
+
+If the static device identifier does not already exist, it will be created similar to POST /id.
 
 __POST /at__
 
