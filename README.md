@@ -32,6 +32,67 @@ RESTful interactions
 
 Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to chickadee.
 
+__GET /id?value=identifier__
+
+Retrieve the device association based on the given identifier value.  This can be useful for retrieving the static identifier of a device based on its current cyclic identifier.  For example to retrieve the association related to a Bluetooth Smart device advertising "2c0ffeeb4bed" as a random address you would GET /id?value=2c0ffeeb4bed which would generate a response similar to the following:
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3004/id?value=2c0ffeeb4bed"
+        }
+      },
+      "devices": {
+        "fee150bada55": {
+          "identifier": [
+            {
+              "type": "ADVA-48",
+              "value": "2c0ffeeb4bed",
+              "advHeader": {
+                "txAdd": "random"
+              }
+            },
+            {
+              "type": "ADVA-48",
+              "value": "fee150bada55",
+              "advHeader": {
+                "txAdd": "public"
+              }
+            }
+          ],
+          "href": "http://localhost:3004/id/fee150bada55"
+        }
+      }
+    }
+
+__GET /id/id__
+
+Retrieve the device association with the given id.  For example the id _001bc50940100000_ would generate a response similar to the following:
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3004/id/001bc50940100000"
+        }
+      },
+      "devices": {
+        "001bc50940100000": {
+          "identifier": "001bc50940100000",
+          "url": "http://myjson.info/story/test",
+          "href": "http://localhost:3004/id/001bc50940100000"
+        }
+      }
+    }
+
+
 __POST /id__
 
 Create a new device association.  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/test](http://myjson.info/story/test) include the following JSON:
