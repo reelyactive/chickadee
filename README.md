@@ -55,10 +55,7 @@ If the static device identifier does not already exist, the association will be 
       },
       "devices": {
         "001bc50940100000": {
-          "identifier": {
-            "type": "EUI-64",
-            "value": "001bc50940100000",
-          },
+          "identifier": "001bc50940100000",
           "url": "http://myjson.info/story/test",
           "href": "http://localhost:3004/id/001bc50940100000"
         }
@@ -88,10 +85,7 @@ If the static device identifier already exists, the association will be updated 
       },
       "devices": {
         "001bc50940100000": {
-          "identifier": {
-            "type": "EUI-64",
-            "value": "001bc50940100000",
-          },
+          "identifier": "001bc50940100000",
           "url": "http://myjson.info/story/lonely",
           "href": "http://localhost:3004/id/001bc50940100000"
         }
