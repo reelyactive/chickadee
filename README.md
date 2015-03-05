@@ -155,13 +155,25 @@ If the static device identifier already exists, the association will be updated 
 
 If the static device identifier does not already exist, it will be created similar to POST /id.
 
+__DELETE /id/id__
+
+Delete a device association.
+
 __POST /at__
 
-Create a new place association.  For example, to associate a place named _test_ to the device identifiers 001bc50940800000 and 001bc50940810000 include the following JSON:
+Create a new place association.  For example, to associate a place named _thebarn_ to the device identifiers 001bc50940800000 and 001bc50940810000 include the following JSON:
 
     {
-      "place": "test",
+      "place": "thebarn",
       "identifiers": [ "001bc50940800000", "001bc50940810000" ]
+    }
+
+__PUT /at/place__
+
+Update a place association.  For example, to update a place named _thebarn_, PUT /at/thebarn and include the updated JSON, for example:
+
+    {
+      "identifiers": [ "001bc50940800001", "001bc50940810001" ]
     }
 
 __GET /at/place__
@@ -180,7 +192,7 @@ Retrieve the association for the given place.  For example, the place named _tes
       },
       "places": {
         "test": {
-          "identifiers": [
+          "ids": [
             "001bc50940800000",
             "001bc50940810000"
           ],
@@ -188,6 +200,10 @@ Retrieve the association for the given place.  For example, the place named _tes
         }
       }
     }
+
+__DELETE /at/place__
+
+Delete a place association.
 
 
 Implicit Associations
@@ -203,6 +219,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: 7265656c794163746976652055554944
     * URL: http://reelyactive.com/metadata/ra-r436.json
     * [Product link](http://shop.reelyactive.com/collections/infrastructure/products/ra-r436)
+- Fitbit
+    * UUID: adabfb006e7d4601bda2bffaa68956ba
+    * URL: http://reelyactive.com/metadata/fitbit.json
+    * [Product link](http://www.fitbit.com/)
 - WNDR app
     * UUID: 2f521f8c4d6f12269c600050e4c00067
     * [Product link](https://itunes.apple.com/ca/app/wndr/id891132023)
@@ -225,10 +245,23 @@ The following implicit associations are supported.  In other words, the implicit
 - Apple devices
     * companyIdentifierCode: 004c
     * URL: http://reelyactive.com/metadata/apple.json
+- Gimbal devices
+    * companyIdentifierCode: 008c
+    * URL: http://reelyactive.com/metadata/gimbal.json
 - Curious devices (any SCAN_REQ)
     * URL: http://reelyactive.com/metadata/curious.json
 - Bluetooth Smart devices (anything else which is Bluetooth Smart)
     * URL: http://reelyactive.com/metadata/bluetoothsmart.json
+
+
+Options
+-------
+
+The following options are supported when instantiating chickadee (those shown are the defaults):
+
+    {
+      httpPort: 3004,
+    }
 
 
 What's next?
