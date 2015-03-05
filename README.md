@@ -161,16 +161,16 @@ Delete a device association.
 
 __POST /at__
 
-Create a new place association.  For example, to associate a place named _thebarn_ to the device identifiers 001bc50940800000 and 001bc50940810000 include the following JSON:
+Create a new place association.  For example, to associate a place named _birdnest_ to the device identifiers 001bc50940800000 and 001bc50940810000 include the following JSON:
 
     {
-      "place": "thebarn",
+      "place": "birdnest",
       "identifiers": [ "001bc50940800000", "001bc50940810000" ]
     }
 
 __PUT /at/place__
 
-Update a place association.  For example, to update a place named _thebarn_, PUT /at/thebarn and include the updated JSON, for example:
+Update a place association.  For example, to update a place named _birdnest_, PUT /at/birdnest and include the updated JSON, for example:
 
     {
       "identifiers": [ "001bc50940800001", "001bc50940810001" ]
@@ -192,7 +192,7 @@ Retrieve the association for the given place.  For example, the place named _tes
       },
       "places": {
         "test": {
-          "ids": [
+          "identifiers": [
             "001bc50940800000",
             "001bc50940810000"
           ],
