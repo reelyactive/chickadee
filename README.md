@@ -242,6 +242,10 @@ The following implicit associations are supported.  In other words, the implicit
     * iBeacon UUID: 8deefbb9f7384297804096668bb44281
     * URL: http://reelyactive.com/metadata/roximity.json
     * [Product link](http://roximity.com/)
+- LocosLab beacon
+    * iBeacon UUID: f0018b9b75094c31a9051a27d39c003c
+    * URL: http://reelyactive.com/metadata/locoslab.json
+    * [Product link](http://www.locoslab.com/)
 - Apple devices
     * companyIdentifierCode: 004c
     * URL: http://reelyactive.com/metadata/apple.json
