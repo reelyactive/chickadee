@@ -213,12 +213,18 @@ The following implicit associations are supported.  In other words, the implicit
 
 - reelyActive Active RFID Tag (RA-T411)
     * Identifier Type: EUI-64
+    * OUI-36: 001bc5094
     * URL: http://reelyactive.com/metadata/ra-t411.json
-    * [Product link](http://shop.reelyactive.com/collections/infrastructure/products/ra-t411)
+    * [Product link](http://shop.reelyactive.com/products/ra-t411)
+- reelyActive reelceiver (RA-Rxxx)
+    * Identifier Type: EUI-64
+    * OUI-36: 001bc5094
+    * URL: http://reelyactive.com/metadata/ra-rxxx.json
+    * [Product link](http://shop.reelyactive.com/collections/infrastructure)
 - reelyActive Bluetooth Smart reelceiver (RA-R436)
     * UUID: 7265656c794163746976652055554944
     * URL: http://reelyactive.com/metadata/ra-r436.json
-    * [Product link](http://shop.reelyactive.com/collections/infrastructure/products/ra-r436)
+    * [Product link](http://shop.reelyactive.com/products/ra-r436)
 - Fitbit
     * UUID: adabfb006e7d4601bda2bffaa68956ba
     * URL: http://reelyactive.com/metadata/fitbit.json
