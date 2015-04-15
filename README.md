@@ -248,6 +248,14 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: fed8
     * URL: http://reelyactive.com/metadata/physicalweb.json
     * [Product link](http://physical-web.org/)
+- Seed Labs
+    * UUID: fee6
+    * URL: http://reelyactive.com/metadata/seedlabs.json
+    * [Product link](http://seedlabs.io/)
+- Tile
+    * UUID: feed
+    * URL: http://reelyactive.com/metadata/tile.json
+    * [Product link](http://thetileapp.com/)
 - Estimote beacon
     * iBeacon UUID: b9407f30f5f8466eaff925556b57fe6d
     * URL: http://reelyactive.com/metadata/estimote.json
