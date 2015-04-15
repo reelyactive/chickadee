@@ -236,10 +236,18 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: d5060001a904deb947482c7f4a124842
     * URL: http://reelyactive.com/metadata/myo.json
     * [Product link](https://www.thalmic.com/en/myo/)
+- Punch Through Design Bean
+    * UUID: a495ff10c5b14b44b5121370f02d74de
+    * URL: http://reelyactive.com/metadata/bean.json
+    * [Product link](https://punchthrough.com/bean/)
 - Nod (OpenSpatial)
     * UUID: febf
     * URL: http://reelyactive.com/metadata/nod.json
     * [Product link](https://www.hellonod.com/)
+- Physical Web (Google)
+    * UUID: fed8
+    * URL: http://reelyactive.com/metadata/physicalweb.json
+    * [Product link](http://physical-web.org/)
 - Estimote beacon
     * iBeacon UUID: b9407f30f5f8466eaff925556b57fe6d
     * URL: http://reelyactive.com/metadata/estimote.json
