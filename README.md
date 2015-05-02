@@ -240,6 +240,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: a495ff10c5b14b44b5121370f02d74de
     * URL: http://reelyactive.com/metadata/bean.json
     * [Product link](https://punchthrough.com/bean/)
+- TrackR
+    * UUID: 0f3e
+    * URL: http://reelyactive.com/metadata/trackr.json
+    * [Product link](http://thetrackr.com/)
 - Nod (OpenSpatial)
     * UUID: febf
     * URL: http://reelyactive.com/metadata/nod.json
