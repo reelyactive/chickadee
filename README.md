@@ -250,7 +250,7 @@ The following implicit associations are supported.  In other words, the implicit
     * [Product link](https://www.hellonod.com/)
 - Physical Web (Google)
     * UUID: fed8
-    * URL: http://reelyactive.com/metadata/physicalweb.json
+    * URL: Parsed from UriBeacon service data
     * [Product link](http://physical-web.org/)
 - Seed Labs
     * UUID: fee6
