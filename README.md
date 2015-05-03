@@ -32,46 +32,9 @@ RESTful interactions
 
 Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to chickadee.
 
-__GET /id?value=identifier__
+__GET /devices/id/association__
 
-Retrieve the device association based on the given identifier value.  This can be useful for retrieving the static identifier of a device based on its current cyclic identifier.  For example to retrieve the association related to a Bluetooth Smart device advertising "2c0ffeeb4bed" as a random address you would GET /id?value=2c0ffeeb4bed which would generate a response similar to the following:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3004/id?value=2c0ffeeb4bed"
-        }
-      },
-      "devices": {
-        "fee150bada55": {
-          "identifier": [
-            {
-              "type": "ADVA-48",
-              "value": "2c0ffeeb4bed",
-              "advHeader": {
-                "txAdd": "random"
-              }
-            },
-            {
-              "type": "ADVA-48",
-              "value": "fee150bada55",
-              "advHeader": {
-                "txAdd": "public"
-              }
-            }
-          ],
-          "href": "http://localhost:3004/id/fee150bada55"
-        }
-      }
-    }
-
-__GET /id/id__
-
-Retrieve the device association with the given id.  For example the id _001bc50940100000_ would generate a response similar to the following:
+Retrieve the association for the device with the given id.  For example querying the id _001bc50940100000_ via /devices/001bc50940100000/association would generate a response similar to the following:
 
     {
       "_meta": {
@@ -80,59 +43,24 @@ Retrieve the device association with the given id.  For example the id _001bc509
       },
       "_links": {
         "self": {
-          "href": "http://localhost:3004/id/001bc50940100000"
+          "href": "http://localhost:3004/devices/001bc50940100000/association"
         }
       },
       "devices": {
         "001bc50940100000": {
-          "identifier": "001bc50940100000",
           "url": "http://myjson.info/story/test",
-          "href": "http://localhost:3004/id/001bc50940100000"
+          "href": "http://localhost:3004/devices/001bc50940100000"
         }
       }
     }
 
+__PUT /devices/id/association__
 
-__POST /id__
+Update or create a device association.  For example, to update a device with identifier 001bc50940100000, PUT /devices/001bc50940100000/association and include the updated JSON, for example:
 
-Create a new device association.  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/test](http://myjson.info/story/test) include the following JSON:
+    { "url": "http://myjson.info/story/lonely" }
 
-    {
-      "identifier": "001bc50940100000",
-      "url": "http://myjson.info/story/test"
-    }
-
-If the static device identifier does not already exist, the association will be created and the response will be similar to the following:
-
-    {
-      "_meta": {
-        "message": "created",
-        "statusCode": 201
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3004/id/001bc50940100000"
-        }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "identifier": "001bc50940100000",
-          "url": "http://myjson.info/story/test",
-          "href": "http://localhost:3004/id/001bc50940100000"
-        }
-      }
-    }
-
-__PUT /id/id__
-
-Update a device association.  For example, to update a device with identifier 001bc50940100000, PUT /id/001bc50940100000 and include the updated JSON, for example:
-
-    {
-      "identifier": "001bc50940100000",
-      "url": "http://myjson.info/story/lonely"
-    }
-
-If the static device identifier already exists, the association will be updated with the included JSON and the response will be similar to the following:
+A successful response will be similar to the following:
 
     {
       "_meta": {
@@ -141,21 +69,20 @@ If the static device identifier already exists, the association will be updated 
       },
       "_links": {
         "self": {
-          "href": "http://localhost:3004/id/001bc50940100000"
+          "href": "http://localhost:3004/devices/001bc50940100000/association"
         }
       },
       "devices": {
         "001bc50940100000": {
-          "identifier": "001bc50940100000",
           "url": "http://myjson.info/story/lonely",
-          "href": "http://localhost:3004/id/001bc50940100000"
+          "href": "http://localhost:3004/devices/001bc50940100000"
         }
       }
     }
 
 If the static device identifier does not already exist, it will be created similar to POST /id.
 
-__DELETE /id/id__
+__DELETE /devices/id/association__
 
 Delete a device association.
 
