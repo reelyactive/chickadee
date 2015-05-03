@@ -159,24 +159,27 @@ __DELETE /id/id__
 
 Delete a device association.
 
-__POST /at__
+__POST /places__
 
-Create a new place association.  For example, to associate a place named _birdnest_ to the device identifiers 001bc50940800000 and 001bc50940810000 include the following JSON:
-
-    {
-      "place": "birdnest",
-      "identifiers": [ "001bc50940800000", "001bc50940810000" ]
-    }
-
-__PUT /at/place__
-
-Update a place association.  For example, to update a place named _birdnest_, PUT /at/birdnest and include the updated JSON, for example:
+Create a new place.  For example, to create a place named _birdnest_ with two infrastructure devices having ids 001bc50940800000 and 001bc50940810000, and an association with the url [http://myjson.info/story/test](http://myjson.info/story/test) include the following JSON:
 
     {
-      "identifiers": [ "001bc50940800001", "001bc50940810001" ]
+      "name": "birdnest",
+      "devices": [ { "id": "001bc50940800000", "type": "infrastructure" },
+                   { "id": "001bc50940810000", "type": "infrastructure" } ],
+      "url": "http://myjson.info/story/test"
     }
 
-__GET /at/place__
+__PUT /places/place__
+
+Update a place association.  For example, to update a place named _birdnest_, PUT /places/birdnest and include the updated JSON, for example:
+
+    {
+      "devices": [ { "id": "001bc50940800001", "type": "infrastructure" },
+                   { "id": "001bc50940810001", "type": "infrastructure" } ]
+    }
+
+__GET /places/place__
 
 Retrieve the association for the given place.  For example, the place named _test_ would return:
 
@@ -187,23 +190,33 @@ Retrieve the association for the given place.  For example, the place named _tes
       },
       "_links": {
         "self": {
-            "href": "http://localhost:3004/at/test"
+            "href": "http://localhost:3004/places/test"
         }
       },
       "places": {
         "test": {
-          "identifiers": [
-            "001bc50940800000",
-            "001bc50940810000"
+          "devices": [
+            { "id": "001bc50940800000", "type": "infrastructure" },
+            { "id": "001bc50940810000", "type": "infrastructure" }
           ],
-          "href": "http://localhost:3004/at/test"
+          "href": "http://localhost:3004/places/test"
         }
       }
     }
 
-__DELETE /at/place__
+__DELETE /places/place__
 
-Delete a place association.
+Delete a place.
+
+__PUT /places/place/devices/id__
+
+Update a device associated with the given place.  For example, to add device 001bc50940800000 to a place named _birdnest_, PUT /places/birdnest/devices/001bc50940800000 and include the updated JSON, for example:
+
+    { "device": { "type": "infrastructure" } }
+
+__DELETE /places/place/devices/id__
+
+Delete a device associated with the given place.
 
 
 Implicit Associations
