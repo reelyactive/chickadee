@@ -213,12 +213,18 @@ The following implicit associations are supported.  In other words, the implicit
 
 - reelyActive Active RFID Tag (RA-T411)
     * Identifier Type: EUI-64
+    * OUI-36: 001bc5094
     * URL: http://reelyactive.com/metadata/ra-t411.json
-    * [Product link](http://shop.reelyactive.com/collections/infrastructure/products/ra-t411)
+    * [Product link](http://shop.reelyactive.com/products/ra-t411)
+- reelyActive reelceiver (RA-Rxxx)
+    * Identifier Type: EUI-64
+    * OUI-36: 001bc5094
+    * URL: http://reelyactive.com/metadata/ra-rxxx.json
+    * [Product link](http://shop.reelyactive.com/collections/infrastructure)
 - reelyActive Bluetooth Smart reelceiver (RA-R436)
     * UUID: 7265656c794163746976652055554944
     * URL: http://reelyactive.com/metadata/ra-r436.json
-    * [Product link](http://shop.reelyactive.com/collections/infrastructure/products/ra-r436)
+    * [Product link](http://shop.reelyactive.com/products/ra-r436)
 - Fitbit
     * UUID: adabfb006e7d4601bda2bffaa68956ba
     * URL: http://reelyactive.com/metadata/fitbit.json
@@ -230,10 +236,30 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: d5060001a904deb947482c7f4a124842
     * URL: http://reelyactive.com/metadata/myo.json
     * [Product link](https://www.thalmic.com/en/myo/)
+- Punch Through Design Bean
+    * UUID: a495ff10c5b14b44b5121370f02d74de
+    * URL: http://reelyactive.com/metadata/bean.json
+    * [Product link](https://punchthrough.com/bean/)
+- TrackR
+    * UUID: 0f3e
+    * URL: http://reelyactive.com/metadata/trackr.json
+    * [Product link](http://thetrackr.com/)
 - Nod (OpenSpatial)
     * UUID: febf
     * URL: http://reelyactive.com/metadata/nod.json
     * [Product link](https://www.hellonod.com/)
+- Physical Web (Google)
+    * UUID: fed8
+    * URL: Parsed from UriBeacon service data
+    * [Product link](http://physical-web.org/)
+- Seed Labs
+    * UUID: fee6
+    * URL: http://reelyactive.com/metadata/seedlabs.json
+    * [Product link](http://seedlabs.io/)
+- Tile
+    * UUID: feed
+    * URL: http://reelyactive.com/metadata/tile.json
+    * [Product link](http://thetileapp.com/)
 - Estimote beacon
     * iBeacon UUID: b9407f30f5f8466eaff925556b57fe6d
     * URL: http://reelyactive.com/metadata/estimote.json
