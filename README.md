@@ -39,9 +39,9 @@ notifications.bind( { barnowl: middleware } );
 associations.bind( { barnacles: notifications } );
 ```
 
-When the above is run, you can query _contextat_ a given (receiving) device such as [http://localhost:3001/contextat/001bc50940800000](http://localhost:3001/contextat/001bc50940800000), and _contextnear_ a given (transmitting) device such as [http://localhost:3001/contextnear/001bc50940100000](http://localhost:3001/contextnear/001bc50940100000).
+When the above is run, you can query _contextat_ a given (receiving) device such as [http://localhost:3004/contextat/receiver/001bc50940800000](http://localhost:3004/contextat/receiver/001bc50940800000), and _contextnear_ a given (transmitting) device such as [http://localhost:3001/contextnear/transmitter/fee150bada55](http://localhost:3001/contextnear/transmitter/fee150bada55).
 
-A test tag is provided by default for the four simulated test reelceivers, present when [barnowl](https://www.npmjs.com/package/barnowl) is bound to the test protocol, and can be queried at [http://localhost:3001/contextat/test](http://localhost:3001/contextat/test).
+A _test_ tag is provided by default for the four simulated test reelceivers, present when [barnowl](https://www.npmjs.com/package/barnowl) is bound to the test protocol, and can be queried at [http://localhost:3001/contextat/tags/test](http://localhost:3001/contextat/tags/test).
 
 
 RESTful interactions
@@ -179,22 +179,28 @@ __DELETE /associations/{device-id}__
 Delete a given device association.
 
 __GET /associations/{device-id}/url__
-__GET /associations/{device-id}/directory__
-__GET /associations/{device-id}/tag__
 
-Identical to GET /associations/id except that only the url, directory or tag is returned, respectively.
+__GET /associations/{device-id}/directory__
+
+__GET /associations/{device-id}/tags__
+
+Identical to GET /associations/id except that only the url, directory or tags is returned, respectively.
 
 __PUT /associations/{device-id}/url__
-__PUT /associations/{device-id}/directory__
-__PUT /associations/{device-id}/tag__
 
-Identical to PUT /associations/id except that only the url, directory or tag is updated, respectively.
+__PUT /associations/{device-id}/directory__
+
+__PUT /associations/{device-id}/tags__
+
+Identical to PUT /associations/id except that only the url, directory or tags is updated, respectively.
 
 __DELETE /associations/{device-id}/url__
-__DELETE /associations/{device-id}/directory__
-__DELETE /associations/{device-id}/tag__
 
-Identical to DELETE /associations/id except that only the url, directory or tag is deleted, respectively.
+__DELETE /associations/{device-id}/directory__
+
+__DELETE /associations/{device-id}/tags__
+
+Identical to DELETE /associations/id except that only the url, directory or tags is deleted, respectively.
 
 
 Implicit Associations
