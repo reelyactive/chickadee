@@ -113,9 +113,9 @@ __GET /contextnear/tags/{tags}__
 
 Retrieve the context near the given tags.  For example, the tag _test_ would be queried as GET /contextnear/tags/test and would return data with the same structure as the above.
 
-__GET /associations/id__
+__GET /associations/{device-id}__
 
-Retrieve the association for the device with the given id.  For example the id _001bc50940100000_ would be queried as GET /associations/001bc50940100000 and might return:
+Retrieve the association for the device with the given id.  For example the id _001bc50940800000_ would be queried as GET /associations/001bc50940800000 and might return:
 
     {
       "_meta": {
@@ -124,26 +124,28 @@ Retrieve the association for the device with the given id.  For example the id _
       },
       "_links": {
         "self": {
-          "href": "http://localhost:3004/associations/001bc50940100000"
+          "href": "http://localhost:3004/associations/001bc50940800000"
         }
       },
       "devices": {
-        "001bc50940100000": {
+        "001bc50940800000": {
           "url": "http://myjson.info/story/test",
-          "tag": [
-            "friends"
+          "directory": "forest:tree",
+          "tags": [
+            "birdnest"
           ],
-          "href": "http://localhost:3004/associations/001bc50940100000"
+          "href": "http://localhost:3004/associations/001bc50940800000"
         }
       }
     }
 
-__PUT /associations/id__
+__PUT /associations/{device-id}__
 
-Update or create a given device association.  For example, to update a device with identifier 001bc50940100000, PUT /associations/001bc50940100000 and include the updated JSON, for example:
+Update or create an association for the given device id.  For example, to update a device with identifier _001bc50940800000_, PUT /associations/001bc50940800000 and include the updated JSON, for example:
 
     { "url": "http://myjson.info/story/lonely",
-      "tag": [ "enemies" ] }
+      "directory": "forest:tree:branch",
+      "tags": [ "birdnest", "home" ] }
 
 A successful response might return:
 
@@ -154,37 +156,45 @@ A successful response might return:
       },
       "_links": {
         "self": {
-          "href": "http://localhost:3004/associations/001bc50940100000"
+          "href": "http://localhost:3004/associations/001bc50940800000"
         }
       },
       "devices": {
-        "001bc50940100000": {
+        "001bc50940800000": {
           "url": "http://myjson.info/story/lonely",
-          "tag": [
-            "enemies"
+          "directory": "forest:tree:branch",
+          "tags": [
+            "birdnest",
+            "home"
           ],
-          "href": "http://localhost:3004/devices/001bc50940100000"
+          "href": "http://localhost:3004/associations/001bc50940800000"
         }
       }
     }
 
 If the device id does not already exist, it will be created.
 
-__DELETE /associations/id__
+__DELETE /associations/{device-id}__
 
 Delete a given device association.
 
-__GET /associations/id/url /associations/id/tag__
+__GET /associations/{device-id}/url__
+__GET /associations/{device-id}/directory__
+__GET /associations/{device-id}/tag__
 
-Identical to GET /associations/id except that only the url or tag is returned, respectively.
+Identical to GET /associations/id except that only the url, directory or tag is returned, respectively.
 
-__PUT /associations/id/url /associations/id/tag__
+__PUT /associations/{device-id}/url__
+__PUT /associations/{device-id}/directory__
+__PUT /associations/{device-id}/tag__
 
-Identical to PUT /associations/id except that only the url or tag is updated, respectively.
+Identical to PUT /associations/id except that only the url, directory or tag is updated, respectively.
 
-__DELETE /associations/id/url /associations/id/tag__
+__DELETE /associations/{device-id}/url__
+__DELETE /associations/{device-id}/directory__
+__DELETE /associations/{device-id}/tag__
 
-Identical to DELETE /associations/id except that only the url or tag is deleted, respectively.
+Identical to DELETE /associations/id except that only the url, directory or tag is deleted, respectively.
 
 
 Implicit Associations
