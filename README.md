@@ -49,9 +49,9 @@ RESTful interactions
 
 Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to chickadee.
 
-__GET /contextat/tag__
+__GET /contextat/receiver/{device-id}__
 
-Retrieve the context at a group of (receiving) devices represented by the given tag or a device represented by the given id. For example, the id 001bc50940800000 would be queried as GET /contextat/001bc50940800000 and might return:
+Retrieve the context at the given receiver device id. For example, the id 001bc50940800000 would be queried as GET /contextat/receiver/001bc50940800000 and might return:
 
     {
       "_meta": {
@@ -60,7 +60,7 @@ Retrieve the context at a group of (receiving) devices represented by the given 
       },
       "_links": {
         "self": {
-          "href": "http://localhost:3004/contextat/001bc50940800000"
+          "href": "http://localhost:3004/contextat/receiver/001bc50940800000"
         }
       },
       "devices": {
@@ -75,9 +75,9 @@ Retrieve the context at a group of (receiving) devices represented by the given 
       }
     }
 
-__GET /contextnear/tag__
+__GET /contextnear/transmitter/{device-id}__
 
-Retrieve the context near a group of (transmitting) devices represented by the given tag or a device represented by the given id. For example, the id 001bc50940100000 would be queried as GET /contextnear/001bc50940100000 and might return:
+Retrieve the context near the given transmitter device id. For example, the id 001bc50940100000 would be queried as GET /contextnear/transmitter/001bc50940100000 and might return:
 
     {
       "_meta": {
@@ -86,7 +86,7 @@ Retrieve the context near a group of (transmitting) devices represented by the g
       },
       "_links": {
         "self": {
-          "href": "http://localhost:3004/contextnear/001bc50940100000"
+          "href": "http://localhost:3004/contextnear/transmitter/001bc50940100000"
         }
       },
       "devices": {
