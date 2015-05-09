@@ -51,7 +51,7 @@ Include _Content-Type: application/json_ in the header of all interactions in wh
 
 __GET /contextat/receiver/{device-id}__
 
-Retrieve the context at the given receiver device id. For example, the id 001bc50940800000 would be queried as GET /contextat/receiver/001bc50940800000 and might return:
+Retrieve the context at the given receiver device id. For example, the id _001bc50940800000_ would be queried as GET /contextat/receiver/001bc50940800000 and might return:
 
     {
       "_meta": {
@@ -74,6 +74,14 @@ Retrieve the context at the given receiver device id. For example, the id 001bc5
         }
       }
     }
+
+__GET /contextat/directory/{directory}__
+
+Retrieve the context at the given directory value.  For example, the directory _forest:tree_ would be queried as GET /contextat/directory/forest:tree and would return data with the same structure as the above.
+
+__GET /contextat/tags/{tags}__
+
+Retrieve the context at the given tags.  For example, the tag _test_ would be queried as GET /contextat/tags/test and would return data with the same structure as the above.
 
 __GET /contextnear/transmitter/{device-id}__
 
@@ -100,6 +108,10 @@ Retrieve the context near the given transmitter device id. For example, the id 0
         }
       }
     }
+
+__GET /contextnear/tags/{tags}__
+
+Retrieve the context near the given tags.  For example, the tag _test_ would be queried as GET /contextnear/tags/test and would return data with the same structure as the above.
 
 __GET /associations/id__
 
