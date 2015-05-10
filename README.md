@@ -39,7 +39,9 @@ notifications.bind( { barnowl: middleware } );
 associations.bind( { barnacles: notifications } );
 ```
 
-When the above is run, you can query _contextat_ a given (receiving) device such as [http://localhost:3004/contextat/receiver/001bc50940800000](http://localhost:3004/contextat/receiver/001bc50940800000), and _contextnear_ a given (transmitting) device such as [http://localhost:3001/contextnear/transmitter/fee150bada55](http://localhost:3001/contextnear/transmitter/fee150bada55).
+When the above is run, you can query the _contextat_ a given (receiving) device, and the _contextnear_ a given (transmitting) device:
+- [http://localhost:3004/contextat/receiver/001bc50940800000](http://localhost:3004/contextat/receiver/001bc50940800000)
+- [http://localhost:3001/contextnear/transmitter/fee150bada55](http://localhost:3001/contextnear/transmitter/fee150bada55)
 
 A _test_ tag is provided by default for the four simulated test reelceivers, present when [barnowl](https://www.npmjs.com/package/barnowl) is bound to the test protocol, and can be queried at [http://localhost:3001/contextat/tags/test](http://localhost:3001/contextat/tags/test).
 
