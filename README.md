@@ -9,7 +9,18 @@ chickadee is a contextual associations store.  Specifically, it associates wirel
 
 chickadee is also a contextual API for the IoT.  It binds to an instance of [barnacles](https://www.npmjs.com/package/barnacles) which provides the current state.  It supports queries regarding the context _at_ or _near_ either a device ID or a tag.  Continuing with the example above, it supports queries such as what is the _contextat_ the lounge, as well as what is the _contextnear_ the friends.
 
-Why the name?  The [Cornell Lab of Ornithology explains](http://www.allaboutbirds.org/guide/black-capped_chickadee/lifehistory): "The Black-Capped Chickadee hides seeds and other food items to eat later. Each item is placed in a different spot and the chickadee can remember thousands of hiding places."  Not only does it have an outstanding associative memory, it is also "almost universally considered _cute_ thanks to its oversized round head, tiny body, and curiosity about everything, including humans."
+__In the scheme of Things (pun intended)__
+
+The [barnowl](https://www.npmjs.com/package/barnowl), barnacles, [barterer](https://www.npmjs.com/package/barterer) and [chickadee](https://www.npmjs.com/package/chickadee) packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out our [developer page](http://reelyactive.github.io/) for more resources on reelyActive software and hardware.
+
+
+![chickadee logo](http://reelyactive.com/images/chickadee.jpg)
+
+
+What's in a name?
+-----------------
+
+The [Cornell Lab of Ornithology explains](http://www.allaboutbirds.org/guide/black-capped_chickadee/lifehistory): "The Black-Capped Chickadee hides seeds and other food items to eat later. Each item is placed in a different spot and the chickadee can remember thousands of hiding places."  Not only does it have an outstanding associative memory, it is also "almost universally considered _cute_ thanks to its oversized round head, tiny body, and curiosity about everything, including humans."
 
 If you were entrusting a bird to associate your wireless device with your online stories you'd want it to be cute and friendly enough to eat out of your hand, right?  We could have named this package [Clark's Nutcracker](http://www.allaboutbirds.org/guide/clarks_nutcracker/lifehistory), the bird with arguably the best associative memory, but the whole nut-cracking thing doesn't inspire the same level of friendliness now does it?
 
@@ -41,9 +52,9 @@ associations.bind( { barnacles: notifications } );
 
 When the above is run, you can query the _contextat_ a given (receiving) device, and the _contextnear_ a given (transmitting) device:
 - [http://localhost:3004/contextat/receiver/001bc50940800000](http://localhost:3004/contextat/receiver/001bc50940800000)
-- [http://localhost:3001/contextnear/transmitter/fee150bada55](http://localhost:3001/contextnear/transmitter/fee150bada55)
+- [http://localhost:3004/contextnear/transmitter/fee150bada55](http://localhost:3004/contextnear/transmitter/fee150bada55)
 
-A _test_ tag is provided by default for the four simulated test reelceivers, present when [barnowl](https://www.npmjs.com/package/barnowl) is bound to the test protocol, and can be queried at [http://localhost:3001/contextat/tags/test](http://localhost:3001/contextat/tags/test).
+A _test_ tag is provided by default for the four simulated test reelceivers, present when [barnowl](https://www.npmjs.com/package/barnowl) is bound to the test protocol, and can be queried at [http://localhost:3004/contextat/tags/test](http://localhost:3004/contextat/tags/test).
 
 
 RESTful interactions
