@@ -250,6 +250,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: a495ff10c5b14b44b5121370f02d74de
     * URL: http://reelyactive.com/metadata/bean.json
     * [Product link](https://punchthrough.com/bean/)
+- August Smart Lock
+    * UUID: bd4ac6100b4511e38ffd0800200c9a66
+    * URL: http://reelyactive.com/metadata/august.json
+    * [Product link](http://august.com/)
 - TrackR
     * UUID: 0f3e
     * URL: http://reelyactive.com/metadata/trackr.json
