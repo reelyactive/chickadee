@@ -254,6 +254,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: bd4ac6100b4511e38ffd0800200c9a66
     * URL: http://reelyactive.com/metadata/august.json
     * [Product link](http://august.com/)
+- Vanhawks Valour
+    * UUID: 9ac78e8d1e9943ce83637c1b1e003a10
+    * URL: http://reelyactive.com/metadata/vanhawks.json
+    * [Product link](http://vanhawks.com/)
 - TrackR
     * UUID: 0f3e
     * URL: http://reelyactive.com/metadata/trackr.json
