@@ -9,7 +9,7 @@ chickadee is a contextual associations store.  Specifically, it associates wirel
 
 chickadee is also a contextual API for the IoT.  It binds to an instance of [barnacles](https://www.npmjs.com/package/barnacles) which provides the current state.  It supports queries regarding the context _at_ or _near_ either a device ID or a tag.  Continuing with the example above, it supports queries such as what is the _contextat_ the lounge, as well as what is the _contextnear_ the friends.
 
-__In the scheme of Things (pun intended)__
+### In the scheme of Things (pun intended)
 
 The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out our [developer page](http://reelyactive.github.io/) for more resources on reelyActive software and hardware.
 
@@ -62,7 +62,7 @@ RESTful interactions
 
 Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to chickadee.
 
-__GET /contextat/receiver/{device-id}__
+### GET /contextat/receiver/{device-id}
 
 Retrieve the context at the given receiver device id. For example, the id _001bc50940800000_ would be queried as GET /contextat/receiver/001bc50940800000 and might return:
 
@@ -79,6 +79,12 @@ Retrieve the context at the given receiver device id. For example, the id _001bc
       "devices": {
         "001bc50940100000": {
           "url": "http://reelyactive.com/metadata/test.json",
+          "nearest": [
+            {
+              "device": "001bc50940800000",
+              "rssi": 144
+            }
+          ],
           "href": "http://localhost:3004/associations/001bc50940100000"
         },
         "001bc50940800000": {
@@ -88,15 +94,15 @@ Retrieve the context at the given receiver device id. For example, the id _001bc
       }
     }
 
-__GET /contextat/directory/{directory}__
+### GET /contextat/directory/{directory}
 
 Retrieve the context at the given directory value.  For example, the directory _forest:tree_ would be queried as GET /contextat/directory/forest:tree and would return data with the same structure as the above.
 
-__GET /contextat/tags/{tags}__
+### GET /contextat/tags/{tags}
 
 Retrieve the context at the given tags.  For example, the tag _test_ would be queried as GET /contextat/tags/test and would return data with the same structure as the above.
 
-__GET /contextnear/transmitter/{device-id}__
+### GET /contextnear/transmitter/{device-id}
 
 Retrieve the context near the given transmitter device id. For example, the id 001bc50940100000 would be queried as GET /contextnear/transmitter/001bc50940100000 and might return:
 
@@ -113,6 +119,12 @@ Retrieve the context near the given transmitter device id. For example, the id 0
       "devices": {
         "001bc50940100000": {
           "url": "http://reelyactive.com/metadata/test.json",
+          "nearest": [
+            {
+              "device": "001bc50940800000",
+              "rssi": 133
+            }
+          ],
           "href": "http://localhost:3004/associations/001bc50940100000"
         },
         "001bc50940800000": {
@@ -122,11 +134,11 @@ Retrieve the context near the given transmitter device id. For example, the id 0
       }
     }
 
-__GET /contextnear/tags/{tags}__
+### GET /contextnear/tags/{tags}
 
 Retrieve the context near the given tags.  For example, the tag _test_ would be queried as GET /contextnear/tags/test and would return data with the same structure as the above.
 
-__GET /associations/{device-id}__
+### GET /associations/{device-id}
 
 Retrieve the association for the device with the given id.  For example the id _001bc50940800000_ would be queried as GET /associations/001bc50940800000 and might return:
 
@@ -152,7 +164,7 @@ Retrieve the association for the device with the given id.  For example the id _
       }
     }
 
-__PUT /associations/{device-id}__
+### PUT /associations/{device-id}
 
 Update or create an association for the given device id.  For example, to update a device with identifier _001bc50940800000_, PUT /associations/001bc50940800000 and include the updated JSON, for example:
 
@@ -187,31 +199,31 @@ A successful response might return:
 
 If the device id does not already exist, it will be created.
 
-__DELETE /associations/{device-id}__
+### DELETE /associations/{device-id}
 
 Delete a given device association.
 
-__GET /associations/{device-id}/url__
+### GET /associations/{device-id}/url
 
-__GET /associations/{device-id}/directory__
+### GET /associations/{device-id}/directory
 
-__GET /associations/{device-id}/tags__
+### GET /associations/{device-id}/tags
 
 Identical to GET /associations/id except that only the url, directory or tags is returned, respectively.
 
-__PUT /associations/{device-id}/url__
+### PUT /associations/{device-id}/url
 
-__PUT /associations/{device-id}/directory__
+### PUT /associations/{device-id}/directory
 
-__PUT /associations/{device-id}/tags__
+### PUT /associations/{device-id}/tags
 
 Identical to PUT /associations/id except that only the url, directory or tags is updated, respectively.
 
-__DELETE /associations/{device-id}/url__
+### DELETE /associations/{device-id}/url
 
-__DELETE /associations/{device-id}/directory__
+### DELETE /associations/{device-id}/directory
 
-__DELETE /associations/{device-id}/tags__
+### DELETE /associations/{device-id}/tags
 
 Identical to DELETE /associations/id except that only the url, directory or tags is deleted, respectively.
 
@@ -305,7 +317,7 @@ The following implicit associations are supported.  In other words, the implicit
 Where to bind?
 --------------
 
-__barnacles__
+### barnacles
 
 [barnacles](https://www.npmjs.com/package/barnacles) provides the current state.  In the absence of a barnacles binding, chickadee will always return a 404 Not Found status.  chickadee can bind to a single instance of barnacles only.
 

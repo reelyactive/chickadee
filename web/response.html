@@ -14,6 +14,18 @@
           <a ng-href="{{device.href}}"> {{id}} </a> &nbsp; | &nbsp;
           <a ng-href="{{device.url}}"> Metadata </a> 
         </div>
+        <div class="device-decodings" ng-show="device.nearest">
+          <table>
+            <tr>
+              <th> RSSI </th>
+              <th> Device </th>
+            </tr>
+            <tr ng-repeat="(id, near) in device.nearest">
+              <td> {{near.rssi}} </td>
+              <td> {{near.device}} </td>
+            </tr>
+          </table>
+        </div>
         <div class="device-footer"> &nbsp; </div>
       </div>
       <footer> <a ng-href="{{links.self.href}}"> {{links.self.href}} </a> </footer>
