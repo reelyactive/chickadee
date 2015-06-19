@@ -270,6 +270,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: 9ac78e8d1e9943ce83637c1b1e003a10
     * URL: http://reelyactive.com/metadata/vanhawks.json
     * [Product link](http://vanhawks.com/)
+- Mightycast NEX Band
+    * UUID: f81e00015aa144bda4806ab7767d47e3
+    * URL: http://reelyactive.com/metadata/nexband.json
+    * [Product link](http://www.mightycast.com/)
 - TrackR
     * UUID: 0f3e
     * URL: http://reelyactive.com/metadata/trackr.json
@@ -302,6 +306,10 @@ The following implicit associations are supported.  In other words, the implicit
     * iBeacon UUID: f0018b9b75094c31a9051a27d39c003c
     * URL: http://reelyactive.com/metadata/locoslab.json
     * [Product link](http://www.locoslab.com/)
+- eNote beacon
+    * iBeacon UUID: dab59c4fa4d6ee286bfe8e0000bbc2bb
+    * URL: http://reelyactive.com/metadata/enote.json
+    * [Product link](https://www.indiegogo.com/projects/enote-wireless-display)
 - Apple devices
     * companyIdentifierCode: 004c
     * URL: http://reelyactive.com/metadata/apple.json
