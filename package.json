@@ -2,13 +2,15 @@
   "name": "chickadee",
   "homepage": "https://github.com/reelyactive/chickadee/",
   "author": "reelyActive <webdev@reelyactive.com>",
-  "description": "Contextual associations store.  We believe in an open Internet of Things.",
+  "description": "Contextual associations store and API.  We believe in an open Internet of Things.",
   "keywords": [
     "reelyActive",
     "IoT",
-    "hyperlocal context"
+    "hyperlocal context",
+    "API",
+    "contextual associations"
   ],
-  "version": "0.2.4",
+  "version": "0.3.7",
   "engines": {
     "node": "^0.10.0"
   },
@@ -23,7 +25,8 @@
   "dependencies": {
     "express": ">=4.0.0",
     "nedb": ">=1.1.1",
-    "body-parser": ">=1.8.0"
+    "body-parser": ">=1.8.0",
+    "path": ">=0.11.0"
   },
   "devDependencies": {},
   "bugs": {

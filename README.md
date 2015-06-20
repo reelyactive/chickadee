@@ -2,10 +2,25 @@ chickadee
 =========
 
 
-A hyperlocal context associations store
----------------------------------------
+A contextual associations store and API for the IoT
+---------------------------------------------------
 
-chickadee is a contextual associations store.  Specifically, it associates wireless device identifiers with either metadata or human-friendly place names.  In other words it maintains, for instance, the link between your wireless device and your online stories so that Smart Spaces which detect your device can understand what you're sharing about yourself.  Why the name?  The [Cornell Lab of Ornithology explains](http://www.allaboutbirds.org/guide/black-capped_chickadee/lifehistory): "The Black-Capped Chickadee hides seeds and other food items to eat later. Each item is placed in a different spot and the chickadee can remember thousands of hiding places."  Not only does it have an outstanding associative memory, it is also "almost universally considered _cute_ thanks to its oversized round head, tiny body, and curiosity about everything, including humans."
+chickadee is a contextual associations store.  Specifically, it associates wireless device identifiers with a URL and/or a tag.  In other words it maintains, for instance, the link between your wireless device and your online stories so that [Smart Spaces](http://smartspac.es) which detect your device can understand what you're sharing about yourself.  It also allows logical groupings of devices to share a common tag such as "lounge", for instance, to represent the sensor devices in a lounge, and "friends", for instance, to represent the devices carried by a group of friends.
+
+chickadee is also a contextual API for the IoT.  It binds to an instance of [barnacles](https://www.npmjs.com/package/barnacles) which provides the current state.  It supports queries regarding the context _at_ or _near_ either a device ID or a tag.  Continuing with the example above, it supports queries such as what is the _contextat_ the lounge, as well as what is the _contextnear_ the friends.
+
+### In the scheme of Things (pun intended)
+
+The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out our [developer page](http://reelyactive.github.io/) for more resources on reelyActive software and hardware.
+
+
+![chickadee logo](http://reelyactive.com/images/chickadee.jpg)
+
+
+What's in a name?
+-----------------
+
+The [Cornell Lab of Ornithology explains](http://www.allaboutbirds.org/guide/black-capped_chickadee/lifehistory): "The Black-Capped Chickadee hides seeds and other food items to eat later. Each item is placed in a different spot and the chickadee can remember thousands of hiding places."  Not only does it have an outstanding associative memory, it is also "almost universally considered _cute_ thanks to its oversized round head, tiny body, and curiosity about everything, including humans."
 
 If you were entrusting a bird to associate your wireless device with your online stories you'd want it to be cute and friendly enough to eat out of your hand, right?  We could have named this package [Clark's Nutcracker](http://www.allaboutbirds.org/guide/clarks_nutcracker/lifehistory), the bird with arguably the best associative memory, but the whole nut-cracking thing doesn't inspire the same level of friendliness now does it?
 
@@ -18,13 +33,28 @@ Installation
     npm install chickadee
 
 
-Hello chickadee
----------------
+Hello chickadee, barnacles & barnowl
+------------------------------------
 
 ```javascript
 var chickadee = require('chickadee');
+var barnacles = require('barnacles');
+var barnowl = require('barnowl');
+
 var associations = new chickadee();
+var notifications = new barnacles();
+var middleware = new barnowl();
+
+middleware.bind( { protocol: 'test', path: 'default' } );
+notifications.bind( { barnowl: middleware } );
+associations.bind( { barnacles: notifications } );
 ```
+
+When the above is run, you can query the _contextat_ a given (receiving) device, and the _contextnear_ a given (transmitting) device:
+- [http://localhost:3004/contextat/receiver/001bc50940800000](http://localhost:3004/contextat/receiver/001bc50940800000)
+- [http://localhost:3004/contextnear/transmitter/fee150bada55](http://localhost:3004/contextnear/transmitter/fee150bada55)
+
+A _test_ tag is provided by default for the four simulated test reelceivers, present when [barnowl](https://www.npmjs.com/package/barnowl) is bound to the test protocol, and can be queried at [http://localhost:3004/contextat/tags/test](http://localhost:3004/contextat/tags/test).
 
 
 RESTful interactions
@@ -32,9 +62,9 @@ RESTful interactions
 
 Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to chickadee.
 
-__GET /id?value=identifier__
+### GET /contextat/receiver/{device-id}
 
-Retrieve the device association based on the given identifier value.  This can be useful for retrieving the static identifier of a device based on its current cyclic identifier.  For example to retrieve the association related to a Bluetooth Smart device advertising "2c0ffeeb4bed" as a random address you would GET /id?value=2c0ffeeb4bed which would generate a response similar to the following:
+Retrieve the context at the given receiver device id. For example, the id _001bc50940800000_ would be queried as GET /contextat/receiver/001bc50940800000 and might return:
 
     {
       "_meta": {
@@ -43,35 +73,38 @@ Retrieve the device association based on the given identifier value.  This can b
       },
       "_links": {
         "self": {
-          "href": "http://localhost:3004/id?value=2c0ffeeb4bed"
+          "href": "http://localhost:3004/contextat/receiver/001bc50940800000"
         }
       },
       "devices": {
-        "fee150bada55": {
-          "identifier": [
+        "001bc50940100000": {
+          "url": "http://reelyactive.com/metadata/test.json",
+          "nearest": [
             {
-              "type": "ADVA-48",
-              "value": "2c0ffeeb4bed",
-              "advHeader": {
-                "txAdd": "random"
-              }
-            },
-            {
-              "type": "ADVA-48",
-              "value": "fee150bada55",
-              "advHeader": {
-                "txAdd": "public"
-              }
+              "device": "001bc50940800000",
+              "rssi": 144
             }
           ],
-          "href": "http://localhost:3004/id/fee150bada55"
+          "href": "http://localhost:3004/associations/001bc50940100000"
+        },
+        "001bc50940800000": {
+          "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+          "href": "http://localhost:3004/associations/001bc50940800000"
         }
       }
     }
 
-__GET /id/id__
+### GET /contextat/directory/{directory}
 
-Retrieve the device association with the given id.  For example the id _001bc50940100000_ would generate a response similar to the following:
+Retrieve the context at the given directory value.  For example, the directory _forest:tree_ would be queried as GET /contextat/directory/forest:tree and would return data with the same structure as the above.
+
+### GET /contextat/tags/{tags}
+
+Retrieve the context at the given tags.  For example, the tag _test_ would be queried as GET /contextat/tags/test and would return data with the same structure as the above.
+
+### GET /contextnear/transmitter/{device-id}
+
+Retrieve the context near the given transmitter device id. For example, the id 001bc50940100000 would be queried as GET /contextnear/transmitter/001bc50940100000 and might return:
 
     {
       "_meta": {
@@ -80,130 +113,119 @@ Retrieve the device association with the given id.  For example the id _001bc509
       },
       "_links": {
         "self": {
-          "href": "http://localhost:3004/id/001bc50940100000"
+          "href": "http://localhost:3004/contextnear/transmitter/001bc50940100000"
         }
       },
       "devices": {
         "001bc50940100000": {
-          "identifier": "001bc50940100000",
-          "url": "http://myjson.info/story/test",
-          "href": "http://localhost:3004/id/001bc50940100000"
-        }
-      }
-    }
-
-
-__POST /id__
-
-Create a new device association.  For example, to associate a device with identifier 001bc50940100000 to the url [http://myjson.info/story/test](http://myjson.info/story/test) include the following JSON:
-
-    {
-      "identifier": "001bc50940100000",
-      "url": "http://myjson.info/story/test"
-    }
-
-If the static device identifier does not already exist, the association will be created and the response will be similar to the following:
-
-    {
-      "_meta": {
-        "message": "created",
-        "statusCode": 201
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3004/id/001bc50940100000"
-        }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "identifier": "001bc50940100000",
-          "url": "http://myjson.info/story/test",
-          "href": "http://localhost:3004/id/001bc50940100000"
-        }
-      }
-    }
-
-__PUT /id/id__
-
-Update a device association.  For example, to update a device with identifier 001bc50940100000, PUT /id/001bc50940100000 and include the updated JSON, for example:
-
-    {
-      "identifier": "001bc50940100000",
-      "url": "http://myjson.info/story/lonely"
-    }
-
-If the static device identifier already exists, the association will be updated with the included JSON and the response will be similar to the following:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3004/id/001bc50940100000"
-        }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "identifier": "001bc50940100000",
-          "url": "http://myjson.info/story/lonely",
-          "href": "http://localhost:3004/id/001bc50940100000"
-        }
-      }
-    }
-
-If the static device identifier does not already exist, it will be created similar to POST /id.
-
-__DELETE /id/id__
-
-Delete a device association.
-
-__POST /at__
-
-Create a new place association.  For example, to associate a place named _birdnest_ to the device identifiers 001bc50940800000 and 001bc50940810000 include the following JSON:
-
-    {
-      "place": "birdnest",
-      "identifiers": [ "001bc50940800000", "001bc50940810000" ]
-    }
-
-__PUT /at/place__
-
-Update a place association.  For example, to update a place named _birdnest_, PUT /at/birdnest and include the updated JSON, for example:
-
-    {
-      "identifiers": [ "001bc50940800001", "001bc50940810001" ]
-    }
-
-__GET /at/place__
-
-Retrieve the association for the given place.  For example, the place named _test_ would return:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-            "href": "http://localhost:3004/at/test"
-        }
-      },
-      "places": {
-        "test": {
-          "identifiers": [
-            "001bc50940800000",
-            "001bc50940810000"
+          "url": "http://reelyactive.com/metadata/test.json",
+          "nearest": [
+            {
+              "device": "001bc50940800000",
+              "rssi": 133
+            }
           ],
-          "href": "http://localhost:3004/at/test"
+          "href": "http://localhost:3004/associations/001bc50940100000"
+        },
+        "001bc50940800000": {
+          "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+          "href": "http://localhost:3004/associations/001bc50940800000"
         }
       }
     }
 
-__DELETE /at/place__
+### GET /contextnear/tags/{tags}
 
-Delete a place association.
+Retrieve the context near the given tags.  For example, the tag _test_ would be queried as GET /contextnear/tags/test and would return data with the same structure as the above.
+
+### GET /associations/{device-id}
+
+Retrieve the association for the device with the given id.  For example the id _001bc50940800000_ would be queried as GET /associations/001bc50940800000 and might return:
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3004/associations/001bc50940800000"
+        }
+      },
+      "devices": {
+        "001bc50940800000": {
+          "url": "http://myjson.info/story/test",
+          "directory": "forest:tree",
+          "tags": [
+            "birdnest"
+          ],
+          "href": "http://localhost:3004/associations/001bc50940800000"
+        }
+      }
+    }
+
+### PUT /associations/{device-id}
+
+Update or create an association for the given device id.  For example, to update a device with identifier _001bc50940800000_, PUT /associations/001bc50940800000 and include the updated JSON, for example:
+
+    { "url": "http://myjson.info/story/lonely",
+      "directory": "forest:tree:branch",
+      "tags": [ "birdnest", "home" ] }
+
+A successful response might return:
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3004/associations/001bc50940800000"
+        }
+      },
+      "devices": {
+        "001bc50940800000": {
+          "url": "http://myjson.info/story/lonely",
+          "directory": "forest:tree:branch",
+          "tags": [
+            "birdnest",
+            "home"
+          ],
+          "href": "http://localhost:3004/associations/001bc50940800000"
+        }
+      }
+    }
+
+If the device id does not already exist, it will be created.
+
+### DELETE /associations/{device-id}
+
+Delete a given device association.
+
+### GET /associations/{device-id}/url
+
+### GET /associations/{device-id}/directory
+
+### GET /associations/{device-id}/tags
+
+Identical to GET /associations/id except that only the url, directory or tags is returned, respectively.
+
+### PUT /associations/{device-id}/url
+
+### PUT /associations/{device-id}/directory
+
+### PUT /associations/{device-id}/tags
+
+Identical to PUT /associations/id except that only the url, directory or tags is updated, respectively.
+
+### DELETE /associations/{device-id}/url
+
+### DELETE /associations/{device-id}/directory
+
+### DELETE /associations/{device-id}/tags
+
+Identical to DELETE /associations/id except that only the url, directory or tags is deleted, respectively.
 
 
 Implicit Associations
@@ -240,6 +262,18 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: a495ff10c5b14b44b5121370f02d74de
     * URL: http://reelyactive.com/metadata/bean.json
     * [Product link](https://punchthrough.com/bean/)
+- August Smart Lock
+    * UUID: bd4ac6100b4511e38ffd0800200c9a66
+    * URL: http://reelyactive.com/metadata/august.json
+    * [Product link](http://august.com/)
+- Vanhawks Valour
+    * UUID: 9ac78e8d1e9943ce83637c1b1e003a10
+    * URL: http://reelyactive.com/metadata/vanhawks.json
+    * [Product link](http://vanhawks.com/)
+- Mightycast NEX Band
+    * UUID: f81e00015aa144bda4806ab7767d47e3
+    * URL: http://reelyactive.com/metadata/nexband.json
+    * [Product link](http://www.mightycast.com/)
 - TrackR
     * UUID: 0f3e
     * URL: http://reelyactive.com/metadata/trackr.json
@@ -272,6 +306,10 @@ The following implicit associations are supported.  In other words, the implicit
     * iBeacon UUID: f0018b9b75094c31a9051a27d39c003c
     * URL: http://reelyactive.com/metadata/locoslab.json
     * [Product link](http://www.locoslab.com/)
+- eNote beacon
+    * iBeacon UUID: dab59c4fa4d6ee286bfe8e0000bbc2bb
+    * URL: http://reelyactive.com/metadata/enote.json
+    * [Product link](https://www.indiegogo.com/projects/enote-wireless-display)
 - Apple devices
     * companyIdentifierCode: 004c
     * URL: http://reelyactive.com/metadata/apple.json
@@ -284,6 +322,18 @@ The following implicit associations are supported.  In other words, the implicit
     * URL: http://reelyactive.com/metadata/bluetoothsmart.json
 
 
+Where to bind?
+--------------
+
+### barnacles
+
+[barnacles](https://www.npmjs.com/package/barnacles) provides the current state.  In the absence of a barnacles binding, chickadee will always return a 404 Not Found status.  chickadee can bind to a single instance of barnacles only.
+
+```javascript
+associations.bind( { barnacles: notifications } );
+```
+
+
 Options
 -------
 
@@ -291,13 +341,17 @@ The following options are supported when instantiating chickadee (those shown ar
 
     {
       httpPort: 3004,
+      associationManager: null
     }
 
 
 What's next?
 ------------
 
-This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!
+This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!  If you're developing with chickadee check out:
+* [diyActive](http://reelyactive.github.io/) our developer page
+* our [node-style-guide](https://github.com/reelyactive/node-style-guide) for development
+* our [contact information](http://context.reelyactive.com/contact.html) to get in touch if you'd like to contribute
 
 
 License
