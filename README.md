@@ -316,6 +316,9 @@ The following implicit associations are supported.  In other words, the implicit
 - Gimbal devices
     * companyIdentifierCode: 008c
     * URL: http://reelyactive.com/metadata/gimbal.json
+- Xiaomi devices
+    * companyIdentifierCode: 0157
+    * URL: http://reelyactive.com/metadata/xiaomi.json
 - Curious devices (any SCAN_REQ)
     * URL: http://reelyactive.com/metadata/curious.json
 - Bluetooth Smart devices (anything else which is Bluetooth Smart)
