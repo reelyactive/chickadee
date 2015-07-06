@@ -290,6 +290,9 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: fee6
     * URL: http://reelyactive.com/metadata/seedlabs.json
     * [Product link](http://seedlabs.io/)
+- Tencent
+    * UUID: fee7
+    * URL: http://reelyactive.com/metadata/tencent.json
 - Tile
     * UUID: feed
     * URL: http://reelyactive.com/metadata/tile.json
