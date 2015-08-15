@@ -1,34 +1,98 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title> reelyActive API </title>
+    <title> reelyActive chickadee API </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/main.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
-    <script type="text/javascript" src="../../js/response.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.1/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="../../js/chickadee.js"></script>
   </head>
   <body ng-app="response">
     <div ng-controller="ApiCtrl" id="content">
-      <header> <h1> Status: {{meta.message}} </h1> </header>
-      <div ng-repeat="(id, device) in devices">
-        <div class="device-header">
-          <a ng-href="{{device.href}}"> {{id}} </a> &nbsp; | &nbsp;
-          <a ng-href="{{device.url}}"> Metadata </a> 
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle"
+                  ng-init="navCollapsed = true"
+                  ng-click="navCollapsed = !navCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://context.reelyactive.com">
+            <strong>reely</strong>Active
+          </a>
         </div>
-        <div class="device-decodings" ng-show="device.nearest">
-          <table>
-            <tr>
-              <th> RSSI </th>
-              <th> Device </th>
-            </tr>
-            <tr ng-repeat="(id, near) in device.nearest">
-              <td> {{near.rssi}} </td>
-              <td> {{near.device}} </td>
-            </tr>
-          </table>
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'"
+             ng-click="navCollapsed = true">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href> Status: {{meta.message}} </a></li>
+            <li class="dropdown" dropdown on-toggle="toggled(open)">
+              <a href class="dropdown-toggle" dropdown-toggle role="button"
+                 data-toggle="dropdown" aria-haspopup="true"
+                 aria-expanded="false">
+                {{pollingMessage}} <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href ng-click="updatePeriod(null)">Disable polling</a></li>
+                <li><a href ng-click="updatePeriod(2000)">Poll every 2 seconds</a></li>
+                <li><a href ng-click="updatePeriod(10000)">Poll every 10 seconds</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href ng-click="expand = !expand">
+                {{expand? 'Collapse all' : 'Expand all'}}
+              </a>
+            </li>
+          </ul>
         </div>
-        <div class="device-footer"> &nbsp; </div>
+      </nav>
+      <div ng-show="isEmpty()"> 
+        <img src="http://reelyactive.com/images/chickadee-none.jpg" class="img-responsive center-block">
       </div>
-      <footer> <a ng-href="{{links.self.href}}"> {{links.self.href}} </a> </footer>
+      <accordion ng-repeat="(id, device) in devices">
+        <accordion-group is-open="expand">
+          <accordion-heading>
+            <span class="identifier"> {{id}} <span class="caret"></span></span>
+          </accordion-heading>
+          <div class="row">
+            <div class="col-xs-12 col-md-6">
+              <pre ng-show="device.metadata"> {{device.metadata}} </pre>
+              <div class="text-center">
+                <button class="btn btn-primary" ng-click="fetch(id)"
+                        ng-show="!device.metadata">
+                  Fetch metadata
+                </button>
+                <hr width="50%" ng-show="!device.metadata">
+                <p>
+                  <strong> Source: </strong>
+                  <a ng-href="{{device.url}}" target="_blank">
+                    {{device.url}}
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-6" ng-show="device.nearest">
+              <table class="table table-hover">
+                <tr>
+                  <th> RSSI </th>
+                  <th> Device </th>
+                </tr>
+                <tr ng-repeat="(id, near) in device.nearest">
+                  <td> {{near.rssi}} </td>
+                  <td> {{near.device}} </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </accordion-group>
+      </accordion>
+      <footer class="footer">
+        <a href="https://github.com/reelyactive/chickadee"> chickadee </a>
+        &nbsp; | &nbsp;
+        <a href="http://context.reelyactive.com"> &copy; reelyActive 2015 </a>
+      </footer>
     </div>
   </body>
 </html>

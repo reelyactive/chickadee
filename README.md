@@ -290,6 +290,9 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: fee6
     * URL: http://reelyactive.com/metadata/seedlabs.json
     * [Product link](http://seedlabs.io/)
+- Tencent
+    * UUID: fee7
+    * URL: http://reelyactive.com/metadata/tencent.json
 - Tile
     * UUID: feed
     * URL: http://reelyactive.com/metadata/tile.json
@@ -316,6 +319,9 @@ The following implicit associations are supported.  In other words, the implicit
 - Gimbal devices
     * companyIdentifierCode: 008c
     * URL: http://reelyactive.com/metadata/gimbal.json
+- Xiaomi devices
+    * companyIdentifierCode: 0157
+    * URL: http://reelyactive.com/metadata/xiaomi.json
 - Curious devices (any SCAN_REQ)
     * URL: http://reelyactive.com/metadata/curious.json
 - Bluetooth Smart devices (anything else which is Bluetooth Smart)
@@ -350,7 +356,7 @@ What's next?
 
 This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!  If you're developing with chickadee check out:
 * [diyActive](http://reelyactive.github.io/) our developer page
-* our [node-style-guide](https://github.com/reelyactive/node-style-guide) for development
+* our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [angular-style-guide](https://github.com/reelyactive/angular-style-guide) for development
 * our [contact information](http://context.reelyactive.com/contact.html) to get in touch if you'd like to contribute
 
 
