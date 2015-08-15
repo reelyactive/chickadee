@@ -20,7 +20,7 @@ angular.module('response', [ 'ui.bootstrap' ])
           }
         }
       }
-    }
+    };
 
     function updateQuery() {
       $http.defaults.headers.common.Accept = 'application/json';
@@ -36,7 +36,7 @@ angular.module('response', [ 'ui.bootstrap' ])
           $scope.links = data._links;
           $scope.devices = {};
         });
-    }
+    };
 
     $scope.fetch = function (id) {
       if((typeof($scope.devices[id]) != 'undefined') &&
