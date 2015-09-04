@@ -282,6 +282,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: febf
     * URL: http://reelyactive.com/metadata/nod.json
     * [Product link](https://www.hellonod.com/)
+- Eddystone (Google)
+    * UUID: feaa
+    * URL: Parsed from service data, if of URL type
+    * [Product link](https://developers.google.com/beacons/)
 - Physical Web (Google)
     * UUID: fed8
     * URL: Parsed from UriBeacon service data
@@ -301,10 +305,26 @@ The following implicit associations are supported.  In other words, the implicit
     * iBeacon UUID: b9407f30f5f8466eaff925556b57fe6d
     * URL: http://reelyactive.com/metadata/estimote.json
     * [Product link](http://estimote.com/#jump-to-products)
+- Kontakt.io beacon
+    * iBeacon UUID: f7826da64fa24e988024bc5b71e0893e
+    * URL: http://reelyactive.com/metadata/kontakt.json
+    * [Product link](http://kontakt.io/)
 - Roximity beacon
     * iBeacon UUID: 8deefbb9f7384297804096668bb44281
     * URL: http://reelyactive.com/metadata/roximity.json
     * [Product link](http://roximity.com/)
+- Radius Networks beacon
+    * iBeacon UUID: 2f234454cf6d4a0fadf2f4911ba9ffa6
+    * URL: http://reelyactive.com/metadata/radiusnetworks.json
+    * [Product link](http://www.radiusnetworks.com/)
+- Orange beacon
+    * iBeacon UUID: 3d4f13b4d1fd404980e5d3edcc840b69
+    * URL: http://reelyactive.com/metadata/orangebeacon.json
+    * [Product link](http://www.beacon.orange.fr/)
+- Bright beacon
+    * iBeacon UUID: e2c56db5dffb48d2b060d0f5a71096e0
+    * URL: http://reelyactive.com/metadata/brightbeacon.json
+    * [Product link](http://www.brtbeacon.com/)
 - LocosLab beacon
     * iBeacon UUID: f0018b9b75094c31a9051a27d39c003c
     * URL: http://reelyactive.com/metadata/locoslab.json
