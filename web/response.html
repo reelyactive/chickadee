@@ -4,8 +4,10 @@
     <title> reelyActive chickadee API </title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/main.css">
+    <link rel="stylesheet" href="../../cormorant/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.1/ui-bootstrap-tpls.min.js"></script>
+    <script src='../../cormorant/dist/cormorant.min.js'></script>
     <script type="text/javascript" src="../../js/chickadee.js"></script>
   </head>
   <body ng-app="response">
@@ -58,7 +60,15 @@
           </accordion-heading>
           <div class="row">
             <div class="col-xs-12 col-md-6">
-              <pre ng-show="device.metadata"> {{device.metadata}} </pre>
+              <tabset ng-show="device.metadata">
+                <tab heading="visual">
+                  <div id="person-{{id}}">Nobody to show</div>
+                  <div id="device-{{id}}">No device to show</div>
+                </tab>
+                <tab heading="JSON">
+                  <pre> {{device.metadata}} </pre>
+                </tab>
+              </tabset>
               <div class="text-center">
                 <button class="btn btn-primary" ng-click="fetch(id)"
                         ng-show="!device.metadata">
