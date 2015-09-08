@@ -17,6 +17,30 @@ angular.module('response', [ 'ui.bootstrap' ])
           var device = $scope.devices[id];
           if(typeof($scope.metadata[id]) != 'undefined') {
             device.metadata = JSON.stringify($scope.metadata[id], null, "  ");
+            if($scope.metadata[id].person){
+              personJSON = cormorantTools.translateToJSONLD(
+                $scope.metadata[id].person, 'Person'
+              );
+              reactPersonComponent = cormorant.getComponent(personJSON);
+              React.render(
+                React.createElement(
+                  reactPersonComponent, {props: personJSON}
+                ),
+                document.getElementById('person-'+id)
+              );
+            }
+            if($scope.metadata[id].device){
+              deviceJSON = cormorantTools.translateToJSONLD(
+                $scope.metadata[id].device, 'Device'
+              );
+              reactDeviceComponent = cormorant.getComponent(deviceJSON);
+              React.render(
+                React.createElement(
+                  reactDeviceComponent, {props: deviceJSON}
+                ),
+                document.getElementById('device-'+id)
+              );
+            }
           }
         }
       }
