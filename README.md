@@ -367,8 +367,12 @@ The following options are supported when instantiating chickadee (those shown ar
 
     {
       httpPort: 3004,
-      associationManager: null
+      associationManager: null,
+      persistentDataFolder: "data"
     }
+
+Notes:
+- persistentDataFolder specifies the path to the folder which contains the persistent database file (before v0.3.12 the default was "")
 
 
 What's next?
