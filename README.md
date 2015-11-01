@@ -274,6 +274,14 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: f81e00015aa144bda4806ab7767d47e3
     * URL: http://reelyactive.com/metadata/nexband.json
     * [Product link](http://www.mightycast.com/)
+- Jawbone
+    * UUID: 151c1000458041119ca15056f3454fbc
+    * URL: http://reelyactive.com/metadata/jawbone.json
+    * [Product link](https://jawbone.com/store/buy/up3)
+- Nexus Player
+    * UUID: cbbfe0e1f7f3420684e084cbb3d09dfc
+    * URL: http://reelyactive.com/metadata/nexusplayer.json
+    * [Product link](https://www.google.com/nexus/player/)
 - TrackR
     * UUID: 0f3e
     * URL: http://reelyactive.com/metadata/trackr.json
