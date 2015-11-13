@@ -282,6 +282,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: cbbfe0e1f7f3420684e084cbb3d09dfc
     * URL: http://reelyactive.com/metadata/nexusplayer.json
     * [Product link](https://www.google.com/nexus/player/)
+- ENGAGE Technology Lock
+    * UUID: cbbfe0e1f7f3420684e084cbb3d09dfc
+    * URL: http://reelyactive.com/metadata/engage.json
+    * [Product link](http://us.allegion.com/products/electronic_locks/engage/)
 - TrackR
     * UUID: 0f3e
     * URL: http://reelyactive.com/metadata/trackr.json
