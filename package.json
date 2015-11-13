@@ -10,7 +10,7 @@
     "API",
     "contextual associations"
   ],
-  "version": "0.3.14",
+  "version": "0.3.15",
   "engines": {
     "node": "^0.10.0"
   },
