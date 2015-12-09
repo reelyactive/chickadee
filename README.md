@@ -238,11 +238,6 @@ The following implicit associations are supported.  In other words, the implicit
     * OUI-36: 001bc5094
     * URL: http://reelyactive.com/metadata/ra-t411.json
     * [Product link](http://shop.reelyactive.com/products/ra-t411)
-- reelyActive reelceiver (RA-Rxxx)
-    * Identifier Type: EUI-64
-    * OUI-36: 001bc5094
-    * URL: http://reelyactive.com/metadata/ra-rxxx.json
-    * [Product link](http://shop.reelyactive.com/collections/infrastructure)
 - reelyActive Bluetooth Smart reelceiver (RA-R436)
     * UUID: 7265656c794163746976652055554944
     * URL: http://reelyactive.com/metadata/ra-r436.json
@@ -286,6 +281,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: cbbfe0e1f7f3420684e084cbb3d09dfc
     * URL: http://reelyactive.com/metadata/engage.json
     * [Product link](http://us.allegion.com/products/electronic_locks/engage/)
+- Nest Cam
+    * UUID: d2d3f8ef9c994d9ca2b391c85d44326c
+    * URL: http://reelyactive.com/metadata/nestcam.json
+    * [Product link](https://nest.com/camera)
 - TrackR
     * UUID: 0f3e
     * URL: http://reelyactive.com/metadata/trackr.json
