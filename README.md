@@ -11,7 +11,7 @@ chickadee is also a contextual API for the IoT.  It binds to an instance of [bar
 
 ### In the scheme of Things (pun intended)
 
-The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out our [developer page](http://reelyactive.github.io/) for more resources on reelyActive software and hardware.
+The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out [API overview](http://context.reelyactive.com/api.html#contextual) as well as our [developer page](http://reelyactive.github.io/) for more resources on reelyActive software and hardware.
 
 
 ![chickadee logo](http://reelyactive.com/images/chickadee.jpg)
@@ -285,6 +285,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: d2d3f8ef9c994d9ca2b391c85d44326c
     * URL: http://reelyactive.com/metadata/nestcam.json
     * [Product link](https://nest.com/camera)
+- Flic
+    * UUID: f02adfc026e711e49edc0002a5d5c51b
+    * URL: http://reelyactive.com/metadata/flic.json
+    * [Product link](https://flic.io/)
 - TrackR
     * UUID: 0f3e
     * URL: http://reelyactive.com/metadata/trackr.json
@@ -400,7 +404,7 @@ License
 
 MIT License
 
-Copyright (c) 2015 reelyActive
+Copyright (c) 2015-2016 reelyActive
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

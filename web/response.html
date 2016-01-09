@@ -2,10 +2,11 @@
 <html>
   <head>
     <title> reelyActive chickadee API </title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/main.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.1/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="../../js/chickadee.js"></script>
   </head>
   <body ng-app="response">
@@ -48,50 +49,52 @@
           </ul>
         </div>
       </nav>
-      <div ng-show="isEmpty()"> 
-        <img src="http://reelyactive.com/images/chickadee-none.jpg" class="img-responsive center-block">
-      </div>
-      <accordion ng-repeat="(id, device) in devices">
-        <accordion-group is-open="expand">
-          <accordion-heading>
-            <span class="identifier"> {{id}} <span class="caret"></span></span>
-          </accordion-heading>
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <pre ng-show="device.metadata"> {{device.metadata}} </pre>
-              <div class="text-center" ng-show="device.url">
-                <button class="btn btn-primary" ng-click="fetch(id)"
-                        ng-show="!device.metadata">
-                  Fetch metadata
-                </button>
-                <hr width="50%" ng-show="!device.metadata">
-                <p>
-                  <strong> Source: </strong>
-                  <a ng-href="{{device.url}}" target="_blank">
-                    {{device.url}}
-                  </a>
-                </p>
+      <div class="container-fluid">
+        <div ng-show="isEmpty()"> 
+          <img src="../../images/chickadee-none.jpg" class="img-responsive center-block">
+        </div>
+        <accordion ng-repeat="(id, device) in devices">
+          <accordion-group is-open="expand">
+            <accordion-heading>
+              <span class="identifier"> {{id}} <span class="caret"></span></span>
+            </accordion-heading>
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <pre ng-show="device.metadata"> {{device.metadata}} </pre>
+                <div class="text-center" ng-show="device.url">
+                  <button class="btn btn-primary" ng-click="fetch(id)"
+                          ng-show="!device.metadata">
+                    Fetch metadata
+                  </button>
+                  <hr width="50%" ng-show="!device.metadata">
+                  <p>
+                    <strong> Source: </strong>
+                    <a ng-href="{{device.url}}" target="_blank">
+                      {{device.url}}
+                    </a>
+                  </p>
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-6" ng-show="device.nearest">
+                <table class="table table-hover">
+                  <tr>
+                    <th> RSSI </th>
+                    <th> Device </th>
+                  </tr>
+                  <tr ng-repeat="(id, near) in device.nearest">
+                    <td> {{near.rssi}} </td>
+                    <td> {{near.device}} </td>
+                  </tr>
+                </table>
               </div>
             </div>
-            <div class="col-xs-12 col-md-6" ng-show="device.nearest">
-              <table class="table table-hover">
-                <tr>
-                  <th> RSSI </th>
-                  <th> Device </th>
-                </tr>
-                <tr ng-repeat="(id, near) in device.nearest">
-                  <td> {{near.rssi}} </td>
-                  <td> {{near.device}} </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </accordion-group>
-      </accordion>
+          </accordion-group>
+        </accordion>
+      </div>
       <footer class="footer">
         <a href="https://github.com/reelyactive/chickadee"> chickadee </a>
         &nbsp; | &nbsp;
-        <a href="http://context.reelyactive.com"> &copy; reelyActive 2015 </a>
+        <a href="http://context.reelyactive.com"> &copy; reelyActive 2015-2016 </a>
       </footer>
     </div>
   </body>
