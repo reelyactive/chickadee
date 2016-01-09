@@ -285,6 +285,10 @@ The following implicit associations are supported.  In other words, the implicit
     * UUID: d2d3f8ef9c994d9ca2b391c85d44326c
     * URL: http://reelyactive.com/metadata/nestcam.json
     * [Product link](https://nest.com/camera)
+- Flic
+    * UUID: f02adfc026e711e49edc0002a5d5c51b
+    * URL: http://reelyactive.com/metadata/flic.json
+    * [Product link](https://flic.io/)
 - TrackR
     * UUID: 0f3e
     * URL: http://reelyactive.com/metadata/trackr.json
