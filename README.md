@@ -11,7 +11,7 @@ chickadee is also a contextual API for the IoT.  It binds to an instance of [bar
 
 ### In the scheme of Things (pun intended)
 
-The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out our [developer page](http://reelyactive.github.io/) for more resources on reelyActive software and hardware.
+The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out [API overview](http://context.reelyactive.com/api.html#contextual) as well as our [developer page](http://reelyactive.github.io/) for more resources on reelyActive software and hardware.
 
 
 ![chickadee logo](http://reelyactive.com/images/chickadee.jpg)
