@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../style/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="../../js/cormorant.js"></script>
     <script type="text/javascript" src="../../js/chickadee.js"></script>
   </head>
   <body ng-app="response">
@@ -60,13 +61,13 @@
             </accordion-heading>
             <div class="row">
               <div class="col-xs-12 col-md-6">
-                <pre ng-show="device.metadata"> {{device.metadata}} </pre>
+                <pre ng-show="metadata[id]">{{metadata[id]}}</pre>
                 <div class="text-center" ng-show="device.url">
                   <button class="btn btn-primary" ng-click="fetch(id)"
-                          ng-show="!device.metadata">
+                          ng-show="!metadata[id]">
                     Fetch metadata
                   </button>
-                  <hr width="50%" ng-show="!device.metadata">
+                  <hr width="50%" ng-show="!metadata[id]">
                   <p>
                     <strong> Source: </strong>
                     <a ng-href="{{device.url}}" target="_blank">
@@ -75,17 +76,34 @@
                   </p>
                 </div>
               </div>
-              <div class="col-xs-12 col-md-6" ng-show="device.nearest">
-                <table class="table table-hover">
+              <div class="col-xs-12 col-md-6">
+                <table class="table table-hover" ng-show="device.nearest">
                   <tr>
                     <th> RSSI </th>
                     <th> Device </th>
+                    <th> Directory </th>
                   </tr>
                   <tr ng-repeat="(id, near) in device.nearest">
                     <td> {{near.rssi}} </td>
                     <td> {{near.device}} </td>
+                    <td>
+                      {{associations[near.device] ?
+                          displayDirectory(near.device) : ""}}
+                      <button ng-hide="associations[near.device]"
+                              ng-click="getAssociations(near.device)"
+                              class="btn btn-default btn-xs">
+                        Associations?
+                      </button>
+                    </td>
                   </tr>
                 </table>
+                <p class="text-center">
+                  <button ng-mouseover="getAssociations(id)"
+                          popover-template="associationsTemplate"
+                          type="button" class="btn btn-default">
+                    {{id}} associations?
+                  </button>
+                </p>
               </div>
             </div>
           </accordion-group>
@@ -97,5 +115,16 @@
         <a href="http://context.reelyactive.com"> &copy; reelyActive 2015-2016 </a>
       </footer>
     </div>
+    <script type="text/ng-template" id="associations.html">
+      <table class="table table-condensed">
+        <thead><tr><th colspan="2" > {{id}} </th></tr></thead>
+        <tbody>
+          <tr ng-repeat="(property, value) in associations[id]">
+            <th> {{property}} </th>
+            <td> {{property === 'url' ? '(see Source)' : value}} </td>
+          </tr>
+        </tbody>
+      </table>
+    </script>
   </body>
 </html>
