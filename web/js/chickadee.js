@@ -1,9 +1,10 @@
 DEFAULT_POLLING_MILLISECONDS = 2000;
 
-angular.module('response', [ 'ui.bootstrap' ])
+angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
 
   // API controller
-  .controller('ApiCtrl', function($scope, $http, $interval, $window) {
+  .controller('ApiCtrl', function($scope, $http, $interval, $window,
+                                  cormorant) {
     var url = $window.location.href;
     $scope.meta = { message: "loading", statusCode: "..." };
     $scope.links = { self: { href: url } };
@@ -41,15 +42,10 @@ angular.module('response', [ 'ui.bootstrap' ])
     $scope.fetch = function (id) {
       if((typeof($scope.devices[id]) != 'undefined') &&
          (typeof($scope.devices[id].url) != 'undefined')) {
-        $http.defaults.headers.common.Accept = 'application/json';
-        $http.get($scope.devices[id].url)
-          .success(function(data, status, headers, config) {
-            $scope.metadata[id] = data;
-            attachMetadata();
-          })
-          .error(function(data, status, headers, config) {
-            $scope.metadata[id] = { error: error };
-          });
+        cormorant.getStory($scope.devices[id].url, function(story) {
+          $scope.metadata[id] = story || { error: "Could not fetch URL" };
+          attachMetadata();
+        });
       }
       else {
         $scope.metadata[id] = { error: "No URL to fetch" };

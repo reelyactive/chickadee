@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../style/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="../../js/cormorant.js"></script>
     <script type="text/javascript" src="../../js/chickadee.js"></script>
   </head>
   <body ng-app="response">
@@ -60,7 +61,7 @@
             </accordion-heading>
             <div class="row">
               <div class="col-xs-12 col-md-6">
-                <pre ng-show="device.metadata"> {{device.metadata}} </pre>
+                <pre ng-show="device.metadata">{{device.metadata}}</pre>
                 <div class="text-center" ng-show="device.url">
                   <button class="btn btn-primary" ng-click="fetch(id)"
                           ng-show="!device.metadata">
