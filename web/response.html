@@ -61,13 +61,13 @@
             </accordion-heading>
             <div class="row">
               <div class="col-xs-12 col-md-6">
-                <pre ng-show="device.metadata">{{device.metadata}}</pre>
+                <pre ng-show="metadata[id]">{{metadata[id]}}</pre>
                 <div class="text-center" ng-show="device.url">
                   <button class="btn btn-primary" ng-click="fetch(id)"
-                          ng-show="!device.metadata">
+                          ng-show="!metadata[id]">
                     Fetch metadata
                   </button>
-                  <hr width="50%" ng-show="!device.metadata">
+                  <hr width="50%" ng-show="!metadata[id]">
                   <p>
                     <strong> Source: </strong>
                     <a ng-href="{{device.url}}" target="_blank">
@@ -87,6 +87,13 @@
                     <td> {{near.device}} </td>
                   </tr>
                 </table>
+                <p class="text-center">
+                  <button ng-mouseover="getAssociations(id)"
+                          popover-template="associationsTemplate"
+                          type="button" class="btn btn-default">
+                    {{id}} associations?
+                  </button>
+                </p>
               </div>
             </div>
           </accordion-group>
@@ -98,5 +105,16 @@
         <a href="http://context.reelyactive.com"> &copy; reelyActive 2015-2016 </a>
       </footer>
     </div>
+    <script type="text/ng-template" id="associations.html">
+      <table class="table table-condensed">
+        <thead><tr><th colspan="2" > {{id}} </th></tr></thead>
+        <tbody>
+          <tr ng-repeat="(property, value) in associations[id]">
+            <th> {{property}} </th>
+            <td> {{value}} </td>
+          </tr>
+        </tbody>
+      </table>
+    </script>
   </body>
 </html>

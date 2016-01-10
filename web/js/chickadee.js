@@ -10,18 +10,9 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
     $scope.links = { self: { href: url } };
     $scope.devices = {};
     $scope.metadata = {};
+    $scope.associations = {};
+    $scope.associationsTemplate = "associations.html";
     $scope.expand = true;
-
-    function attachMetadata() {
-      for(var id in $scope.devices) {
-        if ($scope.devices.hasOwnProperty(id)) {
-          var device = $scope.devices[id];
-          if(typeof($scope.metadata[id]) != 'undefined') {
-            device.metadata = JSON.stringify($scope.metadata[id], null, "  ");
-          }
-        }
-      }
-    };
 
     function updateQuery() {
       $http.defaults.headers.common.Accept = 'application/json';
@@ -30,7 +21,6 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
           $scope.meta = data._meta;
           $scope.links = data._links;
           $scope.devices = data.devices;
-          attachMetadata();
         })
         .error(function(data, status, headers, config) {
           $scope.meta = data._meta;
@@ -43,13 +33,38 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
       if((typeof($scope.devices[id]) != 'undefined') &&
          (typeof($scope.devices[id].url) != 'undefined')) {
         cormorant.getStory($scope.devices[id].url, function(story) {
-          $scope.metadata[id] = story || { error: "Could not fetch URL" };
-          attachMetadata();
+          if(story) {
+            $scope.metadata[id] = JSON.stringify(story, null, "  ");
+          }
+          else {
+            $scope.metadata[id] = "ERROR: Could not fetch URL";
+          }
         });
       }
       else {
-        $scope.metadata[id] = { error: "No URL to fetch" };
+        $scope.metadata[id] = "ERROR: No URL to fetch";
       }
+    };
+
+    $scope.getAssociations = function (id) {
+      $http.defaults.headers.common.Accept = 'application/json';
+      $http.get($scope.devices[id].href)
+        .success(function(data, status, headers, config) {
+          var device = data.devices[id];
+          $scope.associations[id] = {};
+          if(device.url) {
+            $scope.associations[id].url = device.url;
+          }
+          if(device.directory) {
+            $scope.associations[id].directory = device.directory;
+          }
+          if(device.tags) {
+            $scope.associations[id].tags = device.tags;
+          }
+        })
+        .error(function(data, status, headers, config) {
+          $scope.associations[id] = { error: "No explicit associations" };
+        });
     };
 
     $scope.isEmpty = function () {
