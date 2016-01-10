@@ -67,6 +67,14 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
         });
     };
 
+    $scope.displayDirectory = function (id) {
+      if((typeof($scope.associations[id]) === 'undefined') ||
+         (typeof($scope.associations[id].directory) === 'undefined')) {
+        return '(none)';
+      }
+      return $scope.associations[id].directory; 
+    };
+
     $scope.isEmpty = function () {
       return (Object.keys($scope.devices).length === 0);
     };

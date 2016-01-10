@@ -76,15 +76,25 @@
                   </p>
                 </div>
               </div>
-              <div class="col-xs-12 col-md-6" ng-show="device.nearest">
-                <table class="table table-hover">
+              <div class="col-xs-12 col-md-6">
+                <table class="table table-hover" ng-show="device.nearest">
                   <tr>
                     <th> RSSI </th>
                     <th> Device </th>
+                    <th> Directory </th>
                   </tr>
                   <tr ng-repeat="(id, near) in device.nearest">
                     <td> {{near.rssi}} </td>
                     <td> {{near.device}} </td>
+                    <td>
+                      {{associations[near.device] ?
+                          displayDirectory(near.device) : ""}}
+                      <button ng-hide="associations[near.device]"
+                              ng-click="getAssociations(near.device)"
+                              class="btn btn-default btn-xs">
+                        Associations?
+                      </button>
+                    </td>
                   </tr>
                 </table>
                 <p class="text-center">
