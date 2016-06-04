@@ -238,10 +238,17 @@ The following implicit associations are supported.  In other words, the implicit
     * OUI-36: 001bc5094
     * URL: http://reelyactive.com/products/ra-t411/
     * [Product link](http://shop.reelyactive.com/products/ra-t411)
-- reelyActive Bluetooth Smart reelceiver (RA-R436)
+- reelyActive Bluetooth Low Energy reelceiver (RA-R436)
     * UUID: 7265656c794163746976652055554944
     * URL: http://reelyactive.com/products/ra-r436/
     * [Product link](http://shop.reelyactive.com/products/ra-r436)
+- reelyApp for Android
+    * UUID: 7265656c7941707020416e64726f6964
+    * URL: http://reelyactive.com/metadata/reelyApp-Android.json
+    * [Product link](https://play.google.com/store/apps/details?id=com.reelyactive.reelyapp)
+- reelyApp for iOS
+    * UUID: 7265656c7941707020666f7220694f53
+    * URL: http://reelyactive.com/metadata/reelyApp-iOS.json
 - Fitbit
     * UUID: adabfb006e7d4601bda2bffaa68956ba
     * URL: http://reelyactive.com/metadata/fitbit.json
