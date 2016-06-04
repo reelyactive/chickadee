@@ -355,6 +355,14 @@ The following implicit associations are supported.  In other words, the implicit
     * iBeacon UUID: dab59c4fa4d6ee286bfe8e0000bbc2bb
     * URL: http://reelyactive.com/metadata/enote.json
     * [Product link](https://www.indiegogo.com/projects/enote-wireless-display)
+- The Bubbles Company beacon
+    * iBeacon UUID: f3077abe93ac465aacf167f080cb7aef
+    * URL: http://reelyactive.com/metadata/bubblescompany.json
+    * [Product link](http://bubbles-company.com)
+- The XY Find It beacon
+    * iBeacon UUID: 07775dd0111b11e491910800200c9a66
+    * URL: http://reelyactive.com/metadata/xyfindit.json
+    * [Product link](http://www.xyfindit.com/)
 - Apple devices
     * companyIdentifierCode: 004c
     * URL: http://reelyactive.com/metadata/apple.json
