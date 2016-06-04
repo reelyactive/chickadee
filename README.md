@@ -238,10 +238,17 @@ The following implicit associations are supported.  In other words, the implicit
     * OUI-36: 001bc5094
     * URL: http://reelyactive.com/products/ra-t411/
     * [Product link](http://shop.reelyactive.com/products/ra-t411)
-- reelyActive Bluetooth Smart reelceiver (RA-R436)
+- reelyActive Bluetooth Low Energy reelceiver (RA-R436)
     * UUID: 7265656c794163746976652055554944
     * URL: http://reelyactive.com/products/ra-r436/
     * [Product link](http://shop.reelyactive.com/products/ra-r436)
+- reelyApp for Android
+    * UUID: 7265656c7941707020416e64726f6964
+    * URL: http://reelyactive.com/metadata/reelyApp-Android.json
+    * [Product link](https://play.google.com/store/apps/details?id=com.reelyactive.reelyapp)
+- reelyApp for iOS
+    * UUID: 7265656c7941707020666f7220694f53
+    * URL: http://reelyactive.com/metadata/reelyApp-iOS.json
 - Fitbit
     * UUID: adabfb006e7d4601bda2bffaa68956ba
     * URL: http://reelyactive.com/metadata/fitbit.json
@@ -348,6 +355,14 @@ The following implicit associations are supported.  In other words, the implicit
     * iBeacon UUID: dab59c4fa4d6ee286bfe8e0000bbc2bb
     * URL: http://reelyactive.com/metadata/enote.json
     * [Product link](https://www.indiegogo.com/projects/enote-wireless-display)
+- The Bubbles Company beacon
+    * iBeacon UUID: f3077abe93ac465aacf167f080cb7aef
+    * URL: http://reelyactive.com/metadata/bubblescompany.json
+    * [Product link](http://bubbles-company.com)
+- The XY Find It beacon
+    * iBeacon UUID: 07775dd0111b11e491910800200c9a66
+    * URL: http://reelyactive.com/metadata/xyfindit.json
+    * [Product link](http://www.xyfindit.com/)
 - Apple devices
     * companyIdentifierCode: 004c
     * URL: http://reelyactive.com/metadata/apple.json
