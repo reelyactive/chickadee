@@ -61,12 +61,8 @@
             </accordion-heading>
             <div class="row">
               <div class="col-xs-12 col-md-6">
-                <pre ng-show="metadata[id]">{{metadata[id]}}</pre>
+                <pre>{{storyStrings[device.url]}}</pre>
                 <div class="text-center" ng-show="device.url">
-                  <button class="btn btn-primary" ng-click="fetch(id)"
-                          ng-show="!metadata[id]">
-                    Fetch metadata
-                  </button>
                   <hr width="50%" ng-show="!metadata[id]">
                   <p>
                     <strong> Source: </strong>
