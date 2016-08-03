@@ -4,10 +4,12 @@
     <title> reelyActive chickadee API </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/bubble.css">
     <link rel="stylesheet" href="../../style/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="../../js/cormorant.js"></script>
+    <script type="text/javascript" src="../../js/cuttlefish.js"></script>
     <script type="text/javascript" src="../../js/chickadee.js"></script>
   </head>
   <body ng-app="response">
@@ -62,6 +64,7 @@
             <div class="row">
               <div class="col-xs-12 col-md-6">
                 <pre>{{storyStrings[device.url]}}</pre>
+                <!----- For bubble: {{stories[device.url]}} ----->
               </div>
               <div class="col-xs-12 col-md-6">
                 <table class="table table-hover" ng-show="device.nearest">

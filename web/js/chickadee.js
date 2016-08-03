@@ -1,6 +1,7 @@
 DEFAULT_POLLING_MILLISECONDS = 2000;
 
-angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
+angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
+                             'reelyactive.cuttlefish' ])
 
   // API controller
   .controller('ApiCtrl', function($scope, $http, $interval, $window,
@@ -14,6 +15,30 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
     $scope.associations = {};
     $scope.associationsTemplate = "associations.html";
     $scope.expand = true;
+
+  $scope.json = {
+    "@context": {
+      "schema": "http://schema.org/"
+    },
+    "@graph": [
+      {
+        "@id": "person",
+        "@type": "schema:Person",
+        "schema:givenName": "Barn",
+        "schema:familyName": "Owl",
+        "schema:worksFor": "reelyActive",
+        "schema:jobTitle": "Mascot",
+        "schema:image": "http://reelyactive.com/images/barnowl.jpg"
+      },
+      {
+        "@id": "product",
+        "@type": "schema:Product",
+        "schema:name": "915MHz Active RFID Tag",
+        "schema:image": "http://reelyactive.com/images/tag400x400.jpg"
+      }
+    ]
+  };
+
 
     function updateQuery() {
       $http.defaults.headers.common.Accept = 'application/json';
