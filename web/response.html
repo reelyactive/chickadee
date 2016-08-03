@@ -62,15 +62,6 @@
             <div class="row">
               <div class="col-xs-12 col-md-6">
                 <pre>{{storyStrings[device.url]}}</pre>
-                <div class="text-center" ng-show="device.url">
-                  <hr width="50%" ng-show="!metadata[id]">
-                  <p>
-                    <strong> Source: </strong>
-                    <a ng-href="{{device.url}}" target="_blank">
-                      {{device.url}}
-                    </a>
-                  </p>
-                </div>
               </div>
               <div class="col-xs-12 col-md-6">
                 <table class="table table-hover" ng-show="device.nearest">
@@ -99,6 +90,13 @@
                           type="button" class="btn btn-default">
                     {{id}} associations?
                   </button>
+                </p>
+                <hr width="50%" class="text-center" ng-show="device.url">
+                <p class="text-center" ng-show="device.url">
+                  <strong> Story Source: </strong>
+                  <a ng-href="{{device.url}}" target="_blank">
+                    {{device.url}}
+                  </a>
                 </p>
               </div>
             </div>
