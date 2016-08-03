@@ -31,10 +31,10 @@ angular.module('reelyactive.cormorant', [])
 
     var get = function(url, callback) {
       if(!url || (typeof url !== 'string')) {
-        return callback(null);
+        return callback(null, null);
       }
       if(stories.hasOwnProperty(url)) {
-        return callback(stories[url]);
+        return callback(stories[url], url);
       }
       $http.defaults.headers.common.Accept = 'application/json, text/plain';
       $http.get(url)
@@ -44,13 +44,13 @@ angular.module('reelyactive.cormorant', [])
               data = extractFromHtml(data);
             case 'object':
               stories[url] = data;
-              callback(data);
+              callback(data, url);
           }
         })
         .error(function(data, status, headers, config) {
           console.log('cormorant: GET ' + url + ' returned status ' + status);
           stories[url] = null;
-          callback(null);
+          callback(null, url);
         });
     };
 
