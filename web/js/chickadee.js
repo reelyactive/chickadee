@@ -12,6 +12,7 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
     $scope.devices = {};
     $scope.stories = cormorant.getStories();
     $scope.storyStrings = {};
+    $scope.showStory = {};
     $scope.associations = {};
     $scope.associationsTemplate = "associations.html";
     $scope.expand = true;
@@ -68,6 +69,7 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
             }
           }
         });
+        $scope.showStory[id] = $scope.showStory[id] || false;
       }
     }
 
