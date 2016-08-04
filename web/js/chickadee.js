@@ -1,6 +1,7 @@
 DEFAULT_POLLING_MILLISECONDS = 2000;
 
-angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
+angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
+                             'reelyactive.cuttlefish' ])
 
   // API controller
   .controller('ApiCtrl', function($scope, $http, $interval, $window,
@@ -9,7 +10,9 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
     $scope.meta = { message: "loading", statusCode: "..." };
     $scope.links = { self: { href: url } };
     $scope.devices = {};
-    $scope.metadata = {};
+    $scope.stories = cormorant.getStories();
+    $scope.storyStrings = {};
+    $scope.showStory = {};
     $scope.associations = {};
     $scope.associationsTemplate = "associations.html";
     $scope.expand = true;
@@ -21,30 +24,30 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant' ])
           $scope.meta = data._meta;
           $scope.links = data._links;
           $scope.devices = data.devices;
+          fetchStories(data.devices);
         })
         .error(function(data, status, headers, config) {
           $scope.meta = data._meta;
           $scope.links = data._links;
           $scope.devices = {};
         });
-    };
+    }
 
-    $scope.fetch = function (id) {
-      if((typeof($scope.devices[id]) != 'undefined') &&
-         (typeof($scope.devices[id].url) != 'undefined')) {
-        cormorant.getStory($scope.devices[id].url, function(story) {
-          if(story) {
-            $scope.metadata[id] = JSON.stringify(story, null, "  ");
-          }
-          else {
-            $scope.metadata[id] = "ERROR: Could not fetch URL";
+    function fetchStories(devices) {
+      for(id in devices) {
+        cormorant.getStory(devices[id].url, function(story, url) {
+          if(url && !$scope.storyStrings.hasOwnProperty(url)) {
+            if(story) {
+              $scope.storyStrings[url] = JSON.stringify(story, null, "  ");
+            }
+            else {
+              $scope.storyStrings[url] = "ERROR: Could not fetch URL";
+            }
           }
         });
+        $scope.showStory[id] = $scope.showStory[id] || false;
       }
-      else {
-        $scope.metadata[id] = "ERROR: No URL to fetch";
-      }
-    };
+    }
 
     $scope.getAssociations = function (id) {
       $http.defaults.headers.common.Accept = 'application/json';

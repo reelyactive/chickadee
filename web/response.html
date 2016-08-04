@@ -4,10 +4,12 @@
     <title> reelyActive chickadee API </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/bubble.css">
     <link rel="stylesheet" href="../../style/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="../../js/cormorant.js"></script>
+    <script type="text/javascript" src="../../js/cuttlefish.js"></script>
     <script type="text/javascript" src="../../js/chickadee.js"></script>
   </head>
   <body ng-app="response">
@@ -61,19 +63,14 @@
             </accordion-heading>
             <div class="row">
               <div class="col-xs-12 col-md-6">
-                <pre ng-show="metadata[id]">{{metadata[id]}}</pre>
-                <div class="text-center" ng-show="device.url">
-                  <button class="btn btn-primary" ng-click="fetch(id)"
-                          ng-show="!metadata[id]">
-                    Fetch metadata
-                  </button>
-                  <hr width="50%" ng-show="!metadata[id]">
-                  <p>
-                    <strong> Source: </strong>
-                    <a ng-href="{{device.url}}" target="_blank">
-                      {{device.url}}
-                    </a>
-                  </p>
+                <div ng-if="stories[device.url]">
+                  <pre ng-show="showStory[id]">{{storyStrings[device.url]}}
+</pre>
+                  <div class="well well-lg" ng-hide="showStory[id]"
+                       style="height: 320px; width: 290px; margin-left: auto;
+                              margin-right: auto; background-color: #0770a2">
+                    <bubble json="stories[device.url]" size="240px"></bubble>
+                  </div>
                 </div>
               </div>
               <div class="col-xs-12 col-md-6">
@@ -102,6 +99,19 @@
                           popover-template="associationsTemplate"
                           type="button" class="btn btn-default">
                     {{id}} associations?
+                  </button>
+                </p>
+                <hr width="50%" class="text-center" ng-show="device.url">
+                <p class="text-center" ng-show="device.url">
+                  <strong> Story Source: </strong>
+                  <a ng-href="{{device.url}}" target="_blank">
+                    {{device.url}}
+                  </a>
+                </p>
+                <p class="text-center" ng-if="stories[device.url]">
+                  <button type="button" class="btn btn-info"
+                          ng-click="showStory[id] = !showStory[id]">
+                    {{showStory[id] ? 'View Bubble' : 'View Story'}}
                   </button>
                 </p>
               </div>

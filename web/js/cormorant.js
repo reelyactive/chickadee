@@ -7,6 +7,8 @@ angular.module('reelyactive.cormorant', [])
 
   .factory('cormorant', function cormorantFactory($http) {
 
+    var stories = {};
+
     function extractFromHtml(html) {
       var tagIndex = html.search(/(<script\s*?type\s*?=\s*?"application\/ld\+json">)/);
       if(tagIndex < 0) {
@@ -28,6 +30,12 @@ angular.module('reelyactive.cormorant', [])
     }
 
     var get = function(url, callback) {
+      if(!url || (typeof url !== 'string')) {
+        return callback(null, null);
+      }
+      if(stories.hasOwnProperty(url)) {
+        return callback(stories[url], url);
+      }
       $http.defaults.headers.common.Accept = 'application/json, text/plain';
       $http.get(url)
         .success(function(data, status, headers, config) {
@@ -35,15 +43,19 @@ angular.module('reelyactive.cormorant', [])
             case 'string':
               data = extractFromHtml(data);
             case 'object':
-              callback(data);
+              stories[url] = data;
+              callback(data, url);
           }
         })
         .error(function(data, status, headers, config) {
-          callback(null);
+          console.log('cormorant: GET ' + url + ' returned status ' + status);
+          stories[url] = null;
+          callback(null, url);
         });
     };
 
     return {
-      getStory: get
+      getStory: get,
+      getStories: function() { return stories; }
     }
   });
