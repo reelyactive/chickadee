@@ -10,7 +10,7 @@
     "API",
     "contextual associations"
   ],
-  "version": "0.3.23",
+  "version": "0.3.24",
   "engines": {
     "node": ">=0.10.0"
   },
@@ -27,7 +27,7 @@
     "nedb": ">=1.1.1",
     "body-parser": ">=1.8.0",
     "path": ">=0.11.0",
-    "reelib": ">=0.0.12"
+    "reelib": ">=0.0.13"
   },
   "devDependencies": {},
   "bugs": {
