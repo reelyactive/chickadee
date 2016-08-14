@@ -79,6 +79,7 @@ Retrieve the context at the given receiver device id. For example, the id _001bc
       "devices": {
         "001bc50940100000": {
           "url": "http://reelyactive.com/metadata/test.json",
+          "tags": [],
           "nearest": [
             {
               "device": "001bc50940800000",
@@ -89,6 +90,8 @@ Retrieve the context at the given receiver device id. For example, the id _001bc
         },
         "001bc50940800000": {
           "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+          "tags": [ "test" ],
+          "directory": null,
           "href": "http://localhost:3004/associations/001bc50940800000"
         }
       }
@@ -119,6 +122,7 @@ Retrieve the context near the given transmitter device id. For example, the id 0
       "devices": {
         "001bc50940100000": {
           "url": "http://reelyactive.com/metadata/test.json",
+          "tags": [],
           "nearest": [
             {
               "device": "001bc50940800000",
@@ -129,6 +133,8 @@ Retrieve the context near the given transmitter device id. For example, the id 0
         },
         "001bc50940800000": {
           "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+          "tags": [ "test" ],
+          "directory": null,
           "href": "http://localhost:3004/associations/001bc50940800000"
         }
       }
