@@ -10,7 +10,7 @@
     "API",
     "contextual associations"
   ],
-  "version": "0.3.24",
+  "version": "0.4.0",
   "engines": {
     "node": ">=0.10.0"
   },
@@ -28,7 +28,7 @@
     "body-parser": ">=1.8.0",
     "path": ">=0.11.0",
     "reelib": ">=0.0.13",
-    "sniffypedia": ">=0.1.0"
+    "sniffypedia": ">=0.1.1"
   },
   "devDependencies": {},
   "bugs": {
