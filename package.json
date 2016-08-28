@@ -27,7 +27,8 @@
     "nedb": ">=1.1.1",
     "body-parser": ">=1.8.0",
     "path": ">=0.11.0",
-    "reelib": ">=0.0.13"
+    "reelib": ">=0.0.13",
+    "sniffypedia": ">=0.1.0"
   },
   "devDependencies": {},
   "bugs": {
