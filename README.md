@@ -5,7 +5,7 @@ chickadee
 A contextual associations store and API for the IoT
 ---------------------------------------------------
 
-chickadee is a contextual associations store.  Specifically, it associates wireless device identifiers with a URL and/or a tag.  In other words it maintains, for instance, the link between your wireless device and your online stories so that [Smart Spaces](http://smartspac.es) which detect your device can understand what you're sharing about yourself.  It also allows logical groupings of devices to share a common tag such as "lounge", for instance, to represent the sensor devices in a lounge, and "friends", for instance, to represent the devices carried by a group of friends.
+chickadee is a contextual associations store.  Specifically, it associates wireless device identifiers with a URL and/or a tag.  In other words it maintains, for instance, the link between your wireless device and your online stories so that physical spaces which detect your device can understand what you're sharing about yourself.  As of version 0.4.0, chickadee uses [Sniffypedia](http://sniffypedia.org) for all implicit associations.  It also allows logical groupings of devices to share a common tag such as "lounge", for instance, to represent the sensor devices in a lounge, and "friends", for instance, to represent the devices carried by a group of friends.
 
 chickadee is also a contextual API for the IoT.  It binds to an instance of [barnacles](https://www.npmjs.com/package/barnacles) which provides the current state.  It supports queries regarding the context _at_ or _near_ either a device ID or a tag.  Continuing with the example above, it supports queries such as what is the _contextat_ the lounge, as well as what is the _contextnear_ the friends.
 
@@ -14,7 +14,7 @@ chickadee is also a contextual API for the IoT.  It binds to an instance of [bar
 The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out [API overview](http://context.reelyactive.com/api.html#contextual) as well as our [developer page](http://reelyactive.github.io/) for more resources on reelyActive software and hardware.
 
 
-![chickadee logo](http://reelyactive.com/images/chickadee.jpg)
+![chickadee logo](http://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
 
 
 What's in a name?
@@ -237,151 +237,7 @@ Identical to DELETE /associations/id except that only the url, directory or tags
 Implicit Associations
 ---------------------
 
-The following implicit associations are supported.  In other words, the implicit _url_ will be provided unless the device is already uniquely associated, via its identifier, with a _url_.  If you're one of the manufacturers below and would like the URL to instead point to an API on your server please [contact us](http://context.reelyactive.com/contact.html).
-
-- reelyActive Active RFID Tag (RA-T411)
-    * Identifier Type: EUI-64
-    * OUI-36: 001bc5094
-    * URL: http://reelyactive.com/products/ra-t411/
-    * [Product link](http://shop.reelyactive.com/products/ra-t411)
-- reelyActive Bluetooth Low Energy reelceiver (RA-R436)
-    * UUID: 7265656c794163746976652055554944
-    * URL: http://reelyactive.com/products/ra-r436/
-    * [Product link](http://shop.reelyactive.com/products/ra-r436)
-- reelyApp for Android
-    * UUID: 7265656c7941707020416e64726f6964
-    * URL: http://reelyactive.com/metadata/reelyApp-Android.json
-    * [Product link](https://play.google.com/store/apps/details?id=com.reelyactive.reelyapp)
-- reelyApp for iOS
-    * UUID: 7265656c7941707020666f7220694f53
-    * URL: http://reelyactive.com/metadata/reelyApp-iOS.json
-- Fitbit
-    * UUID: adabfb006e7d4601bda2bffaa68956ba
-    * URL: http://reelyactive.com/metadata/fitbit.json
-    * [Product link](http://www.fitbit.com/)
-- WNDR app
-    * UUID: 2f521f8c4d6f12269c600050e4c00067
-    * [Product link](https://itunes.apple.com/ca/app/wndr/id891132023)
-- Thalmic Labs Myo
-    * UUID: d5060001a904deb947482c7f4a124842
-    * URL: http://reelyactive.com/metadata/myo.json
-    * [Product link](https://www.thalmic.com/en/myo/)
-- Punch Through Design Bean
-    * UUID: a495ff10c5b14b44b5121370f02d74de
-    * URL: http://reelyactive.com/metadata/bean.json
-    * [Product link](https://punchthrough.com/bean/)
-- August Smart Lock
-    * UUID: bd4ac6100b4511e38ffd0800200c9a66
-    * URL: http://reelyactive.com/metadata/august.json
-    * [Product link](http://august.com/)
-- Vanhawks Valour
-    * UUID: 9ac78e8d1e9943ce83637c1b1e003a10
-    * URL: http://reelyactive.com/metadata/vanhawks.json
-    * [Product link](http://vanhawks.com/)
-- Mightycast NEX Band
-    * UUID: f81e00015aa144bda4806ab7767d47e3
-    * URL: http://reelyactive.com/metadata/nexband.json
-    * [Product link](http://www.mightycast.com/)
-- Jawbone
-    * UUID: 151c1000458041119ca15056f3454fbc
-    * URL: http://reelyactive.com/metadata/jawbone.json
-    * [Product link](https://jawbone.com/store/buy/up3)
-- Nexus Player
-    * UUID: cbbfe0e1f7f3420684e084cbb3d09dfc
-    * URL: http://reelyactive.com/metadata/nexusplayer.json
-    * [Product link](https://www.google.com/nexus/player/)
-- ENGAGE Technology Lock
-    * UUID: cbbfe0e1f7f3420684e084cbb3d09dfc
-    * URL: http://reelyactive.com/metadata/engage.json
-    * [Product link](http://us.allegion.com/products/electronic_locks/engage/)
-- Nest Cam
-    * UUID: d2d3f8ef9c994d9ca2b391c85d44326c
-    * URL: http://reelyactive.com/metadata/nestcam.json
-    * [Product link](https://nest.com/camera)
-- Flic
-    * UUID: f02adfc026e711e49edc0002a5d5c51b
-    * URL: http://reelyactive.com/metadata/flic.json
-    * [Product link](https://flic.io/)
-- TrackR
-    * UUID: 0f3e
-    * URL: http://reelyactive.com/metadata/trackr.json
-    * [Product link](http://thetrackr.com/)
-- Nod (OpenSpatial)
-    * UUID: febf
-    * URL: http://reelyactive.com/metadata/nod.json
-    * [Product link](https://www.hellonod.com/)
-- Eddystone (Google)
-    * UUID: feaa
-    * URL: Parsed from service data, if of URL type
-    * [Product link](https://developers.google.com/beacons/)
-- Physical Web (Google)
-    * UUID: fed8
-    * URL: Parsed from UriBeacon service data
-    * [Product link](http://physical-web.org/)
-- Seed Labs
-    * UUID: fee6
-    * URL: http://reelyactive.com/metadata/seedlabs.json
-    * [Product link](http://seedlabs.io/)
-- Tencent
-    * UUID: fee7
-    * URL: http://reelyactive.com/metadata/tencent.json
-- Tile
-    * UUID: feed
-    * URL: http://reelyactive.com/metadata/tile.json
-    * [Product link](http://thetileapp.com/)
-- Estimote beacon
-    * iBeacon UUID: b9407f30f5f8466eaff925556b57fe6d
-    * URL: http://reelyactive.com/metadata/estimote.json
-    * [Product link](http://estimote.com/#jump-to-products)
-- Kontakt.io beacon
-    * iBeacon UUID: f7826da64fa24e988024bc5b71e0893e
-    * URL: http://reelyactive.com/metadata/kontakt.json
-    * [Product link](http://kontakt.io/)
-- Roximity beacon
-    * iBeacon UUID: 8deefbb9f7384297804096668bb44281
-    * URL: http://reelyactive.com/metadata/roximity.json
-    * [Product link](http://roximity.com/)
-- Radius Networks beacon
-    * iBeacon UUID: 2f234454cf6d4a0fadf2f4911ba9ffa6
-    * URL: http://reelyactive.com/metadata/radiusnetworks.json
-    * [Product link](http://www.radiusnetworks.com/)
-- Orange beacon
-    * iBeacon UUID: 3d4f13b4d1fd404980e5d3edcc840b69
-    * URL: http://reelyactive.com/metadata/orangebeacon.json
-    * [Product link](http://www.beacon.orange.fr/)
-- Bright beacon
-    * iBeacon UUID: e2c56db5dffb48d2b060d0f5a71096e0
-    * URL: http://reelyactive.com/metadata/brightbeacon.json
-    * [Product link](http://www.brtbeacon.com/)
-- LocosLab beacon
-    * iBeacon UUID: f0018b9b75094c31a9051a27d39c003c
-    * URL: http://reelyactive.com/metadata/locoslab.json
-    * [Product link](http://www.locoslab.com/)
-- eNote beacon
-    * iBeacon UUID: dab59c4fa4d6ee286bfe8e0000bbc2bb
-    * URL: http://reelyactive.com/metadata/enote.json
-    * [Product link](https://www.indiegogo.com/projects/enote-wireless-display)
-- The Bubbles Company beacon
-    * iBeacon UUID: f3077abe93ac465aacf167f080cb7aef
-    * URL: http://reelyactive.com/metadata/bubblescompany.json
-    * [Product link](http://bubbles-company.com)
-- The XY Find It beacon
-    * iBeacon UUID: 07775dd0111b11e491910800200c9a66
-    * URL: http://reelyactive.com/metadata/xyfindit.json
-    * [Product link](http://www.xyfindit.com/)
-- Apple devices
-    * companyIdentifierCode: 004c
-    * URL: http://reelyactive.com/metadata/apple.json
-- Gimbal devices
-    * companyIdentifierCode: 008c
-    * URL: http://reelyactive.com/metadata/gimbal.json
-- Xiaomi devices
-    * companyIdentifierCode: 0157
-    * URL: http://reelyactive.com/metadata/xiaomi.json
-- Curious devices (any SCAN_REQ)
-    * URL: http://reelyactive.com/metadata/curious.json
-- Bluetooth Smart devices (anything else which is Bluetooth Smart)
-    * URL: http://reelyactive.com/metadata/bluetoothsmart.json
+As of version 0.4.0, all implicit associations are external to chickadee at [sniffypedia.org](http://sniffypedia.org).  Anyone can [contribute associations](http://sniffypedia.org/contribute/) to that project, which will subsequently be integrated in chickadee via the [sniffypedia package](https://www.npmjs.com/package/sniffypedia).
 
 
 Where to bind?
