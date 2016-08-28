@@ -9,6 +9,7 @@ BUBBLE_TEMPLATE_URL = '/bubble.html'; // May or may not need a leading slash!
 TYPE_PERSON = 'Person';
 TYPE_PRODUCT = 'Product';
 TYPE_PLACE = 'Place';
+TYPE_ORGANIZATION = 'Organization';
 DEFAULT_IMAGE = {};
 DEFAULT_IMAGE[TYPE_PERSON] = '/images/default-person.png';
 DEFAULT_IMAGE[TYPE_PRODUCT] = '/images/default-product.png';
@@ -20,16 +21,17 @@ UNSUPPORTED_STORY_JSON = {
 };
 
 
-angular.module('reelyactive.cuttlefish', [])
+angular.module('reelyactive.cuttlefish', [ 'ngAnimate', 'ui.bootstrap' ])
 
   .directive('bubble', function() {
 
     function link(scope, element, attrs) {
 
       function update() {
-        scope.toggle = 0;
         scope.types = [];
         scope.size = scope.size || DEFAULT_BUBBLE_SIZE;
+        scope.toggle = scope.toggle || false;
+        scope.visible = scope.visible || [];
 
         if(scope.json && scope.json.hasOwnProperty("@graph")) {
           var graph = scope.json["@graph"];
@@ -47,15 +49,25 @@ angular.module('reelyactive.cuttlefish', [])
                 scope.place = formatItem(graph[cItem], TYPE_PLACE);
                 scope.types.push(TYPE_PLACE);
                 break;
+              case 'schema:Organization':
+                scope.organization = formatItem(graph[cItem],
+                                                TYPE_ORGANIZATION);
+                scope.types.push(TYPE_ORGANIZATION);
+                break;
             }
-            scope.itemID = graph[cItem]["@id"];
+            scope.itemID = Bubble.generateID(graph[cItem]["@id"]);
           }
         }
         else {
           scope.product = UNSUPPORTED_STORY_JSON;
           scope.types.push(TYPE_PRODUCT);
+          scope.unsupported = true;
         }
-        scope.current = scope.types[0];
+        //scope.types = Bubble.availableTypes(scope.visible, scope.types);
+        if(scope.types.length > 0) {
+          scope.current = scope.types[0];
+          scope.bubble = new Bubble(scope);
+        }
       }
 
       function formatItem(item, type) {
@@ -64,9 +76,12 @@ angular.module('reelyactive.cuttlefish', [])
         }
         return item;
       }
+      
+      scope.$on('$destroy', function() {
+        scope.bubble.removed();
+      });
 
       scope.$watch(attrs.json, function(json) {
-        //scope.json = json;
         update();
       });
     }
@@ -75,7 +90,9 @@ angular.module('reelyactive.cuttlefish', [])
       restrict: "E",
       scope: {
         json: "=",
-        size: "@"
+        size: "@",
+        toggle: "=",
+        visible: "@"
       },
       link: link,
       templateUrl: BUBBLE_TEMPLATE_URL

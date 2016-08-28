@@ -1,61 +1,67 @@
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300'
-      rel='stylesheet' type='text/css'>
-
 <div class="bubble" id="{{itemID}}">
 
   <!-- Toggle -->
-  <div class="bubble__toggle">
-    <p ng-click="toggle = toggle + 1; current = types[toggle % types.length]">
-      {{current}} {{types.length > 1 ? '>' : ''}}
-    </p>
+
+  <div class="bubble--toggle" ng-show="toggle === true && types.length > 1">
+  
+    <div ng-repeat="type in types" ng-click="$parent.current = type"
+         class="bubble--toggle--button"
+         ng-class="{selected: $parent.current==type}">
+      {{type}}
+    </div>
+    
   </div>
+
 
   <!-- Person -->
-  <div class="bubble__element" ng-if="person" ng-show="current === 'Person'">
-    <div class="bubble__photo" ng-style="{ 
-      'width' : size,
-      'height' : size,
-      'border-radius' : size,
-      'border-width' : 'calc({{size}} / 10)',
-      'background-image' : 'url(' + person['schema:image'] + ')' }">
-    </div>
-    <div class="bubble__title" ng-style="{
-      'font-size' : 'calc({{size}} / 10)',
-      'bottom' : 'calc(- {{size}} / 10)' }">
+
+  <div class="bubble--photo" ng-if="person" ng-show="current === 'Person'"
+       ng-style="{'background-image' : 'url(' + person['schema:image'] + ')' }"
+       data-name="{{person['schema:givenName']}}" data-type="Person">
+    
+    <div class="bubble--label">
       {{person["schema:givenName"]}} {{person["schema:familyName"]}}
     </div>
+
   </div>
+
 
   <!-- Place -->
-  <div class="bubble__element" ng-if="place" ng-show="current === 'Place'">
-    <div class="bubble__photo" ng-style="{
-      'width' : size,
-      'height' : size,
-      'border-radius' : size,
-      'border-width' : 'calc({{size}} / 10)',
-      'background-image' : 'url(' + place['schema:image'] + ')' }">
-    </div>
-    <div class="bubble__title" ng-style="{
-      'font-size' : 'calc({{size}} / 10)',
-      'bottom' : 'calc(- {{size}} / 10)' }">
+
+  <div class="bubble--photo" ng-if="place" ng-show="current === 'Place'"
+       ng-style="{'background-image' : 'url(' + place['schema:image'] + ')' }"
+       data-name="{{place['schema:name']}}" data-type="Place">
+    
+    <div class="bubble--label">
       {{place["schema:name"]}}
     </div>
+
   </div>
 
+
   <!-- Product -->
-  <div class="bubble__element" ng-if="product" ng-show="current === 'Product'">
-    <div class="bubble__photo" ng-style="{
-      'width' : size,
-      'height' : size,
-      'border-radius' : size,
-      'border-width' : 'calc({{size}} / 10)',
-      'background-image' : 'url(' + product['schema:image'] + ')' }">
-    </div>
-    <div class="bubble__title" ng-style="{
-      'font-size' : 'calc({{size}} / 10)',
-      'bottom' : 'calc(- {{size}} / 10)' }">
+
+  <div class="bubble--photo" ng-if="product" ng-show="current === 'Product'"
+       ng-style="{'background-image' : 'url(' + product['schema:image'] + ')' }"
+       data-name="{{product['schema:name']}}" data-type="Product">
+    
+    <div class="bubble--label">
       {{product["schema:name"]}}
     </div>
+
+  </div>
+
+  <!-- Organization -->
+
+  <div class="bubble--photo" ng-if="organization"
+       ng-show="current === 'Organization'"
+       ng-style="{'background-image' : 'url(' + organization['schema:logo'] + ')' }"
+       data-name="{{product['schema:name']}}" data-type="Organization">
+    
+    <div class="bubble--label">
+      {{organization["schema:name"]}}
+    </div>
+
   </div>
 
 </div>
