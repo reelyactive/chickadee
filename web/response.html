@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="../../style/bubble.css">
     <link rel="stylesheet" href="../../style/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-animate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="../../js/bubble.js"></script>
     <script type="text/javascript" src="../../js/cormorant.js"></script>
     <script type="text/javascript" src="../../js/cuttlefish.js"></script>
     <script type="text/javascript" src="../../js/chickadee.js"></script>
@@ -66,10 +68,10 @@
                 <div ng-if="stories[device.url]">
                   <pre ng-show="showStory[id]">{{storyStrings[device.url]}}
 </pre>
-                  <div class="well well-lg" ng-hide="showStory[id]"
-                       style="height: 320px; width: 290px; margin-left: auto;
-                              margin-right: auto; background-color: #0770a2">
-                    <bubble json="stories[device.url]" size="240px"></bubble>
+                  <div class="well well-lg bubble-container"
+                       ng-hide="showStory[id]">
+                    <bubble json="stories[device.url]" size="160px"
+                            toggle="false"></bubble>
                   </div>
                 </div>
               </div>

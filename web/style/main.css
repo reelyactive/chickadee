@@ -16,6 +16,15 @@ body {
   color: #5a5a5a;
 }
 
+.bubble-container {
+  height: 280px;
+  width: 280px;
+  padding: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #0770a2;
+}
+
 /* Begin Bootstrap 3 navbar override */
 .navbar-default {
     background-color: #0770a2;
