@@ -261,7 +261,7 @@ The following options are supported when instantiating chickadee (those shown ar
       httpPort: 3004,
       associationManager: null,
       persistentDataFolder: "data",
-      associationsRootUrl: "http://sniffypedia.org/"
+      associationsRootUrl: "https://sniffypedia.org/"
     }
 
 Notes:
