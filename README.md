@@ -78,7 +78,7 @@ Retrieve the context at the given receiver device id. For example, the id _001bc
       },
       "devices": {
         "001bc50940100000": {
-          "url": "http://reelyactive.com/metadata/test.json",
+          "url": "https://myjson.info/stories/test",
           "tags": [],
           "nearest": [
             {
@@ -89,7 +89,7 @@ Retrieve the context at the given receiver device id. For example, the id _001bc
           "href": "http://localhost:3004/associations/001bc50940100000"
         },
         "001bc50940800000": {
-          "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+          "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
           "tags": [ "test" ],
           "directory": null,
           "href": "http://localhost:3004/associations/001bc50940800000"
@@ -121,7 +121,7 @@ Retrieve the context near the given transmitter device id. For example, the id 0
       },
       "devices": {
         "001bc50940100000": {
-          "url": "http://reelyactive.com/metadata/test.json",
+          "url": "https://myjson.info/stories/test",
           "tags": [],
           "nearest": [
             {
@@ -132,7 +132,7 @@ Retrieve the context near the given transmitter device id. For example, the id 0
           "href": "http://localhost:3004/associations/001bc50940100000"
         },
         "001bc50940800000": {
-          "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+          "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
           "tags": [ "test" ],
           "directory": null,
           "href": "http://localhost:3004/associations/001bc50940800000"
@@ -160,7 +160,7 @@ Retrieve the association for the device with the given id.  For example the id _
       },
       "devices": {
         "001bc50940800000": {
-          "url": "http://myjson.info/story/test",
+          "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
           "directory": "forest:tree",
           "tags": [
             "birdnest"
@@ -174,7 +174,7 @@ Retrieve the association for the device with the given id.  For example the id _
 
 Update or create an association for the given device id.  For example, to update a device with identifier _001bc50940800000_, PUT /associations/001bc50940800000 and include the updated JSON, for example:
 
-    { "url": "https://myjson.info/stories/test",
+    { "url": "https://myjson.info/stories/new",
       "directory": "forest:tree:branch",
       "tags": [ "birdnest", "home" ] }
 
@@ -192,7 +192,7 @@ A successful response might return:
       },
       "devices": {
         "001bc50940800000": {
-          "url": "https://myjson.info/stories/test",
+          "url": "https://myjson.info/stories/new",
           "directory": "forest:tree:branch",
           "tags": [
             "birdnest",
