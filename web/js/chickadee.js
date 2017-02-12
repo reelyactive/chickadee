@@ -16,21 +16,20 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
     $scope.associations = {};
     $scope.associationsTemplate = "associations.html";
     $scope.expand = true;
+    $http.defaults.headers.common.Accept = 'application/json';
 
     function updateQuery() {
-      $http.defaults.headers.common.Accept = 'application/json';
-      $http.get(url)
-        .success(function(data, status, headers, config) {
-          $scope.meta = data._meta;
-          $scope.links = data._links;
-          $scope.devices = data.devices;
-          fetchStories(data.devices);
-        })
-        .error(function(data, status, headers, config) {
-          $scope.meta = data._meta;
-          $scope.links = data._links;
+      $http({ method: 'GET', url: url })
+        .then(function(response) { // Success
+          $scope.meta = response.data._meta;
+          $scope.links = response.data._links;
+          $scope.devices = response.data.devices;
+          fetchStories(response.data.devices);
+        }, function(response) {    // Error
+          $scope.meta = response.data._meta;
+          $scope.links = response.data._links;
           $scope.devices = {};
-        });
+      });
     }
 
     function fetchStories(devices) {
@@ -50,10 +49,9 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
     }
 
     $scope.getAssociations = function (id) {
-      $http.defaults.headers.common.Accept = 'application/json';
-      $http.get($scope.devices[id].href)
-        .success(function(data, status, headers, config) {
-          var device = data.devices[id];
+      $http({ method: 'GET', url: $scope.devices[id].href })
+        .then(function(response) { // Success
+          var device = response.data.devices[id];
           $scope.associations[id] = {};
           if(device.url) {
             $scope.associations[id].url = device.url;
@@ -64,10 +62,9 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
           if(device.tags) {
             $scope.associations[id].tags = device.tags;
           }
-        })
-        .error(function(data, status, headers, config) {
+        }, function(response) {    // Error
           $scope.associations[id] = { error: "No explicit associations" };
-        });
+      });
     };
 
     $scope.displayDirectory = function (id) {
