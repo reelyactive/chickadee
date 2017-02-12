@@ -5,16 +5,16 @@ chickadee
 A contextual associations store and API for the IoT
 ---------------------------------------------------
 
-chickadee is a contextual associations store.  Specifically, it associates wireless device identifiers with a URL and/or a tag.  In other words it maintains, for instance, the link between your wireless device and your online stories so that physical spaces which detect your device can understand what you're sharing about yourself.  As of version 0.4.0, chickadee uses [Sniffypedia](http://sniffypedia.org) for all implicit associations.  It also allows logical groupings of devices to share a common tag such as "lounge", for instance, to represent the sensor devices in a lounge, and "friends", for instance, to represent the devices carried by a group of friends.
+chickadee is a contextual associations store.  Specifically, it associates wireless device identifiers with a URL and/or a tag.  In other words it maintains, for instance, the link between your wireless device and your online stories so that sensor infrastructure which detects your device can understand, as [hyperlocal context](http://www.reelyactive.com/context/), what you're sharing about yourself.  As of version 0.4.0, chickadee uses [Sniffypedia](https://sniffypedia.org) for all implicit associations.  It also allows logical groupings of devices to share a common tag such as "lounge", for instance, to represent the sensor devices in a lounge, and "friends", for instance, to represent the devices carried by a group of friends.
 
 chickadee is also a contextual API for the IoT.  It binds to an instance of [barnacles](https://www.npmjs.com/package/barnacles) which provides the current state.  It supports queries regarding the context _at_ or _near_ either a device ID or a tag.  Continuing with the example above, it supports queries such as what is the _contextat_ the lounge, as well as what is the _contextnear_ the friends.
 
 ### In the scheme of Things (pun intended)
 
-The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out [API overview](http://context.reelyactive.com/api.html#contextual) as well as our [developer page](http://reelyactive.github.io/) for more resources on reelyActive software and hardware.
+The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out our [developer page](https://reelyactive.github.io/) for more resources on reelyActive software and hardware.
 
 
-![chickadee logo](http://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
+![chickadee logo](https://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
 
 
 What's in a name?
@@ -78,7 +78,7 @@ Retrieve the context at the given receiver device id. For example, the id _001bc
       },
       "devices": {
         "001bc50940100000": {
-          "url": "http://reelyactive.com/metadata/test.json",
+          "url": "https://myjson.info/stories/test",
           "tags": [],
           "nearest": [
             {
@@ -89,7 +89,7 @@ Retrieve the context at the given receiver device id. For example, the id _001bc
           "href": "http://localhost:3004/associations/001bc50940100000"
         },
         "001bc50940800000": {
-          "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+          "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
           "tags": [ "test" ],
           "directory": null,
           "href": "http://localhost:3004/associations/001bc50940800000"
@@ -121,7 +121,7 @@ Retrieve the context near the given transmitter device id. For example, the id 0
       },
       "devices": {
         "001bc50940100000": {
-          "url": "http://reelyactive.com/metadata/test.json",
+          "url": "https://myjson.info/stories/test",
           "tags": [],
           "nearest": [
             {
@@ -132,7 +132,7 @@ Retrieve the context near the given transmitter device id. For example, the id 0
           "href": "http://localhost:3004/associations/001bc50940100000"
         },
         "001bc50940800000": {
-          "url": "http://reelyactive.com/metadata/ra-rxxx.json",
+          "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
           "tags": [ "test" ],
           "directory": null,
           "href": "http://localhost:3004/associations/001bc50940800000"
@@ -160,7 +160,7 @@ Retrieve the association for the device with the given id.  For example the id _
       },
       "devices": {
         "001bc50940800000": {
-          "url": "http://myjson.info/story/test",
+          "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
           "directory": "forest:tree",
           "tags": [
             "birdnest"
@@ -174,7 +174,7 @@ Retrieve the association for the device with the given id.  For example the id _
 
 Update or create an association for the given device id.  For example, to update a device with identifier _001bc50940800000_, PUT /associations/001bc50940800000 and include the updated JSON, for example:
 
-    { "url": "http://myjson.info/story/lonely",
+    { "url": "https://myjson.info/stories/new",
       "directory": "forest:tree:branch",
       "tags": [ "birdnest", "home" ] }
 
@@ -192,7 +192,7 @@ A successful response might return:
       },
       "devices": {
         "001bc50940800000": {
-          "url": "http://myjson.info/story/lonely",
+          "url": "https://myjson.info/stories/new",
           "directory": "forest:tree:branch",
           "tags": [
             "birdnest",
@@ -237,7 +237,7 @@ Identical to DELETE /associations/id except that only the url, directory or tags
 Implicit Associations
 ---------------------
 
-As of version 0.4.0, all implicit associations are external to chickadee at [sniffypedia.org](http://sniffypedia.org).  Anyone can [contribute associations](http://sniffypedia.org/contribute/) to that project, which will subsequently be integrated in chickadee via the [sniffypedia package](https://www.npmjs.com/package/sniffypedia).
+As of version 0.4.0, all implicit associations are external to chickadee at [sniffypedia.org](https://sniffypedia.org).  Anyone can [contribute associations](https://sniffypedia.org/contribute/) to that project, which will subsequently be integrated in chickadee via the [sniffypedia package](https://www.npmjs.com/package/sniffypedia).
 
 
 Where to bind?
@@ -272,9 +272,9 @@ What's next?
 ------------
 
 This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!  If you're developing with chickadee check out:
-* [diyActive](http://reelyactive.github.io/) our developer page
+* [diyActive](https://reelyactive.github.io/) our developer page
 * our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [angular-style-guide](https://github.com/reelyactive/angular-style-guide) for development
-* our [contact information](http://context.reelyactive.com/contact.html) to get in touch if you'd like to contribute
+* our [contact information](http://www.reelyactive.com/contact/) to get in touch if you'd like to contribute
 
 
 License
@@ -282,7 +282,7 @@ License
 
 MIT License
 
-Copyright (c) 2015-2016 reelyActive
+Copyright (c) 2015-2017 reelyActive
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

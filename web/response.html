@@ -3,12 +3,13 @@
   <head>
     <title> reelyActive chickadee API </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="description" content="Contextual associations store and API.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style/bubble.css">
     <link rel="stylesheet" href="../../style/chickadee.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-animate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-animate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="../../js/bubble.js"></script>
     <script type="text/javascript" src="../../js/cormorant.js"></script>
     <script type="text/javascript" src="../../js/cuttlefish.js"></script>
@@ -26,7 +27,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="http://context.reelyactive.com">
+          <a class="navbar-brand" href="http://www.reelyactive.com">
             <strong>reely</strong>Active
           </a>
         </div>
@@ -34,16 +35,16 @@
              ng-click="navCollapsed = true">
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href> Status: {{meta.message}} </a></li>
-            <li class="dropdown" dropdown on-toggle="toggled(open)">
-              <a href class="dropdown-toggle" dropdown-toggle role="button"
+            <li class="dropdown" uib-dropdown on-toggle="toggled(open)">
+              <a href class="dropdown-toggle" uib-dropdown-toggle role="button"
                  data-toggle="dropdown" aria-haspopup="true"
                  aria-expanded="false">
                 {{pollingMessage}} <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu">
-                <li><a href ng-click="updatePeriod(null)">Disable polling</a></li>
-                <li><a href ng-click="updatePeriod(2000)">Poll every 2 seconds</a></li>
-                <li><a href ng-click="updatePeriod(10000)">Poll every 10 seconds</a></li>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li role="menuitem"><a href ng-click="updatePeriod(null)">Disable polling</a></li>
+                <li role="menuitem"><a href ng-click="updatePeriod(2000)">Poll every 2 seconds</a></li>
+                <li role="menuitem"><a href ng-click="updatePeriod(10000)">Poll every 10 seconds</a></li>
               </ul>
             </li>
             <li>
@@ -58,11 +59,11 @@
         <div ng-show="isEmpty()"> 
           <img src="../../images/chickadee-none.jpg" class="img-responsive center-block">
         </div>
-        <accordion ng-repeat="(id, device) in devices">
-          <accordion-group is-open="expand">
-            <accordion-heading>
+        <uib-accordion ng-repeat="(id, device) in devices">
+          <div uib-accordion-group class="panel-default" is-open="expand">
+            <uib-accordion-heading>
               <span class="identifier"> {{id}} <span class="caret"></span></span>
-            </accordion-heading>
+            </uib-accordion-heading>
             <div class="row">
               <div class="col-xs-12 col-md-6">
                 <div ng-if="stories[device.url]">
@@ -98,7 +99,7 @@
                 </table>
                 <p class="text-center">
                   <button ng-mouseover="getAssociations(id)"
-                          popover-template="associationsTemplate"
+                          uib-popover-template="associationsTemplate"
                           type="button" class="btn btn-default">
                     {{id}} associations?
                   </button>
@@ -118,18 +119,18 @@
                 </p>
               </div>
             </div>
-          </accordion-group>
-        </accordion>
+          </div>
+        </uib-accordion>
       </div>
       <footer class="footer">
         <a href="https://github.com/reelyactive/chickadee"
            tooltip="Get the code on GitHub"
            tooltip-placement="left"> chickadee </a>
         &nbsp; | &nbsp;
-        <a href="http://context.reelyactive.com"
+        <a href="http://www.reelyactive.com"
            tooltip="We believe in an open Internet of Things"
            tooltip-placement="right">
-          &copy; reelyActive 2015-2016
+          &copy; reelyActive 2015-2017
         </a>
       </footer>
     </div>
