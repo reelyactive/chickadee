@@ -4,12 +4,12 @@
     <title> reelyActive chickadee API </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Contextual associations store and API.">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/bootstrap.min.css">
     <link rel="stylesheet" href="../../style/bubble.css">
     <link rel="stylesheet" href="../../style/chickadee.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-animate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="../../js/angular.min.js"></script>
+    <script type="text/javascript" src="../../js/angular-animate.min.js"></script>
+    <script type="text/javascript" src="../../js/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="../../js/bubble.js"></script>
     <script type="text/javascript" src="../../js/cormorant.js"></script>
     <script type="text/javascript" src="../../js/cuttlefish.js"></script>
@@ -47,6 +47,19 @@
                 <li role="menuitem"><a href ng-click="updatePeriod(10000)">Poll every 10 seconds</a></li>
               </ul>
             </li>
+            <li class="dropdown" uib-dropdown on-toggle="toggled(open)">
+              <a href class="dropdown-toggle" uib-dropdown-toggle role="button"
+                 data-toggle="dropdown" aria-haspopup="true"
+                 aria-expanded="false">
+                {{orderingMessage}} <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                <li role="menuitem"><a href ng-click="updateOrdering('+id')">Order by increasing ID</a></li>
+                <li role="menuitem"><a href ng-click="updateOrdering('-id')">Order by decreasing ID</a></li>
+                <li role="menuitem"><a href ng-click="updateOrdering('+rssi')">Order by increasing RSSI</a></li>
+                <li role="menuitem"><a href ng-click="updateOrdering('-rssi')">Order by decreasing RSSI</a></li>
+              </ul>
+            </li>
             <li>
               <a href ng-click="expand = !expand">
                 {{expand? 'Collapse all' : 'Expand all'}}
@@ -59,18 +72,20 @@
         <div ng-show="isEmpty()"> 
           <img src="../../images/chickadee-none.jpg" class="img-responsive center-block">
         </div>
-        <uib-accordion ng-repeat="(id, device) in devices">
+
+        <!----- Transmitters ----->
+        <uib-accordion ng-repeat="device in transmitters | orderBy: ordering">
           <div uib-accordion-group class="panel-default" is-open="expand">
             <uib-accordion-heading>
-              <span class="identifier"> {{id}} <span class="caret"></span></span>
+              <span class="identifier"> {{device.id}} <span class="caret"></span></span>
             </uib-accordion-heading>
             <div class="row">
               <div class="col-xs-12 col-md-6">
                 <div ng-if="stories[device.url]">
-                  <pre ng-show="showStory[id]">{{storyStrings[device.url]}}
+                  <pre ng-show="showStory[device.id]">{{storyStrings[device.url]}}
 </pre>
                   <div class="well well-lg bubble-container"
-                       ng-hide="showStory[id]">
+                       ng-hide="showStory[device.id]">
                     <bubble json="stories[device.url]" size="160px"
                             toggle="false"></bubble>
                   </div>
@@ -98,10 +113,10 @@
                   </tr>
                 </table>
                 <p class="text-center">
-                  <button ng-mouseover="getAssociations(id)"
+                  <button ng-mouseover="getAssociations(device.id)"
                           uib-popover-template="associationsTemplate"
                           type="button" class="btn btn-default">
-                    {{id}} associations?
+                    {{device.id}} associations?
                   </button>
                 </p>
                 <hr width="50%" class="text-center" ng-show="device.url">
@@ -113,8 +128,54 @@
                 </p>
                 <p class="text-center" ng-if="stories[device.url]">
                   <button type="button" class="btn btn-info"
-                          ng-click="showStory[id] = !showStory[id]">
-                    {{showStory[id] ? 'View Bubble' : 'View Story'}}
+                          ng-click="showStory[device.id] = !showStory[device.id]">
+                    {{showStory[device.id] ? 'View Bubble' : 'View Story'}}
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </uib-accordion>
+
+        <hr>
+
+        <!----- Receivers ----->
+        <uib-accordion ng-repeat="device in receivers">
+          <div uib-accordion-group class="panel-default" is-open="expand">
+            <uib-accordion-heading>
+              <span class="identifier"> {{device.id}} <span class="caret"></span></span>
+            </uib-accordion-heading>
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <div ng-if="stories[device.url]">
+                  <pre ng-show="showStory[device.id]">{{storyStrings[device.url]}}
+</pre>
+                  <div class="well well-lg bubble-container"
+                       ng-hide="showStory[device.id]">
+                    <bubble json="stories[device.url]" size="160px"
+                            toggle="false"></bubble>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-md-6">
+                <p class="text-center">
+                  <button ng-mouseover="getAssociations(device.id)"
+                          uib-popover-template="associationsTemplate"
+                          type="button" class="btn btn-default">
+                    {{device.id}} associations?
+                  </button>
+                </p>
+                <hr width="50%" class="text-center" ng-show="device.url">
+                <p class="text-center" ng-show="device.url">
+                  <strong> Story Source: </strong>
+                  <a ng-href="{{device.url}}" target="_blank">
+                    {{device.url}}
+                  </a>
+                </p>
+                <p class="text-center" ng-if="stories[device.url]">
+                  <button type="button" class="btn btn-info"
+                          ng-click="showStory[device.id] = !showStory[device.id]">
+                    {{showStory[device.id] ? 'View Bubble' : 'View Story'}}
                   </button>
                 </p>
               </div>
