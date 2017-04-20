@@ -1,4 +1,5 @@
 DEFAULT_POLLING_MILLISECONDS = 2000;
+DEFAULT_ORDERING = '+id';
 
 angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
                              'reelyactive.cuttlefish' ])
@@ -10,12 +11,15 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
     $scope.meta = { message: "loading", statusCode: "..." };
     $scope.links = { self: { href: url } };
     $scope.devices = {};
+    $scope.transmitters = [];
+    $scope.receivers = [];
     $scope.stories = cormorant.getStories();
     $scope.storyStrings = {};
     $scope.showStory = {};
     $scope.associations = {};
     $scope.associationsTemplate = "associations.html";
     $scope.expand = true;
+    $scope.ordering = DEFAULT_ORDERING;
     $http.defaults.headers.common.Accept = 'application/json';
 
     function updateQuery() {
@@ -23,13 +27,34 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
         .then(function(response) { // Success
           $scope.meta = response.data._meta;
           $scope.links = response.data._links;
-          $scope.devices = response.data.devices;
+          $scope.devices = (response.data.devices);
+          splitDevices(response.data.devices);
           fetchStories(response.data.devices);
         }, function(response) {    // Error
           $scope.meta = response.data._meta;
           $scope.links = response.data._links;
           $scope.devices = {};
+          $scope.transmitters = [];
+          $scope.receivers = [];
       });
+    }
+
+    function splitDevices(devices) {
+      var transmitterArray = [];
+      var receiverArray = [];
+      for(id in devices) {
+        var device = devices[id];
+        device.id = id;
+        if(device.hasOwnProperty('nearest')) {
+          device.rssi = device.nearest[0].rssi;
+          transmitterArray.push(device);
+        }
+        else {
+          receiverArray.push(device);
+        }
+      }
+      $scope.transmitters = transmitterArray;
+      $scope.receivers = receiverArray;
     }
 
     function fetchStories(devices) {
@@ -48,7 +73,7 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
       }
     }
 
-    $scope.getAssociations = function (id) {
+    $scope.getAssociations = function(id) {
       $http({ method: 'GET', url: $scope.devices[id].href })
         .then(function(response) { // Success
           var device = response.data.devices[id];
@@ -67,7 +92,7 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
       });
     };
 
-    $scope.displayDirectory = function (id) {
+    $scope.displayDirectory = function(id) {
       if((typeof($scope.associations[id]) === 'undefined') ||
          (typeof($scope.associations[id].directory) === 'undefined')) {
         return '(none)';
@@ -75,11 +100,11 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
       return $scope.associations[id].directory; 
     };
 
-    $scope.isEmpty = function () {
+    $scope.isEmpty = function() {
       return (Object.keys($scope.devices).length === 0);
     };
 
-    $scope.updatePeriod = function (period) {
+    $scope.updatePeriod = function(period) {
       if(period) {
         $scope.pollingMessage = "Polling every " + (period / 1000) + "s";
         $interval.cancel($scope.pollingPromise);
@@ -92,6 +117,28 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
       }
     };
 
+    $scope.updateOrdering = function(ordering) {
+      switch(ordering) {
+        case '+id':
+          $scope.ordering = 'id';
+          $scope.orderingMessage = 'Increasing ID';
+          break;
+        case '-id':
+          $scope.ordering = '-id';
+          $scope.orderingMessage = 'Decreasing ID';
+          break;    
+        case '+rssi':
+          $scope.ordering = 'rssi';
+          $scope.orderingMessage = 'Increasing RSSI';
+          break;
+        case '-rssi':
+          $scope.ordering = '-rssi';
+          $scope.orderingMessage = 'Decreasing RSSI';
+          break; 
+      }
+    };
+
     updateQuery();
     $scope.updatePeriod(DEFAULT_POLLING_MILLISECONDS);
+    $scope.updateOrdering(DEFAULT_ORDERING);
   });
