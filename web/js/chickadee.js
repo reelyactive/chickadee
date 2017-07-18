@@ -87,8 +87,13 @@ angular.module('response', [ 'ui.bootstrap', 'reelyactive.cormorant',
           if(device.tags) {
             $scope.associations[id].tags = device.tags;
           }
+          if(device.position) {
+            $scope.associations[id].position = device.position;
+          }
+          $scope.id = id;
         }, function(response) {    // Error
           $scope.associations[id] = { error: "No explicit associations" };
+          $scope.id = id;
       });
     };
 
