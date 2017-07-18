@@ -162,9 +162,8 @@ Retrieve the association for the device with the given id.  For example the id _
         "001bc50940800000": {
           "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
           "directory": "forest:tree",
-          "tags": [
-            "birdnest"
-          ],
+          "tags": [ "birdnest" ],
+          "position": [ 0, 0 ],
           "href": "http://localhost:3004/associations/001bc50940800000"
         }
       }
@@ -176,7 +175,8 @@ Update or create an association for the given device id.  For example, to update
 
     { "url": "https://myjson.info/stories/new",
       "directory": "forest:tree:branch",
-      "tags": [ "birdnest", "home" ] }
+      "tags": [ "birdnest", "home" ],
+      "position": [ 0, 0, 0 ] }
 
 A successful response might return:
 
@@ -194,10 +194,8 @@ A successful response might return:
         "001bc50940800000": {
           "url": "https://myjson.info/stories/new",
           "directory": "forest:tree:branch",
-          "tags": [
-            "birdnest",
-            "home"
-          ],
+          "tags": [ "birdnest", "home" ],
+          "position": [ 0, 0, 0 ],
           "href": "http://localhost:3004/associations/001bc50940800000"
         }
       }
@@ -215,7 +213,9 @@ Delete a given device association.
 
 ### GET /associations/{device-id}/tags
 
-Identical to GET /associations/id except that only the url, directory or tags is returned, respectively.
+### GET /associations/{device-id}/position
+
+Identical to GET /associations/id except that only the url, directory, tags or position is returned, respectively.
 
 ### PUT /associations/{device-id}/url
 
@@ -223,7 +223,9 @@ Identical to GET /associations/id except that only the url, directory or tags is
 
 ### PUT /associations/{device-id}/tags
 
-Identical to PUT /associations/id except that only the url, directory or tags is updated, respectively.
+### PUT /associations/{device-id}/position
+
+Identical to PUT /associations/id except that only the url, directory, tags or position is updated, respectively.
 
 ### DELETE /associations/{device-id}/url
 
@@ -231,7 +233,9 @@ Identical to PUT /associations/id except that only the url, directory or tags is
 
 ### DELETE /associations/{device-id}/tags
 
-Identical to DELETE /associations/id except that only the url, directory or tags is deleted, respectively.
+### DELETE /associations/{device-id}/position
+
+Identical to DELETE /associations/id except that only the url, directory, tags or position is deleted, respectively.
 
 
 Implicit Associations
