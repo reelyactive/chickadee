@@ -98,6 +98,55 @@
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
 
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="humantab" data-toggle="tab"
+                 href="#humancontent" role="tab" aria-controls="humancontent"
+                 aria-selected="true">
+                <i class="fas fa-user-alt"></i> &nbsp; Human-readable
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="machinetab" data-toggle="tab"
+                 href="#machinecontent" role="tab" aria-controls="machinecontent"
+                 aria-selected="false">
+                <i class="fas fa-code"></i> &nbsp; Machine-readable
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content tab-content-reelyactive">
+            <!-- Human-readable content -->
+            <div class="tab-pane fade show active" id="humancontent"
+                 role="tabpanel" aria-labelledby="humantab">
+              <h3 class="text-center" id="identifier"></h3>
+              <table class="table table-hover" id="associations">
+                <tbody>
+                  <tr>
+                    <th> <i class="fas fa-link"></i> url </th>
+                    <td id="url"></td>
+                  </tr>
+                  <tr>
+                    <th> <i class="fas fa-tags"></i> tags </th>
+                    <td id="tags"></td>
+                  </tr>
+                  <tr>
+                    <th> <i class="fas fa-sitemap"></i> directory </th>
+                    <td id="directory"></td>
+                  </tr>
+                  <tr>
+                    <th> <i class="fas fa-map-marked-alt"></i> position </th>
+                    <td id="position"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Machine-readable content -->
+            <div class="tab-pane fade" id="machinecontent"
+                 role="tabpanel" aria-labelledby="machinetab">
+              <pre id="jsonResponse"></pre>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -111,5 +160,6 @@
     <script defer src="/chickadee/common/js/fontawesome.min.js"></script>
     <script src="/chickadee/common/js/jquery-3.4.0.min.js"></script>
     <script src="/chickadee/common/js/bootstrap.bundle.min.js"></script>
+    <script src="/chickadee/associations/js/associations.js"></script>
   </body>
 </html>
