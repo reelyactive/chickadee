@@ -17,6 +17,41 @@ Installation
 ![chickadee logo](https://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
 
 
+REST API
+--------
+
+### GET /associations/{id}/{type}
+
+Retrieve the associations for the given device _id_ and _type_.
+
+#### Example request
+
+| Route        | /associations/001bc50940810000/1 |
+| Content-Type | application/json                 |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/associations/001bc50940810000/1"
+        }
+      },
+      "associations": {
+        "001bc50940810000/1": {
+          "url": "https://www.reelyactive.com",
+          "directory": "hq:lab",
+          "tags": [ "new", "improved" ],
+          "position": [ 0.0, 0.0 ]
+        }
+      }
+    }
+
+
 What's in a name?
 -----------------
 
