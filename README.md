@@ -20,14 +20,16 @@ Installation
 REST API
 --------
 
+
 ### GET /associations/{id}/{type}
 
 Retrieve the associations for the given device _id_ and _type_.
 
 #### Example request
 
-| Route        | /associations/001bc50940810000/1 |
-| Content-Type | application/json                 |
+| Method | Route                            | Content-Type     |
+|:-------|:---------------------------------|:-----------------|
+| GET    | /associations/001bc50940810000/1 | application/json |
 
 #### Example response
 
@@ -50,6 +52,70 @@ Retrieve the associations for the given device _id_ and _type_.
         }
       }
     }
+
+
+### PUT /associations/{id}/{type}
+
+Replace, or create, the associations for the given device _id_ and _type_.
+
+#### Example request
+
+| Method | Route                            | Content-Type     |
+|:-------|:---------------------------------|:-----------------|
+| PUT    | /associations/001bc50940810000/1 | application/json |
+
+    {
+      "url": "https://www.reelyactive.com",
+      "directory": "hq:lab",
+      "tags": [ "new", "improved" ],
+      "position": [ 0.0, 0.0 ]
+    }
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/associations/001bc50940810000/1"
+        }
+      },
+      "associations": {
+        "001bc50940810000/1": {
+          "url": "https://www.reelyactive.com",
+          "directory": "hq:lab",
+          "tags": [ "new", "improved" ],
+          "position": [ 0.0, 0.0 ]
+        }
+      }
+    }
+
+
+### DELETE /associations/{id}/{type}
+
+Remove the associations for the given device _id_ and _type_.
+
+#### Example request
+
+| Method | Route                            | Content-Type     |
+|:-------|:---------------------------------|:-----------------|
+| DELETE | /associations/001bc50940810000/1 | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/associations/001bc50940810000/1"
+        }
+      }
 
 
 What's in a name?
