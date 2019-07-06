@@ -5,7 +5,7 @@ chickadee
 A contextual associations store and API for the IoT
 ---------------------------------------------------
 
-chickadee is a contextual associations store.  Specifically, it associates wireless device identifiers with metadata such as a URL, a tag, a directory, etc.
+__chickadee__ is a contextual associations store.  Specifically, it associates wireless device identifiers with metadata such as a URL, a tag, a directory, etc.  __chickadee__ can run standalone, although it is usually run together with other software packages of the reelyActive open source stack, as in the [hlc-server](https://github.com/reelyactive/hlc-server) bundle.
 
 
 Installation
@@ -14,7 +14,12 @@ Installation
     npm install chickadee
 
 
-![chickadee logo](https://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
+Hello chickadee!
+----------------
+
+    npm start
+
+Browse to [http://localhost:3001/associations/001bc50940810000/1](localhost:3001/associations/001bc50940810000/1) to see if there are any associations for the device with EUI-64 identifier 00-1b-c5-09-40-81-00-00.  By default, this should return Not Found.  Interact with __chickadee__ through the REST API described below.
 
 
 REST API
@@ -116,6 +121,9 @@ Remove the associations for the given device _id_ and _type_.
           "href": "http://localhost:3001/associations/001bc50940810000/1"
         }
       }
+
+
+![chickadee logo](https://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
 
 
 What's in a name?
