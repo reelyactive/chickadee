@@ -136,6 +136,17 @@ If you were entrusting a bird to associate your wireless device with your online
 One more fun fact that we feel compelled to pass along: "Every autumn Black-capped Chickadees allow brain neurons containing old information to die, replacing them with new neurons so they can adapt to changes in their social flocks and environment even with their tiny brains."  Wow, that's database efficiency that we can aspire to!
 
 
+What's next?
+------------
+
+__chickadee__ v1.0.0 was released in July 2019, superseding all earlier versions, the latest of which remains available in the [release-0.4 branch](https://github.com/reelyactive/chickadee/tree/release-0.4) and as [chickadee@0.4.10 on npm](https://www.npmjs.com/package/chickadee/v/0.4.10).
+
+If you're developing with __chickadee__ check out:
+* [diyActive](https://reelyactive.github.io/) our developer page
+* our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [web-style-guide](https://github.com/reelyactive/web-style-guide) for development
+* our [contact information](https://www.reelyactive.com/contact/) to get in touch if you'd like to contribute
+
+
 License
 -------
 
