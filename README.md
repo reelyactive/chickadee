@@ -19,7 +19,7 @@ Hello chickadee!
 
     npm start
 
-Browse to [http://localhost:3001/associations/001bc50940810000/1](localhost:3001/associations/001bc50940810000/1) to see if there are any associations for the device with EUI-64 identifier 00-1b-c5-09-40-81-00-00.  By default, this should return Not Found.  Interact with __chickadee__ through the REST API described below.
+Browse to [localhost:3001/associations/001bc50940810000/1](http://localhost:3001/associations/001bc50940810000/1) to see if there are any associations for the device with EUI-64 identifier 00-1b-c5-09-40-81-00-00.  By default, this should return Not Found.  Interact with __chickadee__ through the REST API described below.
 
 
 REST API
