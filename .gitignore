@@ -27,5 +27,8 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
+# Data folder
+data/
+
 # Temporary files
 *~
