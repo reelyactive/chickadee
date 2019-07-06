@@ -5,13 +5,122 @@ chickadee
 A contextual associations store and API for the IoT
 ---------------------------------------------------
 
-chickadee is a contextual associations store.  Specifically, it associates wireless device identifiers with a URL and/or a tag.  In other words it maintains, for instance, the link between your wireless device and your online stories so that sensor infrastructure which detects your device can understand, as [hyperlocal context](http://www.reelyactive.com/context/), what you're sharing about yourself.  As of version 0.4.0, chickadee uses [Sniffypedia](https://sniffypedia.org) for all implicit associations.  It also allows logical groupings of devices to share a common tag such as "lounge", for instance, to represent the sensor devices in a lounge, and "friends", for instance, to represent the devices carried by a group of friends.
+__chickadee__ is a contextual associations store.  Specifically, it associates wireless device identifiers with metadata such as a URL, a tag, a directory, etc.  __chickadee__ can run standalone, although it is usually run together with other software packages of the reelyActive open source stack, as in the [hlc-server](https://github.com/reelyactive/hlc-server) bundle.
 
-chickadee is also a contextual API for the IoT.  It binds to an instance of [barnacles](https://www.npmjs.com/package/barnacles) which provides the current state.  It supports queries regarding the context _at_ or _near_ either a device ID or a tag.  Continuing with the example above, it supports queries such as what is the _contextat_ the lounge, as well as what is the _contextnear_ the friends.
 
-### In the scheme of Things (pun intended)
+Installation
+------------
 
-The [barnowl](https://www.npmjs.com/package/barnowl), [barnacles](https://www.npmjs.com/package/barnacles), [barterer](https://www.npmjs.com/package/barterer) and chickadee packages all work together as a unit, conveniently bundled as [hlc-server](https://www.npmjs.com/package/hlc-server).  Check out our [developer page](https://reelyactive.github.io/) for more resources on reelyActive software and hardware.
+    npm install chickadee
+
+
+Hello chickadee!
+----------------
+
+    npm start
+
+Browse to [localhost:3001/associations/001bc50940810000/1](http://localhost:3001/associations/001bc50940810000/1) to see if there are any associations for the device with EUI-64 identifier 00-1b-c5-09-40-81-00-00.  By default, this should return Not Found.  Interact with __chickadee__ through the REST API described below.
+
+
+REST API
+--------
+
+
+### GET /associations/{id}/{type}
+
+Retrieve the associations for the given device _id_ and _type_.
+
+#### Example request
+
+| Method | Route                            | Content-Type     |
+|:-------|:---------------------------------|:-----------------|
+| GET    | /associations/001bc50940810000/1 | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/associations/001bc50940810000/1"
+        }
+      },
+      "associations": {
+        "001bc50940810000/1": {
+          "url": "https://www.reelyactive.com",
+          "directory": "hq:lab",
+          "tags": [ "new", "improved" ],
+          "position": [ 0.0, 0.0 ]
+        }
+      }
+    }
+
+
+### PUT /associations/{id}/{type}
+
+Replace, or create, the associations for the given device _id_ and _type_.
+
+#### Example request
+
+| Method | Route                            | Content-Type     |
+|:-------|:---------------------------------|:-----------------|
+| PUT    | /associations/001bc50940810000/1 | application/json |
+
+    {
+      "url": "https://www.reelyactive.com",
+      "directory": "hq:lab",
+      "tags": [ "new", "improved" ],
+      "position": [ 0.0, 0.0 ]
+    }
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/associations/001bc50940810000/1"
+        }
+      },
+      "associations": {
+        "001bc50940810000/1": {
+          "url": "https://www.reelyactive.com",
+          "directory": "hq:lab",
+          "tags": [ "new", "improved" ],
+          "position": [ 0.0, 0.0 ]
+        }
+      }
+    }
+
+
+### DELETE /associations/{id}/{type}
+
+Remove the associations for the given device _id_ and _type_.
+
+#### Example request
+
+| Method | Route                            | Content-Type     |
+|:-------|:---------------------------------|:-----------------|
+| DELETE | /associations/001bc50940810000/1 | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/associations/001bc50940810000/1"
+        }
+      }
 
 
 ![chickadee logo](https://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
@@ -27,258 +136,15 @@ If you were entrusting a bird to associate your wireless device with your online
 One more fun fact that we feel compelled to pass along: "Every autumn Black-capped Chickadees allow brain neurons containing old information to die, replacing them with new neurons so they can adapt to changes in their social flocks and environment even with their tiny brains."  Wow, that's database efficiency that we can aspire to!
 
 
-Installation
-------------
-
-    npm install chickadee
-
-
-Hello chickadee, barnacles & barnowl
-------------------------------------
-
-```javascript
-var chickadee = require('chickadee');
-var barnacles = require('barnacles');
-var barnowl = require('barnowl');
-
-var associations = new chickadee();
-var notifications = new barnacles();
-var middleware = new barnowl();
-
-middleware.bind( { protocol: 'test', path: 'default' } );
-notifications.bind( { barnowl: middleware } );
-associations.bind( { barnacles: notifications } );
-```
-
-When the above is run, you can query the _contextat_ a given (receiving) device, and the _contextnear_ a given (transmitting) device:
-- [http://localhost:3004/contextat/receiver/001bc50940800000](http://localhost:3004/contextat/receiver/001bc50940800000)
-- [http://localhost:3004/contextnear/transmitter/fee150bada55](http://localhost:3004/contextnear/transmitter/fee150bada55)
-
-A _test_ tag is provided by default for the four simulated test reelceivers, present when [barnowl](https://www.npmjs.com/package/barnowl) is bound to the test protocol, and can be queried at [http://localhost:3004/contextat/tags/test](http://localhost:3004/contextat/tags/test).
-
-
-RESTful interactions
---------------------
-
-Include _Content-Type: application/json_ in the header of all interactions in which JSON is sent to chickadee.
-
-### GET /contextat/receiver/{device-id}
-
-Retrieve the context at the given receiver device id. For example, the id _001bc50940800000_ would be queried as GET /contextat/receiver/001bc50940800000 and might return:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3004/contextat/receiver/001bc50940800000"
-        }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "url": "https://myjson.info/stories/test",
-          "tags": [],
-          "nearest": [
-            {
-              "device": "001bc50940800000",
-              "rssi": 144
-            }
-          ],
-          "href": "http://localhost:3004/associations/001bc50940100000"
-        },
-        "001bc50940800000": {
-          "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
-          "tags": [ "test" ],
-          "directory": null,
-          "href": "http://localhost:3004/associations/001bc50940800000"
-        }
-      }
-    }
-
-### GET /contextat/directory/{directory}
-
-Retrieve the context at the given directory value.  For example, the directory _forest:tree_ would be queried as GET /contextat/directory/forest:tree and would return data with the same structure as the above.
-
-### GET /contextat/tags/{tags}
-
-Retrieve the context at the given tags.  For example, the tag _test_ would be queried as GET /contextat/tags/test and would return data with the same structure as the above.
-
-### GET /contextnear/transmitter/{device-id}
-
-Retrieve the context near the given transmitter device id. For example, the id 001bc50940100000 would be queried as GET /contextnear/transmitter/001bc50940100000 and might return:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3004/contextnear/transmitter/001bc50940100000"
-        }
-      },
-      "devices": {
-        "001bc50940100000": {
-          "url": "https://myjson.info/stories/test",
-          "tags": [],
-          "nearest": [
-            {
-              "device": "001bc50940800000",
-              "rssi": 133
-            }
-          ],
-          "href": "http://localhost:3004/associations/001bc50940100000"
-        },
-        "001bc50940800000": {
-          "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
-          "tags": [ "test" ],
-          "directory": null,
-          "href": "http://localhost:3004/associations/001bc50940800000"
-        }
-      }
-    }
-
-### GET /contextnear/tags/{tags}
-
-Retrieve the context near the given tags.  For example, the tag _test_ would be queried as GET /contextnear/tags/test and would return data with the same structure as the above.
-
-### GET /associations/{device-id}
-
-Retrieve the association for the device with the given id.  For example the id _001bc50940800000_ would be queried as GET /associations/001bc50940800000 and might return:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3004/associations/001bc50940800000"
-        }
-      },
-      "devices": {
-        "001bc50940800000": {
-          "url": "https://sniffypedia.org/Product/reelyActive_RA-R436/",
-          "directory": "forest:tree",
-          "tags": [ "birdnest" ],
-          "position": [ 0, 0 ],
-          "href": "http://localhost:3004/associations/001bc50940800000"
-        }
-      }
-    }
-
-### PUT /associations/{device-id}
-
-Update or create an association for the given device id.  For example, to update a device with identifier _001bc50940800000_, PUT /associations/001bc50940800000 and include the updated JSON, for example:
-
-    { "url": "https://myjson.info/stories/new",
-      "directory": "forest:tree:branch",
-      "tags": [ "birdnest", "home" ],
-      "position": [ 0, 0, 0 ] }
-
-A successful response might return:
-
-    {
-      "_meta": {
-        "message": "ok",
-        "statusCode": 200
-      },
-      "_links": {
-        "self": {
-          "href": "http://localhost:3004/associations/001bc50940800000"
-        }
-      },
-      "devices": {
-        "001bc50940800000": {
-          "url": "https://myjson.info/stories/new",
-          "directory": "forest:tree:branch",
-          "tags": [ "birdnest", "home" ],
-          "position": [ 0, 0, 0 ],
-          "href": "http://localhost:3004/associations/001bc50940800000"
-        }
-      }
-    }
-
-If the device id does not already exist, it will be created.
-
-### DELETE /associations/{device-id}
-
-Delete a given device association.
-
-### GET /associations/{device-id}/url
-
-### GET /associations/{device-id}/directory
-
-### GET /associations/{device-id}/tags
-
-### GET /associations/{device-id}/position
-
-Identical to GET /associations/id except that only the url, directory, tags or position is returned, respectively.
-
-### PUT /associations/{device-id}/url
-
-### PUT /associations/{device-id}/directory
-
-### PUT /associations/{device-id}/tags
-
-### PUT /associations/{device-id}/position
-
-Identical to PUT /associations/id except that only the url, directory, tags or position is updated, respectively.
-
-### DELETE /associations/{device-id}/url
-
-### DELETE /associations/{device-id}/directory
-
-### DELETE /associations/{device-id}/tags
-
-### DELETE /associations/{device-id}/position
-
-Identical to DELETE /associations/id except that only the url, directory, tags or position is deleted, respectively.
-
-
-Implicit Associations
----------------------
-
-As of version 0.4.0, all implicit associations are external to chickadee at [sniffypedia.org](https://sniffypedia.org).  Anyone can [contribute associations](https://sniffypedia.org/contribute/) to that project, which will subsequently be integrated in chickadee via the [sniffypedia package](https://www.npmjs.com/package/sniffypedia).
-
-
-Where to bind?
---------------
-
-### barnacles
-
-[barnacles](https://www.npmjs.com/package/barnacles) provides the current state.  In the absence of a barnacles binding, chickadee will always return a 404 Not Found status.  chickadee can bind to a single instance of barnacles only.
-
-```javascript
-associations.bind( { barnacles: notifications } );
-```
-
-
-Options
--------
-
-The following options are supported when instantiating chickadee (those shown are the defaults):
-
-    {
-      httpPort: 3004,
-      associationManager: null,
-      persistentDataFolder: "data",
-      associationsRootUrl: "https://sniffypedia.org/"
-    }
-
-Notes:
-- persistentDataFolder specifies the path to the folder which contains the persistent database file (before v0.3.12 the default was "")
-
-
 What's next?
 ------------
 
-This is an active work in progress.  Expect regular changes and updates, as well as improved documentation!  If you're developing with chickadee check out:
+__chickadee__ v1.0.0 was released in July 2019, superseding all earlier versions, the latest of which remains available in the [release-0.4 branch](https://github.com/reelyactive/chickadee/tree/release-0.4) and as [chickadee@0.4.10 on npm](https://www.npmjs.com/package/chickadee/v/0.4.10).
+
+If you're developing with __chickadee__ check out:
 * [diyActive](https://reelyactive.github.io/) our developer page
-* our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [angular-style-guide](https://github.com/reelyactive/angular-style-guide) for development
-* our [contact information](http://www.reelyactive.com/contact/) to get in touch if you'd like to contribute
+* our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [web-style-guide](https://github.com/reelyactive/web-style-guide) for development
+* our [contact information](https://www.reelyactive.com/contact/) to get in touch if you'd like to contribute
 
 
 License
@@ -286,7 +152,7 @@ License
 
 MIT License
 
-Copyright (c) 2015-2017 reelyActive
+Copyright (c) 2015-2019 [reelyActive](https://www.reelyactive.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
