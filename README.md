@@ -58,6 +58,16 @@ Retrieve the associations for the given device _id_ and _type_.
       }
     }
 
+#### Single-property routes
+
+The following routes are also supported:
+- GET /associations/{id}/{type}/url
+- GET /associations/{id}/{type}/directory
+- GET /associations/{id}/{type}/tags
+- GET /associations/{id}/{type}/position
+
+In each case, the response is as above, but includes only the property specified by the route.
+
 
 ### PUT /associations/{id}/{type}
 
@@ -98,6 +108,16 @@ Replace, or create, the associations for the given device _id_ and _type_.
       }
     }
 
+#### Single-property routes
+
+The following routes are also supported:
+- PUT /associations/{id}/{type}/url
+- PUT /associations/{id}/{type}/directory
+- PUT /associations/{id}/{type}/tags
+- PUT /associations/{id}/{type}/position
+
+In each case, the request and response are as above, however only the property specified by the route will be considered in the request.
+
 
 ### DELETE /associations/{id}/{type}
 
@@ -121,6 +141,16 @@ Remove the associations for the given device _id_ and _type_.
           "href": "http://localhost:3001/associations/001bc50940810000/1"
         }
       }
+
+#### Single-property routes
+
+The following routes are also supported:
+- DELETE /associations/{id}/{type}/url
+- DELETE /associations/{id}/{type}/directory
+- DELETE /associations/{id}/{type}/tags
+- DELETE /associations/{id}/{type}/position
+
+In each case, the response is as above.
 
 
 ![chickadee logo](https://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
