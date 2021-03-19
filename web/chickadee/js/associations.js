@@ -11,6 +11,7 @@ const STATUS_BAD_REQUEST = 400;
 const STATUS_NOT_FOUND = 404;
 const MESSAGE_BAD_REQUEST = 'Bad Request [400].  An error likely occurred on the server.';
 const MESSAGE_NOT_FOUND = 'Association for this device Not Found [404].';
+const ASSOCIATIONS_ROUTE = '/associations';
 const URL_ROUTE = '/url';
 const TAGS_ROUTE = '/tags';
 const DIRECTORY_ROUTE = '/directory';
@@ -32,11 +33,13 @@ let position = document.querySelector('#position');
 
 // Other variables
 let associationsUrl = window.location.href;
-let deviceIdSignature;
+let associationsIndex = associationsUrl.indexOf(ASSOCIATIONS_ROUTE);
+let deviceIdSignature = associationsUrl.substring(associationsIndex + 14);
 
 
 // Initialisation: GET the associations and display in DOM
 getAssociations(associationsUrl, function(status, response) {
+  identifier.textContent = deviceIdSignature;
   jsonResponse.textContent = JSON.stringify(response, null, 2);
   loading.hidden = true;
 
