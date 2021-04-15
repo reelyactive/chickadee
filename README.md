@@ -5,7 +5,9 @@ chickadee
 A contextual associations store and API for the IoT
 ---------------------------------------------------
 
-__chickadee__ is a contextual associations store.  Specifically, it associates wireless device identifiers with metadata such as a URL, a tag, a directory, etc.  __chickadee__ can run standalone, although it is usually run together with other software packages of the reelyActive open source stack, as in the [hlc-server](https://github.com/reelyactive/hlc-server) bundle.
+__chickadee__ is a contextual associations store and a core module of the [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source software of the [reelyActive technology platform](https://www.reelyactive.com/technology/).
+
+Specifically, __chickadee__ associates wireless device identifiers with metadata such as a URL, a tag, a directory, and/or a position.  __chickadee__ can run standalone, although it is usually run together with its peer modules.
 
 
 Installation
