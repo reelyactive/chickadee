@@ -20,37 +20,25 @@ const POSITION_ROUTE = '/position';
 
 // DOM elements
 let jsonResponse = document.querySelector('#jsonResponse');
-let identifier = document.querySelector('#identifier');
 let loading = document.querySelector('#loading');
 let error = document.querySelector('#error');
 let errorMessage = document.querySelector('#errorMessage');
-let associations = document.querySelector('#associations');
-let url = document.querySelector('#url');
-let tags = document.querySelector('#tags');
-let directory = document.querySelector('#directory');
-let position = document.querySelector('#position');
 
 
 // Other variables
-let associationsUrl = window.location.href;
-let associationsIndex = associationsUrl.indexOf(ASSOCIATIONS_ROUTE);
-let deviceIdSignature = associationsUrl.substring(associationsIndex + 14);
+let queryUrl = window.location.href;
+let associationsUrl = window.location.protocol + '//' +
+                      window.location.hostname + ':' + window.location.port +
+                      ASSOCIATIONS_ROUTE;
 
 
 // Initialisation: GET the associations and display in DOM
-getAssociations(associationsUrl, function(status, response) {
-  identifier.textContent = deviceIdSignature;
+getAssociations(queryUrl, function(status, response) {
   jsonResponse.textContent = JSON.stringify(response, null, 2);
   loading.hidden = true;
 
   if(status === STATUS_OK) {
-    deviceIdSignature = Object.keys(response.associations)[0];
-    let deviceAssociations = response.associations[deviceIdSignature];
-    identifier.textContent = deviceIdSignature;
-    url.value = deviceAssociations.url || '';
-    tags.value = deviceAssociations.tags || '';
-    directory.value = deviceAssociations.directory || '';
-    position.value = deviceAssociations.position || '';
+    updateAssociations(response.associations);
     associations.hidden = false;
   }
   else if(status === STATUS_BAD_REQUEST) {
@@ -80,9 +68,91 @@ function getAssociations(url, callback) {
 }
 
 
+// Update the associations in the DOM
+function updateAssociations(associationsList) {
+  let content = new DocumentFragment();
+
+  for(const signature in associationsList) {
+    let association = associationsList[signature];
+    let associationCard = createAssociationCard(signature, association);
+    content.appendChild(associationCard);
+  }
+
+  associations.replaceChildren(content);
+}
+
+
+// Create the association card visualisation
+function createAssociationCard(signature, association) {
+  let isEmptyAssociation = (Object.keys(association).length === 0);
+  let associationUrl = associationsUrl + '/' + signature;
+  let headerIcon = createElement('i', 'fas fa-barcode');
+  let headerText = createElement('span', 'font-monospace', ' ' + signature);
+  let header = createElement('div', 'card-header bg-dark text-white lead',
+                             [ headerIcon, headerText ]);
+  let body = createElement('div', 'card-body');
+  let footerIcon = createElement('i', 'fas fa-link text-muted');
+  let footerText = createElement('a', 'text-truncate', associationUrl);
+  let footer = createElement('small', 'card-footer',
+                             [ footerIcon, ' ', footerText ]);
+  let card = createElement('div', 'card mb-1', header);
+
+  footerText.setAttribute('href', associationUrl);
+
+  if(!isEmptyAssociation) {
+    body.appendChild(createPropertyForm('url', 'fas fa-link', 'url',
+                                        association.url));
+    body.appendChild(createPropertyForm('tags', 'fas fa-tags', 'text',
+                                        association.tags));
+    body.appendChild(createPropertyForm('directory', 'fas fa-sitemap', 'text',
+                                        association.directory));
+    body.appendChild(createPropertyForm('position', 'fas fa-map-marked-alt',
+                                        'text', association.position));
+    card.appendChild(body);
+  }
+
+  card.appendChild(footer);
+
+  return card;
+}
+
+
+// Create association property form
+function createPropertyForm(property, iconClass, inputType, value) {
+  let icon = createElement('i', iconClass);
+  let inputGroupText = createElement('span', 'input-group-text',
+                                     [ icon, '\u00a0 ' + property ]);
+  let input = createElement('input', 'form-control');
+  let copyIcon = createElement('i', 'fas fa-copy');
+  let copyButton = createElement('button', 'btn btn-outline-info', copyIcon); 
+  let updateIcon = createElement('i', 'fas fa-save');
+  let updateButton = createElement('button', 'btn btn-primary', updateIcon);
+  let deleteIcon = createElement('i', 'fas fa-trash');
+  let deleteButton = createElement('button', 'btn btn-dark', deleteIcon);
+
+  let inputGroup = createElement('div', 'input-group',
+                                 [ inputGroupText, input, copyButton,
+                                   updateButton, deleteButton ]);
+  let form = createElement('form', 'my-2', inputGroup);
+
+  input.id = property;
+  input.value = value || '';
+  input.setAttribute('type', inputType);
+  copyButton.setAttribute('type', 'button');
+  copyButton.onclick = copyActions[property];
+  updateButton.setAttribute('type', 'button');
+  updateButton.onclick = updateActions[property];
+  deleteButton.setAttribute('type', 'button');
+  deleteButton.onclick = deleteActions[property];
+  form.setAttribute('onsubmit', 'return false;');
+
+  return form;
+}
+
+
 // PUT the given association property
 function putAssociationProperty(route, json, callback) {
-  let url = associationsUrl + route;
+  let url = queryUrl + route;
   let httpRequest = new XMLHttpRequest();
   let jsonString = JSON.stringify(json);
 
@@ -108,7 +178,7 @@ function putAssociationProperty(route, json, callback) {
 
 // DELETE the given association property
 function deleteAssociationProperty(route, callback) {
-  let url = associationsUrl + route;
+  let url = queryUrl + route;
   let httpRequest = new XMLHttpRequest();
 
   error.hidden = true;
@@ -136,11 +206,12 @@ function handlePropertyUpdate(status, response) {
   if(status === STATUS_OK) {
     deviceIdSignature = Object.keys(response.associations)[0];
     let deviceAssociations = response.associations[deviceIdSignature];
-    identifier.textContent = deviceIdSignature;
-    url.value = deviceAssociations.url || '';
-    tags.value = deviceAssociations.tags || '';
-    directory.value = deviceAssociations.directory || '';
-    position.value = deviceAssociations.position || '';
+    document.querySelector('#url').value = deviceAssociations.url || '';
+    document.querySelector('#tags').value = deviceAssociations.tags || '';
+    document.querySelector('#directory').value = deviceAssociations.directory
+                                                 || '';
+    document.querySelector('#position').value = deviceAssociations.position ||
+                                                 '';
   }
   else if(status === STATUS_BAD_REQUEST) {
     errorMessage.textContent = MESSAGE_BAD_REQUEST;
@@ -158,10 +229,18 @@ function handlePropertyDelete(status, route, response) {
   jsonResponse.textContent = JSON.stringify(response, null, 2);
 
   if(status === STATUS_OK) {
-    if(route === URL_ROUTE) { url.value = '' }
-    else if(route === TAGS_ROUTE) { tags.value = '' }
-    else if(route === DIRECTORY_ROUTE) { directory.value = '' }
-    else if(route === POSITION_ROUTE) { position.value = '' }
+    if(route === URL_ROUTE) {
+      document.querySelector('#url').value = '';
+    }
+    else if(route === TAGS_ROUTE) {
+      document.querySelector('#tags').value = '';
+    }
+    else if(route === DIRECTORY_ROUTE) {
+      document.querySelector('#directory').value = ''
+    }
+    else if(route === POSITION_ROUTE) {
+      document.querySelector('#position').value = ''
+    }
   }
   else if(status === STATUS_BAD_REQUEST) {
     errorMessage.textContent = MESSAGE_BAD_REQUEST;
@@ -174,90 +253,108 @@ function handlePropertyDelete(status, route, response) {
 }
 
 
-// Handle user request to copy the URL
-function copyUrl() {
-  url.select();
-  document.execCommand('copy');
+// Copy functions (by property)
+let copyActions = {
+    "url":
+       function() {
+         document.querySelector('#url').select();
+         document.execCommand('copy');
+       },
+    "tags":
+       function() {
+         document.querySelector('#tags').select();
+         document.execCommand('copy');
+       },
+    "directory":
+       function() {
+         document.querySelector('#directory').select();
+         document.execCommand('copy');
+       },
+    "position":
+       function() {
+         document.querySelector('#position').select();
+         document.execCommand('copy');
+       }
+};
+
+
+// Update functions (by property)
+let updateActions = {
+    "url":
+       function() {
+         let json = { url: document.querySelector('#url').value };
+         putAssociationProperty(URL_ROUTE, json, handlePropertyUpdate);
+       },
+    "tags":
+       function() {
+         let json = { tags: document.querySelector('#tags').value.split(',') };
+         putAssociationProperty(TAGS_ROUTE, json, handlePropertyUpdate);
+       },
+    "directory":
+       function() {
+         let json = { directory: document.querySelector('#directory').value };
+         putAssociationProperty(DIRECTORY_ROUTE, json, handlePropertyUpdate);
+       },
+    "position":
+       function() {
+         let positionArray = [];
+         let position = document.querySelector('#position');
+
+         position.value.split(',').forEach(function(coordinate) {
+           positionArray.push(parseFloat(coordinate));
+         });
+
+         let json = { position: positionArray };
+         putAssociationProperty(POSITION_ROUTE, json, handlePropertyUpdate);
+       }
+};
+
+
+// Delete functions (by property)
+let deleteActions = {
+    "url":
+       function() {
+         deleteAssociationProperty(URL_ROUTE, handlePropertyDelete);
+       },
+    "tags":
+       function() {
+         deleteAssociationProperty(TAGS_ROUTE, handlePropertyDelete);
+       },
+    "directory":
+       function() {
+         deleteAssociationProperty(DIRECTORY_ROUTE, handlePropertyDelete);
+       },
+    "position":
+       function() {
+         deleteAssociationProperty(POSITION_ROUTE, handlePropertyDelete);
+       }
+};
+
+
+// Create an element as specified
+function createElement(elementName, classNames, content) {
+  let element = document.createElement(elementName);
+
+  if(classNames) {
+    element.setAttribute('class', classNames);
+  }
+
+  if((content instanceof Element) || (content instanceof DocumentFragment)) {
+    element.appendChild(content);
+  }
+  else if(Array.isArray(content)) {
+    content.forEach(function(item) {
+      if((item instanceof Element) || (item instanceof DocumentFragment)) {
+        element.appendChild(item);
+      }
+      else {
+        element.appendChild(document.createTextNode(item));
+      }
+    });
+  }
+  else if(content) {
+    element.appendChild(document.createTextNode(content));
+  }
+
+  return element;
 }
-
-// Handle user request to copy the tags
-function copyTags() {
-  tags.select();
-  document.execCommand('copy');
-}
-
-// Handle user request to copy the directory
-function copyDirectory() {
-  directory.select();
-  document.execCommand('copy');
-}
-
-// Handle user request to copy the position
-function copyPosition() {
-  position.select();
-  document.execCommand('copy');
-}
-
-// Handle user request to update the URL
-function updateUrl() {
-  let json = { url: url.value };
-  putAssociationProperty(URL_ROUTE, json, handlePropertyUpdate);
-}
-
-// Handle user request to update the tags
-function updateTags() {
-  let json = { tags: tags.value.split(',') };
-  putAssociationProperty(TAGS_ROUTE, json, handlePropertyUpdate);
-}
-
-// Handle user request to update the directory
-function updateDirectory() {
-  let json = { directory: directory.value };
-  putAssociationProperty(DIRECTORY_ROUTE, json, handlePropertyUpdate);
-}
-
-// Handle user request to update the position
-function updatePosition() {
-  let positionArray = [];
-
-  position.value.split(',').forEach(function(coordinate) {
-    positionArray.push(parseFloat(coordinate));
-  });
-  let json = { position: positionArray };
-  putAssociationProperty(POSITION_ROUTE, json, handlePropertyUpdate);
-}
-
-// Handle user request to delete the URL
-function deleteUrl() {
-  deleteAssociationProperty(URL_ROUTE, handlePropertyDelete);
-}
-
-// Handle user request to delete the tags
-function deleteTags() {
-  deleteAssociationProperty(TAGS_ROUTE, handlePropertyDelete);
-}
-
-// Handle user request to delete the directory
-function deleteDirectory() {
-  deleteAssociationProperty(DIRECTORY_ROUTE, handlePropertyDelete);
-}
-
-// Handle user request to delete the position
-function deletePosition() {
-  deleteAssociationProperty(POSITION_ROUTE, handlePropertyDelete);
-}
-
-
-// Event listeners
-copyUrlButton.addEventListener('click', copyUrl);
-copyTagsButton.addEventListener('click', copyTags);
-copyDirectoryButton.addEventListener('click', copyDirectory);
-copyPositionButton.addEventListener('click', copyPosition);
-updateUrlButton.addEventListener('click', updateUrl);
-updateTagsButton.addEventListener('click', updateTags);
-updateDirectoryButton.addEventListener('click', updateDirectory);
-updatePositionButton.addEventListener('click', updatePosition);
-deleteUrlButton.addEventListener('click', deleteUrl);
-deleteTagsButton.addEventListener('click', deleteTags);
-deleteDirectoryButton.addEventListener('click', deleteDirectory);
-deletePositionButton.addEventListener('click', deletePosition);
