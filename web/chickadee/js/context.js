@@ -13,6 +13,9 @@ const MESSAGE_BAD_REQUEST = 'Bad Request [400].  An error likely occurred on the
 const MESSAGE_NOT_FOUND = 'Context Not Found [404].';
 const POLLING_INTERVAL_MILLISECONDS = 10000;
 const CONTEXT_ROUTE = '/context';
+const DEVICE_ROUTE = '/device';
+const DIRECTORY_ROUTE = '/directory';
+const TAG_ROUTE = '/tag';
 const SIGNATURE_SEPARATOR = '/';
 const IDENTIFIER_TYPES = [
     'Unknown',
@@ -124,7 +127,7 @@ function updateDevices(devicesList) {
 // Create the device card visualisation
 function createDeviceCard(signature, device) {
   let isEmptyDevice = (Object.keys(device).length === 0);
-  let deviceUrl = contextUrl + '/' + signature;
+  let deviceUrl = contextUrl + DEVICE_ROUTE + '/' + signature;
   let headerIcon = createElement('i', 'fas fa-barcode');
   let headerText = createElement('span', 'font-monospace', ' ' + signature);
   let header = createElement('div', 'card-header bg-dark text-white lead',
