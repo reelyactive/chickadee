@@ -23,6 +23,12 @@ const IDENTIFIER_TYPES = [
     'EUI-48',
     'RND-48'
 ];
+const ASSOCIATION_ICON_CLASSES = {
+    url: 'fas fa-link',
+    tags: 'fas fa-tags',
+    directory: 'fas fa-sitemap',
+    position: 'fas fa-map-marked-alt'
+};
 
 
 // DOM elements
@@ -186,6 +192,18 @@ function createDeviceAccordion(device) {
                                          statidContent);
     accordion.appendChild(statidItem);
   }
+  if(device.hasOwnProperty('url') || device.hasOwnProperty('tags') ||
+     device.hasOwnProperty('directory') || device.hasOwnProperty('position')) {
+    let associationsContent = createAssociationsContent(device);
+    let associationsIcon = createElement('i', 'fas fa-info-circle');
+    let associationsTitle = createElement('span', null,
+                                          [ associationsIcon,
+                                            '\u00a0 associations' ]);
+    let associationsItem = createAccordionItem('associations', accordionId,
+                                               associationsTitle,
+                                               associationsContent);
+    accordion.appendChild(associationsItem);
+  }
 
   return accordion;
 }
@@ -203,7 +221,7 @@ function createNearestContent(nearest) {
     tbody.appendChild(row);
   });
 
-  return createElement('table', 'table table-hover', tbody);
+  return createElement('table', 'table table-hover mb-0', tbody);
 }
 
 
@@ -218,7 +236,27 @@ function createStatidContent(statid) {
     tbody.appendChild(row);
   }
 
-  return createElement('table', 'table table-hover', tbody);
+  return createElement('table', 'table table-hover mb-0', tbody);
+}
+
+
+// Create the associations visualisation
+function createAssociationsContent(device) {
+  let tbody = createElement('tbody');
+
+  for(const property in device) {
+    if((property === 'url') || (property === 'tags') ||
+       (property === 'directory') || (property === 'position')) {
+      let icon = createElement('i', ASSOCIATION_ICON_CLASSES[property]);
+      let th = createElement('th', null, icon);
+      let td = createElement('td', 'font-monospace',
+                             device[property].toString());
+      let row = createElement('tr', null, [ th, td ]);
+      tbody.appendChild(row);
+    }
+  }
+
+  return createElement('table', 'table table-hover mb-0', tbody);
 }
 
 
