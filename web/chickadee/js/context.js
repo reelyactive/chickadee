@@ -142,14 +142,110 @@ function createDeviceCard(signature, device) {
   footerText.setAttribute('href', deviceUrl);
 
   if(!isEmptyDevice) {
-    //let content;  TODO
-    //body.appendChild(content);
-    //card.appendChild(body);
+    let accordion = createDeviceAccordion(device);
+    body.appendChild(accordion);
+    card.appendChild(body);
   }
 
   card.appendChild(footer);
 
   return card;
+}
+
+
+// Create the device accordion visualisation
+function createDeviceAccordion(device) {
+  let accordionId = 'deviceAccordion';
+  let accordion = createElement('div', 'accordion accordion-flush');
+  accordion.setAttribute('id', accordionId);
+
+  if(device.hasOwnProperty('nearest')) {
+    let nearestContent = createNearestContent(device.nearest);
+    let nearestIcon = createElement('i', 'fas fa-satellite-dish');
+    let nearestTitle = createElement('span', null,
+                                     [ nearestIcon, '\u00a0 nearest' ]);
+    let nearestItem = createAccordionItem('nearestid', accordionId,
+                                          nearestTitle, nearestContent);
+    accordion.appendChild(nearestItem);
+  }
+  if(device.hasOwnProperty('dynamb')) {
+    let dynambContent = cuttlefishDynamb.render(device.dynamb);
+    let dynambIcon = createElement('i', 'fas fa-tachometer-alt');
+    let dynambTitle = createElement('span', null,
+                                    [ dynambIcon, '\u00a0 dynamb' ]);
+    let dynambItem = createAccordionItem('dynamb', accordionId, dynambTitle,
+                                         dynambContent, 'dynambcontainer');
+    accordion.appendChild(dynambItem);
+  }
+  if(device.hasOwnProperty('statid')) {
+    let statidContent = createStatidContent(device.statid);
+    let statidIcon = createElement('i', 'fas fa-id-card');
+    let statidTitle = createElement('span', null,
+                                    [ statidIcon, '\u00a0 statid' ]);
+    let statidItem = createAccordionItem('statid', accordionId, statidTitle,
+                                         statidContent);
+    accordion.appendChild(statidItem);
+  }
+
+  return accordion;
+}
+
+
+// Create the nearest visualisation
+function createNearestContent(nearest) {
+  let tbody = createElement('tbody');
+
+  nearest.forEach(function(item, index) {
+    let rowClass = (index === 0) ? 'table-success' : null;
+    let device = createElement('td', 'font-monospace', item.device);
+    let rssi = createElement('td', 'font-monospace', item.rssi + ' dBm');
+    let row = createElement('tr', rowClass, [ device, rssi ]);
+    tbody.appendChild(row);
+  });
+
+  return createElement('table', 'table table-hover', tbody);
+}
+
+
+// Create the statid visualisation
+function createStatidContent(statid) {
+  let tbody = createElement('tbody');
+
+  for(const property in statid) {
+    let th = createElement('th', null, property);
+    let td = createElement('td', 'font-monospace', statid[property].toString());
+    let row = createElement('tr', null, [ th, td ]);
+    tbody.appendChild(row);
+  }
+
+  return createElement('table', 'table table-hover', tbody);
+}
+
+
+// Create an accordion item
+function createAccordionItem(name, parentName, title, content, contentId) {
+  let accordionCollapseId = name + 'Collapse';
+  let accordionButton = createElement('button', 'accordion-button', title);
+  let accordionHeader = createElement('h2', 'accordion-header',
+                                      accordionButton);
+  let accordionBody = createElement('div', 'accordion-body', content);
+  let accordionCollapse = createElement('div',
+                                        'accordion-collapse collapse show',
+                                        accordionBody);
+  let accordionItem = createElement('div', 'accordion-item overflow-hidden',
+                                    [ accordionHeader, accordionCollapse ]);
+
+  accordionButton.setAttribute('type', 'button');
+  accordionButton.setAttribute('data-bs-toggle', 'collapse');
+  accordionButton.setAttribute('data-bs-target', '#' + accordionCollapseId);
+  accordionCollapse.setAttribute('id', accordionCollapseId);
+  accordionCollapse.setAttribute('data-bs-parent', '#' + parentName);
+
+  if(contentId) {
+    accordionBody.setAttribute('id', contentId);
+  }
+
+  return accordionItem;
 }
 
 
