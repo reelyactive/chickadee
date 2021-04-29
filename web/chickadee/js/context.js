@@ -78,8 +78,7 @@ function pollAndDisplay() {
       isPollPending = false;
 
       if(status === STATUS_OK) {
-        let isSpecificDevice = (window.location.pathname.length >
-                                CONTEXT_ROUTE.length + 1);
+        let isSpecificDevice = window.location.pathname.includes(DEVICE_ROUTE);
         updateDevices(response.devices);
         context.hidden = false;
 
@@ -148,7 +147,7 @@ function createDeviceCard(signature, device) {
   footerText.setAttribute('href', deviceUrl);
 
   if(!isEmptyDevice) {
-    let accordion = createDeviceAccordion(device);
+    let accordion = createDeviceAccordion(device, signature);
     body.appendChild(accordion);
     card.appendChild(body);
   }
@@ -160,8 +159,9 @@ function createDeviceCard(signature, device) {
 
 
 // Create the device accordion visualisation
-function createDeviceAccordion(device) {
-  let accordionId = 'deviceAccordion';
+function createDeviceAccordion(device, signature) {
+  let idSignature = signature.replace('/', '');
+  let accordionId = 'deviceAccordion' + idSignature;
   let accordion = createElement('div', 'accordion accordion-flush');
   accordion.setAttribute('id', accordionId);
 
@@ -180,7 +180,8 @@ function createDeviceAccordion(device) {
     let dynambTitle = createElement('span', null,
                                     [ dynambIcon, '\u00a0 dynamb' ]);
     let dynambItem = createAccordionItem('dynamb', accordionId, dynambTitle,
-                                         dynambContent, 'dynambcontainer');
+                                         dynambContent,
+                                         'dynambcontainer' + idSignature);
     accordion.appendChild(dynambItem);
   }
   if(device.hasOwnProperty('statid')) {
@@ -324,12 +325,23 @@ function createSocket() {
     connection.replaceChildren(createElement('i', 'fas fa-cloud text-success'));
   });
 
-  socket.on('raddec', function(raddec) {
-    // TODO
+  socket.on('devices', function(devices) {
+    machineReadableData.devices = devices;
+    jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
+    updateDevices(devices);
   });
 
   socket.on('dynamb', function(dynamb) {
-    // TODO
+    let signature = dynamb.deviceId + SIGNATURE_SEPARATOR + dynamb.deviceIdType;
+    let idSignature = dynamb.deviceId + dynamb.deviceIdType;
+    let container = document.querySelector('#dynambcontainer' + idSignature);
+
+    if(container) {
+      let content = cuttlefishDynamb.render(dynamb);
+      machineReadableData.devices[signature].dynamb = dynamb;
+      jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
+      container.replaceChildren(content);
+    }
   });
 
   socket.on('connect_error', function() {
