@@ -158,6 +158,11 @@
                       aria-selected="true">
                 <i class="fas fa-user-check"></i> &nbsp; Human-readable
               </button>
+              <button class="nav-link" id="hlctab" data-bs-toggle="tab"
+                      data-bs-target="#hlccontent" type="button" role="tab"
+                      aria-controls="hlccontent" aria-selected="false">
+                <i class="fas fa-share-alt"></i> &nbsp; HLC
+              </button>
               <button class="nav-link" id="machinetab" data-bs-toggle="tab"
                       data-bs-target="#machinecontent" type="button" role="tab"
                       aria-controls="machinecontent" aria-selected="false">
@@ -183,6 +188,13 @@
               </p>
               <div id="context" class="mt-4" hidden></div>
             </div>
+            <!-- Hyperlocal context graph content pane -->
+            <div class="tab-pane fade d-block" id="hlccontent"
+                 role="tabpanel" aria-labelledby="hlctab">
+              <div id="cy-container">
+                <div id="cy" class="w-100 h-100"></div>
+              </div>
+            </div>
             <!-- Machine-readable content pane -->
             <div class="tab-pane fade" id="machinecontent" role="tabpanel"
                  aria-labelledby="machinetab">
@@ -202,6 +214,7 @@
 
     <!-- Optional JavaScript -->
     <script defer src="/chickadee/js/fontawesome-reelyactive.min.js"></script>
+    <script defer src="/chickadee/js/cytoscape.min.js"></script>
     <script src="/chickadee/js/bootstrappyactive.bundle.min.js"></script>
     <script src="/chickadee/js/socket.io.min.js"></script>
     <script src="/chickadee/js/cuttlefish-dynamb.js"></script>

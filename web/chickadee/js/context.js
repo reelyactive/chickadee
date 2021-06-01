@@ -29,6 +29,35 @@ const ASSOCIATION_ICON_CLASSES = {
     directory: 'fas fa-sitemap',
     position: 'fas fa-map-marked-alt'
 };
+const HLC_MIN_HEIGHT_PX = 480;
+const HLC_UNUSABLE_HEIGHT_PX = 260;
+const GRID_LAYOUT_OPTIONS = {
+    name: "grid"
+};
+const COSE_LAYOUT_OPTIONS = {
+    name: "cose",
+    animate: false,
+    randomize: false,
+    initialTemp: 40
+};
+const GRAPH_STYLE = [
+    { selector: "node[type='transmitter']",
+      style: { "background-color": "#83b7d0", label: "data(id)",
+               "font-family": "monospace", "font-size": "0.6em",
+               "min-zoomed-font-size": "16px" } },
+    { selector: "node[type='receiver']",
+      style: { "background-color": "#aec844", label: "data(id)",
+               "font-family": "monospace", "font-size": "0.4em",
+               "min-zoomed-font-size": "16px" } },
+    { selector: "node[image]",
+      style: { "background-image": "data(image)", "border-color": "#aec844",
+               "background-fit": "cover cover", "border-width": "2px" } },
+    { selector: "edge", style: { "curve-style": "haystack",
+                                 "line-color": "#ddd", label: "data(rssi)",
+                                 "text-rotation": "autorotate",
+                                 color: "#5a5a5a", "font-size": "0.25em",
+                                 "min-zoomed-font-size": "12px" } },
+];
 
 
 // DOM elements
@@ -41,6 +70,9 @@ let loading = document.querySelector('#loading');
 let error = document.querySelector('#error');
 let errorMessage = document.querySelector('#errorMessage');
 let context = document.querySelector('#context');
+let humanTab = document.querySelector('#humantab');
+let hlcTab = document.querySelector('#hlctab');
+let machineTab = document.querySelector('#machinetab');
 
 
 // Other variables
@@ -51,12 +83,20 @@ let isPollPending = false;
 let pollingInterval;
 let machineReadableData;
 let socket;
+let cy;
+let layout;
 
 
 // Monitor each settings radio button
 noUpdates.onchange = updateUpdates;
 realTimeUpdates.onchange = updateUpdates;
 periodicUpdates.onchange = updateUpdates;
+
+
+// Render/remove the hyperlocal context graph upon tab selection
+humanTab.onclick = unselectHyperlocalContext;
+hlcTab.onclick = selectHyperlocalContext;
+machineTab.onclick = unselectHyperlocalContext;
 
 
 // Initialisation: poll the devices once and display the result
@@ -336,7 +376,27 @@ function createSocket() {
     let idSignature = dynamb.deviceId + dynamb.deviceIdType;
     let container = document.querySelector('#dynambcontainer' + idSignature);
 
-    if(container) {
+    if(container) {// Unselect the hyperlocal context graph tab
+function unselectHyperlocalContext() {
+  isHyperlocalContextSelected = false;
+
+  let container = document.getElementById('cy-container');
+
+  container.setAttribute('style', 'height: 0px');
+}
+
+
+// Select the hyperlocal context graph tab
+function selectHyperlocalContext() {
+  isHyperlocalContextSelected = true;
+
+  let container = document.getElementById('cy-container');
+  let height = Math.max(window.innerHeight - HLC_UNUSABLE_HEIGHT_PX,
+                        HLC_MIN_HEIGHT_PX) + 'px';
+  container.setAttribute('style', 'height:' + height);
+
+  renderHyperlocalContext();
+}
       let content = cuttlefishDynamb.render(dynamb);
       machineReadableData.devices[signature].dynamb = dynamb;
       jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
@@ -375,4 +435,90 @@ function updateUpdates(event) {
     pollingInterval = setInterval(pollAndDisplay,
                                   POLLING_INTERVAL_MILLISECONDS);
   }
+}
+
+
+// Add a device node to the hyperlocal context graph
+function addDeviceNode(deviceSignature, device) {
+  cy.add({ group: "nodes", renderedPosition: { x: 0, y: 0 },
+           data: { id: deviceSignature, type: "transmitter" } });
+
+  if(device.hasOwnProperty('raddec')) {
+    device.raddec.rssiSignature.forEach(function(entry) {
+      let receiverSignature = entry.receiverId + SIGNATURE_SEPARATOR +
+                              entry.receiverIdType;
+      let edgeSignature = deviceSignature + '@' + receiverSignature;
+      isExistingNode = (cy.getElementById(receiverSignature).size() > 0);
+      isExistingEdge = (cy.getElementById(edgeSignature).size() > 0);
+
+      if(!isExistingNode) {
+        cy.add({ group: "nodes", data: { id: receiverSignature,
+                                         type: "receiver" } });
+      }
+      if(!isExistingEdge) {
+        cy.add({ group: "edges", data: { id: edgeSignature,
+                                         source: deviceSignature,
+                                         target: receiverSignature,
+                                         rssi: entry.rssi + "dBm" } });
+      }
+    });
+  }
+}
+
+
+// Unselect the hyperlocal context graph tab
+function unselectHyperlocalContext() {
+  isHyperlocalContextSelected = false;
+
+  let container = document.getElementById('cy-container');
+
+  container.setAttribute('style', 'height: 0px');
+}
+
+
+// Select the hyperlocal context graph tab
+function selectHyperlocalContext() {
+  isHyperlocalContextSelected = true;
+
+  let container = document.getElementById('cy-container');
+  let height = Math.max(window.innerHeight - HLC_UNUSABLE_HEIGHT_PX,
+                        HLC_MIN_HEIGHT_PX) + 'px';
+  container.setAttribute('style', 'height:' + height);
+
+  renderHyperlocalContext();
+}
+
+
+// Render the hyperlocal context graph
+function renderHyperlocalContext() {
+  let options = {
+      container: document.getElementById('cy'),
+      layout: GRID_LAYOUT_OPTIONS,
+      style: GRAPH_STYLE
+  };
+  let layoutName = 'grid';
+  let isSpecificDevice = (window.location.pathname.length >
+                          CONTEXT_ROUTE.length + 1);
+
+  if(isSpecificDevice) {
+    options.layout = COSE_LAYOUT_OPTIONS;
+    layoutName = 'cose';
+  }
+
+  cy = cytoscape(options);
+  layout = cy.layout({ name: layoutName, cy: cy });
+
+  if(machineReadableData) {
+    let devicesList = machineReadableData.devices || {};
+
+    for(const deviceSignature in devicesList) {
+      let device = devicesList[deviceSignature];
+
+      addDeviceNode(deviceSignature, device);
+    }
+  }
+
+  layout.stop();
+  layout = cy.elements().makeLayout(options.layout);
+  layout.run();
 }
