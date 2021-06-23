@@ -31,9 +31,6 @@ const ASSOCIATION_ICON_CLASSES = {
 };
 const HLC_MIN_HEIGHT_PX = 480;
 const HLC_UNUSABLE_HEIGHT_PX = 260;
-const GRID_LAYOUT_OPTIONS = {
-    name: "grid"
-};
 const COSE_LAYOUT_OPTIONS = {
     name: "cose",
     animate: false,
@@ -41,14 +38,12 @@ const COSE_LAYOUT_OPTIONS = {
     initialTemp: 40
 };
 const GRAPH_STYLE = [
-    { selector: "node[type='transmitter']",
-      style: { "background-color": "#83b7d0", label: "data(id)",
-               "font-family": "monospace", "font-size": "0.6em",
-               "min-zoomed-font-size": "16px" } },
-    { selector: "node[type='receiver']",
-      style: { "background-color": "#aec844", label: "data(id)",
-               "font-family": "monospace", "font-size": "0.4em",
-               "min-zoomed-font-size": "16px" } },
+    { selector: "node[type='device']",
+      style: { "background-color": "#83b7d0", label: "data(name)",
+               "font-size": "0.6em", "min-zoomed-font-size": "16px" } },
+    { selector: "node[type='anchor']",
+      style: { "background-color": "#ff6900", label: "data(name)",
+               "font-size": "0.4em", "min-zoomed-font-size": "16px" } },
     { selector: "node[image]",
       style: { "background-image": "data(image)", "border-color": "#aec844",
                "background-fit": "cover cover", "border-width": "2px" } },
@@ -80,6 +75,7 @@ let queryUrl = window.location.href;
 let contextUrl = window.location.protocol + '//' + window.location.hostname +
                  ':' + window.location.port + CONTEXT_ROUTE;
 let isPollPending = false;
+let isHyperlocalContextSelected = false;
 let pollingInterval;
 let machineReadableData;
 let socket;
@@ -124,6 +120,9 @@ function pollAndDisplay() {
 
         if(isSpecificDevice) {
           realTimeUpdates.disabled = false;
+        }
+        if(isHyperlocalContextSelected) {
+          renderHyperlocalContext();
         }
       }
       else if(status === STATUS_BAD_REQUEST) {
@@ -369,6 +368,10 @@ function createSocket() {
     machineReadableData.devices = devices;
     jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
     updateDevices(devices);
+
+    if(isHyperlocalContextSelected) {
+      renderHyperlocalContext();
+    }
   });
 
   socket.on('dynamb', function(dynamb) {
@@ -376,7 +379,25 @@ function createSocket() {
     let idSignature = dynamb.deviceId + dynamb.deviceIdType;
     let container = document.querySelector('#dynambcontainer' + idSignature);
 
-    if(container) {// Unselect the hyperlocal context graph tab
+    if(container) {
+      let content = cuttlefishDynamb.render(dynamb);
+      machineReadableData.devices[signature].dynamb = dynamb;
+      jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
+      container.replaceChildren(content);
+    }
+  });
+
+  socket.on('connect_error', function() {
+    connection.replaceChildren(createElement('i', 'fas fa-cloud text-danger'));
+  });
+
+  socket.on('disconnect', function() {
+    connection.replaceChildren(createElement('i', 'fas fa-cloud text-warning'));
+  });
+}
+
+
+// Unselect the hyperlocal context graph tab
 function unselectHyperlocalContext() {
   isHyperlocalContextSelected = false;
 
@@ -396,21 +417,6 @@ function selectHyperlocalContext() {
   container.setAttribute('style', 'height:' + height);
 
   renderHyperlocalContext();
-}
-      let content = cuttlefishDynamb.render(dynamb);
-      machineReadableData.devices[signature].dynamb = dynamb;
-      jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
-      container.replaceChildren(content);
-    }
-  });
-
-  socket.on('connect_error', function() {
-    connection.replaceChildren(createElement('i', 'fas fa-cloud text-danger'));
-  });
-
-  socket.on('disconnect', function() {
-    connection.replaceChildren(createElement('i', 'fas fa-cloud text-warning'));
-  });
 }
 
 
@@ -440,29 +446,55 @@ function updateUpdates(event) {
 
 // Add a device node to the hyperlocal context graph
 function addDeviceNode(deviceSignature, device) {
-  cy.add({ group: "nodes", renderedPosition: { x: 0, y: 0 },
-           data: { id: deviceSignature, type: "transmitter" } });
+  let isExistingNode = (cy.getElementById(deviceSignature).size() > 0);
 
-  if(device.hasOwnProperty('raddec')) {
-    device.raddec.rssiSignature.forEach(function(entry) {
-      let receiverSignature = entry.receiverId + SIGNATURE_SEPARATOR +
-                              entry.receiverIdType;
-      let edgeSignature = deviceSignature + '@' + receiverSignature;
-      isExistingNode = (cy.getElementById(receiverSignature).size() > 0);
-      isExistingEdge = (cy.getElementById(edgeSignature).size() > 0);
+  if(!isExistingNode) { // TODO: anchor nodes with position/directory
+    let name = determineDeviceName(device);
+
+    cy.add({ group: "nodes", renderedPosition: { x: 0, y: 0 },
+             data: { id: deviceSignature, type: "device", name: name } });
+  }
+
+  if(device.hasOwnProperty('nearest')) {
+    device.nearest.forEach(function(entry) {
+      let peerSignature = entry.device;
+      let edgeSignature = deviceSignature + '@' + peerSignature;
+      let isExistingEdge = (cy.getElementById(edgeSignature).size() > 0);
+      isExistingNode = (cy.getElementById(peerSignature).size() > 0);
 
       if(!isExistingNode) {
-        cy.add({ group: "nodes", data: { id: receiverSignature,
-                                         type: "receiver" } });
+        cy.add({ group: "nodes", data: { id: peerSignature, type: "device" } });
       }
       if(!isExistingEdge) {
         cy.add({ group: "edges", data: { id: edgeSignature,
                                          source: deviceSignature,
-                                         target: receiverSignature,
+                                         target: peerSignature,
                                          rssi: entry.rssi + "dBm" } });
       }
     });
   }
+}
+
+
+// Determine the name of the device, if any
+function determineDeviceName(device) {
+  if(device.hasOwnProperty('directory')) {
+    return device.directory;
+  }
+
+  if(device.hasOwnProperty('statid') && device.statid.hasOwnProperty('name')) {
+    return device.statid.name;
+  }
+
+  if(device.hasOwnProperty('tags') && Array.isArray(device.tags)) {
+    return device.tags[0];
+  }
+
+  if(device.hasOwnProperty('position')) {
+    return device.position;
+  }
+
+  return '';
 }
 
 
@@ -493,17 +525,10 @@ function selectHyperlocalContext() {
 function renderHyperlocalContext() {
   let options = {
       container: document.getElementById('cy'),
-      layout: GRID_LAYOUT_OPTIONS,
+      layout: COSE_LAYOUT_OPTIONS,
       style: GRAPH_STYLE
   };
-  let layoutName = 'grid';
-  let isSpecificDevice = (window.location.pathname.length >
-                          CONTEXT_ROUTE.length + 1);
-
-  if(isSpecificDevice) {
-    options.layout = COSE_LAYOUT_OPTIONS;
-    layoutName = 'cose';
-  }
+  let layoutName = 'cose';
 
   cy = cytoscape(options);
   layout = cy.layout({ name: layoutName, cy: cy });
