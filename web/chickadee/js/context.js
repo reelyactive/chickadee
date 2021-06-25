@@ -29,12 +29,14 @@ const ASSOCIATION_ICON_CLASSES = {
     directory: 'fas fa-sitemap',
     position: 'fas fa-map-marked-alt'
 };
+const MAX_RSSI = -30;
 const HLC_MIN_HEIGHT_PX = 480;
 const HLC_UNUSABLE_HEIGHT_PX = 260;
 const COSE_LAYOUT_OPTIONS = {
     name: "cose",
     animate: false,
     randomize: false,
+    idealEdgeLength: function(edge) { return MAX_RSSI - edge.data('rssi'); },
     initialTemp: 40
 };
 const GRAPH_STYLE = [
@@ -48,7 +50,7 @@ const GRAPH_STYLE = [
       style: { "background-image": "data(image)", "border-color": "#aec844",
                "background-fit": "cover cover", "border-width": "2px" } },
     { selector: "edge", style: { "curve-style": "haystack",
-                                 "line-color": "#ddd", label: "data(rssi)",
+                                 "line-color": "#ddd", label: "data(name)",
                                  "text-rotation": "autorotate",
                                  color: "#5a5a5a", "font-size": "0.25em",
                                  "min-zoomed-font-size": "12px" } },
@@ -474,7 +476,8 @@ function addDeviceNode(deviceSignature, device) {
         cy.add({ group: "edges", data: { id: edgeSignature,
                                          source: deviceSignature,
                                          target: peerSignature,
-                                         rssi: entry.rssi + "dBm" } });
+                                         name: entry.rssi + "dBm",
+                                         rssi: entry.rssi } });
       }
     });
   }
