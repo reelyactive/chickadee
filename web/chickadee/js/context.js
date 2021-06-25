@@ -42,8 +42,8 @@ const GRAPH_STYLE = [
       style: { "background-color": "#83b7d0", label: "data(name)",
                "font-size": "0.6em", "min-zoomed-font-size": "16px" } },
     { selector: "node[type='anchor']",
-      style: { "background-color": "#ff6900", label: "data(name)",
-               "font-size": "0.4em", "min-zoomed-font-size": "16px" } },
+      style: { "background-color": "#0770a2", label: "data(name)",
+               "font-size": "0.6em", "min-zoomed-font-size": "16px" } },
     { selector: "node[image]",
       style: { "background-image": "data(image)", "border-color": "#aec844",
                "background-fit": "cover cover", "border-width": "2px" } },
@@ -446,13 +446,18 @@ function updateUpdates(event) {
 
 // Add a device node to the hyperlocal context graph
 function addDeviceNode(deviceSignature, device) {
+  let name = determineDeviceName(device);
+  let isAnchor = device.hasOwnProperty('position');
+  let type = isAnchor ? 'anchor' : 'device';
   let isExistingNode = (cy.getElementById(deviceSignature).size() > 0);
 
-  if(!isExistingNode) { // TODO: anchor nodes with position/directory
-    let name = determineDeviceName(device);
-
+  if(!isExistingNode) {
     cy.add({ group: "nodes", renderedPosition: { x: 0, y: 0 },
-             data: { id: deviceSignature, type: "device", name: name } });
+             data: { id: deviceSignature, type: type, name: name } });
+  }
+  else {
+    cy.getElementById(deviceSignature).data('name', name);
+    cy.getElementById(deviceSignature).data('type', type);
   }
 
   if(device.hasOwnProperty('nearest')) {
