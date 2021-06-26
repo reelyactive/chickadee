@@ -7,7 +7,7 @@ A contextual associations store and API for the IoT
 
 __chickadee__ is a contextual associations store and a core module of the [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source software of the [reelyActive technology platform](https://www.reelyactive.com/technology/).
 
-Specifically, __chickadee__ associates wireless device identifiers with metadata such as a URL, a tag, a directory, and/or a position.  __chickadee__ can run standalone, although it is usually run together with its peer modules.
+Specifically, __chickadee__ associates wireless device identifiers with metadata such as a URL, a tag, a directory, and/or a position.  Additionally, it provides a contextual API when coupled with live data from a [barnacles](https://github.com/reelyactive/barnacles/) instance.  __chickadee__ can run standalone, although it is usually run together with its peer modules.
 
 
 Installation
@@ -26,6 +26,10 @@ Browse to [localhost:3001/associations/001bc50940810000/1](http://localhost:3001
 
 REST API
 --------
+
+__chickadee__'s REST API includes the following two base routes:
+- /associations _for retrieving/specifying metadata associations with devices_
+- /context _for retrieving the context of specific devices_
 
 
 ### GET /associations/{id}/{type}
@@ -53,7 +57,7 @@ Retrieve the associations for the given device _id_ and _type_.
       "associations": {
         "001bc50940810000/1": {
           "url": "https://www.reelyactive.com",
-          "directory": "hq:lab",
+          "directory": "parc:office",
           "tags": [ "new", "improved" ],
           "position": [ 0.0, 0.0 ]
         }
@@ -83,7 +87,7 @@ Replace, or create, the associations for the given device _id_ and _type_.
 
     {
       "url": "https://www.reelyactive.com",
-      "directory": "hq:lab",
+      "directory": "parc:office",
       "tags": [ "new", "improved" ],
       "position": [ 0.0, 0.0 ]
     }
@@ -103,7 +107,7 @@ Replace, or create, the associations for the given device _id_ and _type_.
       "associations": {
         "001bc50940810000/1": {
           "url": "https://www.reelyactive.com",
-          "directory": "hq:lab",
+          "directory": "parc:office",
           "tags": [ "new", "improved" ],
           "position": [ 0.0, 0.0 ]
         }
@@ -155,6 +159,183 @@ The following routes are also supported:
 In each case, the response is as above.
 
 
+### GET /context
+
+Retrieve the context of all active devices.
+
+#### Example request
+
+| Method | Route    | Content-Type     |
+|:-------|:---------|:-----------------|
+| GET    | /context | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/context"
+        }
+      },
+      "devices": {
+        "fee150bada55/2": {
+          "nearest": [
+            {
+              "device": "001bc50940810000/1",
+              "rssi": -72
+            },
+            {
+              "device": "001bc50940820000/1",
+              "rssi": -85
+            }
+          ],
+          "dynamb": {
+            "timestamp": 1624714123456,
+            "batteryPercentage": 67,
+            "acceleration": [ -0.15625, -0.94921875, 0.109375 ]
+          },
+          "statid": {
+            "uuids": [ "feaa" ],
+            "uri": "https://sniffypedia.org/Product/Google_Eddystone/",
+            "deviceIds": [ "7265656c652055554944/000000000d09" ]
+          },
+          "url": "https://www.reelyactive.com/team/obelix/",
+          "tags": [ "animal" ]
+        },
+        "001bc50940810000/1": {
+          "directory": "parc:office",
+          "tags": [ "reelceiver" ]
+        },
+        "001bc50940820000/1": {
+          "directory": "parc:lounge",
+          "tags": [ "OiO" ]
+        }
+      }
+    }
+
+
+### GET /context/device/{id}/{type}
+
+Retrieve the context of the active device with the given _id_ and _type_.
+
+#### Example request
+
+| Method | Route                          | Content-Type     |
+|:-------|:-------------------------------|:-----------------|
+| GET    | /context/device/fee150bada55/2 | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/context/device/fee150bada55/2"
+        }
+      },
+      "devices": {
+        "fee150bada55/2": {
+          "nearest": [
+            {
+              "device": "001bc50940810000/1",
+              "rssi": -72
+            },
+            {
+              "device": "001bc50940820000/1",
+              "rssi": -85
+            }
+          ],
+          "dynamb": {
+            "timestamp": 1624714123456,
+            "batteryPercentage": 67,
+            "acceleration": [ -0.15625, -0.94921875, 0.109375 ]
+          },
+          "statid": {
+            "uuids": [ "feaa" ],
+            "uri": "https://sniffypedia.org/Product/Google_Eddystone/",
+            "deviceIds": [ "7265656c652055554944/000000000d09" ]
+          },
+          "url": "https://www.reelyactive.com/team/obelix/",
+          "tags": [ "animal" ]
+        },
+        "001bc50940810000/1": {
+          "directory": "parc:office",
+          "tags": [ "reelceiver" ]
+        },
+        "001bc50940820000/1": {
+          "directory": "parc:lounge",
+          "tags": [ "OiO" ]
+        }
+      }
+    }
+
+
+### GET /context/directory/{directory}
+
+Retrieve the context of all active devices with (and within) the given _directory_.  As directories are hierarchical, specifying the directory _parc_ would include all subdirectories such as _parc:office_ and _parc:lounge_.
+
+#### Example request
+
+| Method | Route                   | Content-Type     |
+|:-------|:------------------------|:-----------------|
+| GET    | /context/directory/parc | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/context/directory/parc"
+        }
+      },
+      "devices": {
+        "fee150bada55/2": {
+          "nearest": [
+            {
+              "device": "001bc50940810000/1",
+              "rssi": -72
+            },
+            {
+              "device": "001bc50940820000/1",
+              "rssi": -85
+            }
+          ],
+          "dynamb": {
+            "timestamp": 1624714123456,
+            "batteryPercentage": 67,
+            "acceleration": [ -0.15625, -0.94921875, 0.109375 ]
+          },
+          "statid": {
+            "uuids": [ "feaa" ],
+            "uri": "https://sniffypedia.org/Product/Google_Eddystone/",
+            "deviceIds": [ "7265656c652055554944/000000000d09" ]
+          },
+          "url": "https://www.reelyactive.com/team/obelix/",
+          "tags": [ "animal" ]
+        },
+        "001bc50940810000/1": {
+          "directory": "parc:office",
+          "tags": [ "reelceiver" ]
+        },
+        "001bc50940820000/1": {
+          "directory": "parc:lounge",
+          "tags": [ "OiO" ]
+        }
+      }
+    }
+
+
 ![chickadee logo](https://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
 
 
@@ -168,15 +349,24 @@ If you were entrusting a bird to associate your wireless device with your online
 One more fun fact that we feel compelled to pass along: "Every autumn Black-capped Chickadees allow brain neurons containing old information to die, replacing them with new neurons so they can adapt to changes in their social flocks and environment even with their tiny brains."  Wow, that's database efficiency that we can aspire to!
 
 
-What's next?
-------------
+Project History
+---------------
 
 __chickadee__ v1.0.0 was released in July 2019, superseding all earlier versions, the latest of which remains available in the [release-0.4 branch](https://github.com/reelyactive/chickadee/tree/release-0.4) and as [chickadee@0.4.10 on npm](https://www.npmjs.com/package/chickadee/v/0.4.10).
 
-If you're developing with __chickadee__ check out:
-* [diyActive](https://reelyactive.github.io/) our developer page
-* our [node-style-guide](https://github.com/reelyactive/node-style-guide) and [web-style-guide](https://github.com/reelyactive/web-style-guide) for development
-* our [contact information](https://www.reelyactive.com/contact/) to get in touch if you'd like to contribute
+
+Contributing
+------------
+
+Discover [how to contribute](CONTRIBUTING.md) to this open source project which upholds a standard [code of conduct](CODE_OF_CONDUCT.md).
+
+
+Security
+--------
+
+Consult our [security policy](SECURITY.md) for best practices using this open source software and to report vulnerabilities.
+
+[![Known Vulnerabilities](https://snyk.io/test/github/reelyactive/chickadee/badge.svg)](https://snyk.io/test/github/reelyactive/chickadee)
 
 
 License
