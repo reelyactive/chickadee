@@ -37,6 +37,8 @@ const COSE_LAYOUT_OPTIONS = {
     animate: false,
     randomize: false,
     idealEdgeLength: function(edge) { return MAX_RSSI - edge.data('rssi'); },
+    edgeElasticity: function(edge) { return 32 *
+                                           (MAX_RSSI - edge.data('rssi')); },
     initialTemp: 40
 };
 const GRAPH_STYLE = [
