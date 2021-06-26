@@ -27,6 +27,11 @@ Browse to [localhost:3001/associations/001bc50940810000/1](http://localhost:3001
 REST API
 --------
 
+__chickadee__'s REST API includes the following two base routes:
+- /associations _for retrieving/specifying metadata associations with devices_
+- /context _for retrieving the context of specific devices_
+
+
 ### GET /associations/{id}/{type}
 
 Retrieve the associations for the given device _id_ and _type_.
@@ -52,7 +57,7 @@ Retrieve the associations for the given device _id_ and _type_.
       "associations": {
         "001bc50940810000/1": {
           "url": "https://www.reelyactive.com",
-          "directory": "hq:lab",
+          "directory": "parc:office",
           "tags": [ "new", "improved" ],
           "position": [ 0.0, 0.0 ]
         }
