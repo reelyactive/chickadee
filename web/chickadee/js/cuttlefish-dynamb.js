@@ -33,6 +33,8 @@ let cuttlefishDynamb = (function() {
       temperature: { icon: "fas fa-thermometer-half", suffix: " \u2103",
                      transform: "toFixed(2)" },
       timestamp: { icon: "fas fa-clock", suffix: "", transform: "timeOfDay" },
+      unicodeCodePoints: { icon: "fas fa-language", suffix: "",
+                          transform: "unicodeCodePoints" },
       uptime: { icon: "fas fa-stopwatch", suffix: " ms" }
   };
 
@@ -99,6 +101,8 @@ let cuttlefishDynamb = (function() {
     suffix = suffix || '';
 
     switch(transform) {
+      case 'unicodeCodePoints':
+        return renderUnicodeCodePoints(data);
       case 'progressPercentage':
         return renderProgress(data, 100, 0, '%');
       case 'progressXYZ':
@@ -113,6 +117,17 @@ let cuttlefishDynamb = (function() {
       default:
         return data.toString() + suffix;
     }
+  }
+
+  // Render an array of Unicode code points
+  function renderUnicodeCodePoints(codePoints) {
+    let characters = "";
+
+    for(const codePoint of codePoints) {
+      characters += String.fromCodePoint(codePoint);
+    }
+
+    return createElement('span', 'display-1', characters);;
   }
 
   // Render a progress bar
