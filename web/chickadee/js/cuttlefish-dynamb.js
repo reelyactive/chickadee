@@ -24,12 +24,25 @@ let cuttlefishDynamb = (function() {
       batteryVoltage: { icon: "fas fa-battery-half", suffix: " V",
                         transform: "toFixed(2)" },
       deviceId: { icon: "fas fa-wifi", suffix: "", transform: "text" },
+      elevation: { icon: "fas fa-layer-group", suffix: " m",
+                   transform: "toFixed(2)" },
+      heading: { icon: "fas fa-compass", suffix: "  \u00b0",
+                 transform: "toFixed(1)" },
+      heartRate: { icon: "fas fa-heartbeat", suffix: " bpm",
+                   transform: "toFixed(0)" },
       interactionDigest: { icon: "fas fa-history", suffix: "interactions",
                            transform: "tableDigest" },
+      magneticField: { icon: "fas fa-magnet", suffix: " G",
+                       transform: "progressXYZ" },
       nearest: { icon: "fas fa-people-arrows", suffix: "dBm",
                  transform: "tableNearest" },
+      position: { icon: "fas fa-map-pin", suffix: "", transform: "position" },
+      pressure: { icon: "fas fa-cloud", suffix: " Pa",
+                  transform: "toFixed(1)" },
       relativeHumidity: { icon: "fas fa-water", suffix: " %",
                           transform: "progressPercentage" },
+      speed: { icon: "fas fa-tachometer-alt", suffix: " m/s",
+               transform: "toFixed(2)" },
       temperature: { icon: "fas fa-thermometer-half", suffix: " \u2103",
                      transform: "toFixed(2)" },
       timestamp: { icon: "fas fa-clock", suffix: "", transform: "timeOfDay" },
@@ -103,6 +116,8 @@ let cuttlefishDynamb = (function() {
     switch(transform) {
       case 'unicodeCodePoints':
         return renderUnicodeCodePoints(data);
+      case 'position':
+        return renderPosition(data);
       case 'progressPercentage':
         return renderProgress(data, 100, 0, '%');
       case 'progressXYZ':
@@ -127,7 +142,19 @@ let cuttlefishDynamb = (function() {
       characters += String.fromCodePoint(codePoint);
     }
 
-    return createElement('span', 'display-1', characters);;
+    return createElement('span', 'display-1', characters);
+  }
+
+  // Render a 2D or 3D position
+  function renderPosition(position) {
+    let list = position[1] + '\u00b0 ' + ((position[1] >= 0) ? '(N)' : '(S)') +
+               ', ' +
+               position[0] + '\u00b0 ' + ((position[0] >= 0) ? '(E)' : '(W)');
+    if(position.length > 2) {
+      list += ', ' + position[2] + 'm';
+    }
+
+    return list;
   }
 
   // Render a progress bar
