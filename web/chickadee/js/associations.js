@@ -19,6 +19,7 @@ const POSITION_ROUTE = '/position';
 
 
 // DOM elements
+let returnButton = document.querySelector('#returnbutton');
 let jsonResponse = document.querySelector('#jsonResponse');
 let loading = document.querySelector('#loading');
 let error = document.querySelector('#error');
@@ -30,6 +31,13 @@ let queryUrl = window.location.href;
 let associationsUrl = window.location.protocol + '//' +
                       window.location.hostname + ':' + window.location.port +
                       ASSOCIATIONS_ROUTE;
+
+
+// Hide "return to /associations" button when already querying /associations
+if((window.location.pathname.endsWith(ASSOCIATIONS_ROUTE )) ||
+   (window.location.pathname.endsWith(ASSOCIATIONS_ROUTE + '/'))) {
+  returnButton.hidden = true;
+}
 
 
 // Initialisation: GET the associations and display in DOM

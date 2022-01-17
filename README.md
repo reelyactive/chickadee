@@ -5,7 +5,7 @@ chickadee
 A contextual associations store and API for the IoT
 ---------------------------------------------------
 
-__chickadee__ is a contextual associations store and a core module of the [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source software of the [reelyActive technology platform](https://www.reelyactive.com/technology/).
+__chickadee__ is a contextual associations store and a core module of [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source middleware for context-aware physical spaces.
 
 Specifically, __chickadee__ associates wireless device identifiers with metadata such as a URL, a tag, a directory, and/or a position.  Additionally, it provides a contextual API when coupled with live data from a [barnacles](https://github.com/reelyactive/barnacles/) instance.  __chickadee__ can run standalone, although it is usually run together with its peer modules.
 
@@ -336,6 +336,15 @@ Retrieve the context of all active devices with (and within) the given _director
     }
 
 
+Socket.IO
+---------
+
+When initialised with a Socket.IO server as an option, __chickadee__ supports the following namespace:
+- /context/device/{id}/{type}
+
+When a change in context for the given device is detected, a devices event is emitted.  For an example of the devices JSON structure, see the sample response of the /context REST API above.
+
+
 ![chickadee logo](https://reelyactive.github.io/chickadee/images/chickadee-bubble.png)
 
 
@@ -374,7 +383,7 @@ License
 
 MIT License
 
-Copyright (c) 2015-2021 [reelyActive](https://www.reelyactive.com)
+Copyright (c) 2015-2022 [reelyActive](https://www.reelyactive.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
