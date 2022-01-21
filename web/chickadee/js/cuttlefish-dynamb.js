@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2021
+ * Copyright reelyActive 2021-2022
  * We believe in an open Internet of Things
  */
 
@@ -24,6 +24,7 @@ let cuttlefishDynamb = (function() {
   const STANDARD_DATA_PROPERTIES = {
       acceleration: { icon: "fas fa-rocket", suffix: "g",
                       transform: "progressXYZ" },
+      angleOfRotation: { icon: "fas fa-redo", transform: "rotationDegrees" },
       batteryPercentage: { icon: "fas fa-battery-half", suffix: " %",
                            transform: "progressPercentage" },
       batteryVoltage: { icon: "fas fa-battery-half", suffix: " V",
@@ -31,8 +32,7 @@ let cuttlefishDynamb = (function() {
       deviceId: { icon: "fas fa-wifi", suffix: "", transform: "text" },
       elevation: { icon: "fas fa-layer-group", suffix: " m",
                    transform: "toFixed(2)" },
-      heading: { icon: "fas fa-compass", suffix: "  \u00b0",
-                 transform: "toFixed(1)" },
+      heading: { icon: "fas fa-compass", transform: "rotationDegrees" },
       heartRate: { icon: "fas fa-heartbeat", suffix: " bpm",
                    transform: "toFixed(0)" },
       illuminance: { icon: "fas fa-sun", suffix: " lx",
@@ -171,6 +171,8 @@ let cuttlefishDynamb = (function() {
         return renderProgress(data, 100, 0, '%');
       case 'progressXYZ':
         return renderProgressXYZ(data, suffix);
+      case 'rotationDegrees':
+        return renderRotationDegrees(data);
       case 'toFixed(2)':
         return data.toFixed(2) + suffix;
       case 'localeString':
@@ -297,6 +299,18 @@ let cuttlefishDynamb = (function() {
     table.appendChild(caption);
 
     return table;
+  }
+
+  // Render rotation in degrees
+  function renderRotationDegrees(data) {
+    let arrow = createElement('i',
+                          'fas fa-arrow-circle-up text-primary d-inline-block');
+    let text = ' \u00a0 ' + data + ' \u00b0';
+
+    arrow.setAttribute('style',
+                       'transform: rotate(' + data.toFixed(0) + 'deg)');
+
+    return createElement('div', 'align-middle', [ arrow, text ]);
   }
 
   // Render a device array in tabular format
