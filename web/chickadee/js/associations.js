@@ -20,6 +20,7 @@ const POSITION_ROUTE = '/position';
 
 // DOM elements
 let returnButton = document.querySelector('#returnbutton');
+let createButton = document.querySelector('#createbutton');
 let jsonResponse = document.querySelector('#jsonResponse');
 let loading = document.querySelector('#loading');
 let error = document.querySelector('#error');
@@ -31,11 +32,13 @@ let queryUrl = window.location.href;
 let associationsUrl = window.location.protocol + '//' +
                       window.location.hostname + ':' + window.location.port +
                       ASSOCIATIONS_ROUTE;
+let isRootQuery = false;
 
 
 // Hide "return to /associations" button when already querying /associations
 if((window.location.pathname.endsWith(ASSOCIATIONS_ROUTE )) ||
    (window.location.pathname.endsWith(ASSOCIATIONS_ROUTE + '/'))) {
+  isRootQuery = true;
   returnButton.hidden = true;
 }
 
@@ -56,6 +59,8 @@ getAssociations(queryUrl, function(status, response) {
   else if(status === STATUS_NOT_FOUND) {
     errorMessage.textContent = MESSAGE_NOT_FOUND;
     error.hidden = false;
+    createButton.hidden = false;
+    createButton.onclick = putAssociation;
   }
 });
 
@@ -76,13 +81,35 @@ function getAssociations(url, callback) {
 }
 
 
+// PUT the association so that it is created
+function putAssociation() {
+  putAssociationProperty('', {}, function(status, response) {
+    createButton.hidden = true;
+
+    if(status === STATUS_CREATED) {
+      updateAssociations(response.associations);
+      associations.hidden = false;
+    }
+    else if(status === STATUS_BAD_REQUEST) {
+      errorMessage.textContent = MESSAGE_BAD_REQUEST;
+      error.hidden = false;
+    }
+    else if(status === STATUS_NOT_FOUND) {
+      errorMessage.textContent = MESSAGE_NOT_FOUND;
+      error.hidden = false;
+    }
+  });
+}
+
+
 // Update the associations in the DOM
 function updateAssociations(associationsList) {
   let content = new DocumentFragment();
 
   for(const signature in associationsList) {
     let association = associationsList[signature];
-    let associationCard = createAssociationCard(signature, association);
+    let associationCard = createAssociationCard(signature, association,
+                                                !isRootQuery);
     content.appendChild(associationCard);
   }
 
@@ -91,7 +118,7 @@ function updateAssociations(associationsList) {
 
 
 // Create the association card visualisation
-function createAssociationCard(signature, association) {
+function createAssociationCard(signature, association, isEditable) {
   let isEmptyAssociation = (Object.keys(association).length === 0);
   let associationUrl = associationsUrl + '/' + signature;
   let headerIcon = createElement('i', 'fas fa-barcode');
@@ -107,7 +134,7 @@ function createAssociationCard(signature, association) {
 
   footerText.setAttribute('href', associationUrl);
 
-  if(!isEmptyAssociation) {
+  if(!isEmptyAssociation || isEditable) {
     body.appendChild(createPropertyForm('url', 'fas fa-link', 'url',
                                         association.url));
     body.appendChild(createPropertyForm('tags', 'fas fa-tags', 'text',
