@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2021-2022
+ * Copyright reelyActive 2021
  * We believe in an open Internet of Things
  */
 
@@ -41,6 +41,10 @@ let cuttlefishDynamb = (function() {
                            transform: "tableDigest" },
       isButtonPressed: { icon: "fas fa-hand-pointer", suffix: "",
                          transform: "booleanArray" },
+      isContactDetected: { icon: "fas fa-compress-alt", suffix: "",
+                           transform: "booleanArray" },
+      isMotionDetected: { icon: "fas fa-walking", suffix: "",
+                          transform: "booleanArray" },
       magneticField: { icon: "fas fa-magnet", suffix: " G",
                        transform: "progressXYZ" },
       nearest: { icon: "fas fa-people-arrows", suffix: "dBm",
