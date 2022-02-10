@@ -336,6 +336,65 @@ Retrieve the context of all active devices with (and within) the given _director
     }
 
 
+### GET /context/tag/{tag}
+
+Retrieve the context of all active devices with the given _tag_.
+
+#### Example request
+
+| Method | Route               | Content-Type     |
+|:-------|:--------------------|:-----------------|
+| GET    | /context/tag/animal | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/context/tag/animal"
+        }
+      },
+      "devices": {
+        "fee150bada55/2": {
+          "nearest": [
+            {
+              "device": "001bc50940810000/1",
+              "rssi": -72
+            },
+            {
+              "device": "001bc50940820000/1",
+              "rssi": -85
+            }
+          ],
+          "dynamb": {
+            "timestamp": 1624714123456,
+            "batteryPercentage": 67,
+            "acceleration": [ -0.15625, -0.94921875, 0.109375 ]
+          },
+          "statid": {
+            "uuids": [ "feaa" ],
+            "uri": "https://sniffypedia.org/Product/Google_Eddystone/",
+            "deviceIds": [ "7265656c652055554944/000000000d09" ]
+          },
+          "url": "https://www.reelyactive.com/team/obelix/",
+          "tags": [ "animal" ]
+        },
+        "001bc50940810000/1": {
+          "directory": "parc:office",
+          "tags": [ "reelceiver" ]
+        },
+        "001bc50940820000/1": {
+          "directory": "parc:lounge",
+          "tags": [ "OiO" ]
+        }
+      }
+    }
+
+
 Socket.IO
 ---------
 
