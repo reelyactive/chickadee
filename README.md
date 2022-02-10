@@ -422,6 +422,8 @@ Project History
 
 __chickadee__ v1.0.0 was released in July 2019, superseding all earlier versions, the latest of which remains available in the [release-0.4 branch](https://github.com/reelyactive/chickadee/tree/release-0.4) and as [chickadee@0.4.10 on npm](https://www.npmjs.com/package/chickadee/v/0.4.10).
 
+__chickadee__ v1.4.0 migrates to [ESMapDB](https://github.com/reelyactive/esmapdb) from [NeDB](https://github.com/louischatriot/nedb).  If upgrading from a previous version, any stored associations will need to be recreated.
+
 
 Contributing
 ------------
