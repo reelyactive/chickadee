@@ -7,7 +7,7 @@ A contextual associations store and API for the IoT
 
 __chickadee__ is a contextual associations store and a core module of [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source middleware for context-aware physical spaces.
 
-Specifically, __chickadee__ associates wireless device identifiers with metadata such as a URL, a tag, a directory, and/or a position.  Additionally, it provides a contextual API when coupled with live data from a [barnacles](https://github.com/reelyactive/barnacles/) instance.  __chickadee__ can run standalone, although it is usually run together with its peer modules.
+Specifically, __chickadee__ associates wireless device identifiers with metadata such as a URL, a tag, a directory, and/or a position.  Additionally, it provides a contextual API when coupled with live data from a [barnacles](https://github.com/reelyactive/barnacles/) instance.  And finally, it provides an API to store and retrieve GeoJSON features.   __chickadee__ can run standalone, although it is usually run together with its peer modules.
 
 
 Installation
@@ -30,6 +30,7 @@ REST API
 __chickadee__'s REST API includes the following two base routes:
 - /associations _for retrieving/specifying metadata associations with devices_
 - /context _for retrieving the context of specific devices_
+- /features _for retrieving/specifying GeoJSON features_
 
 
 ### GET /associations/{id}/{type}
@@ -393,6 +394,109 @@ Retrieve the context of all active devices with the given _tag_.
         }
       }
     }
+
+
+### POST /features
+
+Create the GeoJSON feature, which will return a unique _id_, which is a random RFC 4122 version 4 UUID, without dashes.
+
+#### Example request
+
+| Method | Route                                          | Content-Type     |
+|:-------|:-----------------------------------------------|:-----------------|
+| POST   | /features                                      | application/json |
+
+    {
+      "type": "Feature",
+      "properties": { "name": "triangle" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [ [ 0, 1 ], [ 1, 0 ], [ 0, 0 ], [ 0, 1 ] ]
+      }
+    }
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/features/"
+        }
+      },
+      "features": {
+        "df52b802f4054bdb815102be1d76f8ab": {
+          "type": "Feature",
+          "properties": { "name": "triangle" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [ [ 0, 1 ], [ 1, 0 ], [ 0, 0 ], [ 0, 1 ] ]
+          }
+        }
+      }
+    }
+
+
+### GET /features/{id}
+
+Retrieve the GeoJSON feature with for the given _id_.
+
+#### Example request
+
+| Method | Route                                          | Content-Type     |
+|:-------|:-----------------------------------------------|:-----------------|
+| GET    | /features/df52b802f4054bdb815102be1d76f8ab     | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/features/df52b802f4054bdb815102be1d76f8ab"
+        }
+      },
+      "features": {
+        "df52b802f4054bdb815102be1d76f8ab": {
+          "type": "Feature",
+          "properties": { "name": "triangle" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [ [ 0, 1 ], [ 1, 0 ], [ 0, 0 ], [ 0, 1 ] ]
+          }
+        }
+      }
+    }
+
+
+### DELETE /features/{id}
+
+Remove the GeoJSON feature with the given _id_.
+
+#### Example request
+
+| Method | Route                                          | Content-Type     |
+|:-------|:-----------------------------------------------|:-----------------|
+| DELETE | /features/df52b802f4054bdb815102be1d76f8ab     | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/features/df52b802f4054bdb815102be1d76f8ab"
+        }
+      }
 
 
 Socket.IO
