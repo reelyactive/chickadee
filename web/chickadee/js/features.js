@@ -55,7 +55,7 @@ getFeatures(queryUrl, function(status, response) {
   else if(status === STATUS_NOT_FOUND) {
     errorMessage.textContent = MESSAGE_NOT_FOUND;
     error.hidden = false;
-    createButton.hidden = false;
+    //createButton.hidden = false;     // TODO: reinstate when implemented
     createButton.onclick = putFeature; // TODO: change
   }
 });
@@ -109,7 +109,10 @@ function createFeatureCard(id, feature, isEditable) {
   footerText.setAttribute('href', featureUrl);
 
   if(!isEmptyFeature || isEditable) {
-    // TODO: add editable fields
+    // TODO: improve the feature display, possibly with OpenLayers?
+    let featureString = JSON.stringify(feature, null, 2);
+    let featureProperties = createElement('pre', null, featureString);
+    body.appendChild(featureProperties);
     card.appendChild(body);
   }
 
