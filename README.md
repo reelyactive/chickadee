@@ -411,7 +411,7 @@ Create the GeoJSON feature, which will return a unique _id_, which is a random R
       "properties": { "name": "triangle" },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [ [ 0, 1 ], [ 1, 0 ], [ 0, 0 ], [ 0, 1 ] ]
+        "coordinates": [ [ [ 0, 1 ], [ 1, 0 ], [ 0, 0 ], [ 0, 1 ] ] ]
       }
     }
 
@@ -433,7 +433,7 @@ Create the GeoJSON feature, which will return a unique _id_, which is a random R
           "properties": { "name": "triangle" },
           "geometry": {
             "type": "Polygon",
-            "coordinates": [ [ 0, 1 ], [ 1, 0 ], [ 0, 0 ], [ 0, 1 ] ]
+            "coordinates": [ [ [ 0, 1 ], [ 1, 0 ], [ 0, 0 ], [ 0, 1 ] ] ]
           }
         }
       }
@@ -468,7 +468,7 @@ Retrieve the GeoJSON feature with for the given _id_.
           "properties": { "name": "triangle" },
           "geometry": {
             "type": "Polygon",
-            "coordinates": [ [ 0, 1 ], [ 1, 0 ], [ 0, 0 ], [ 0, 1 ] ]
+            "coordinates": [ [ [ 0, 1 ], [ 1, 0 ], [ 0, 0 ], [ 0, 1 ] ] ]
           }
         }
       }
