@@ -430,6 +430,7 @@ Create the GeoJSON feature, which will return a unique _id_, which is a random R
       "features": {
         "df52b802f4054bdb815102be1d76f8ab": {
           "type": "Feature",
+          "id": "df52b802f4054bdb815102be1d76f8ab",
           "properties": { "name": "triangle" },
           "geometry": {
             "type": "Polygon",
@@ -465,6 +466,7 @@ Retrieve the GeoJSON feature with for the given _id_.
       "features": {
         "df52b802f4054bdb815102be1d76f8ab": {
           "type": "Feature",
+          "id": "df52b802f4054bdb815102be1d76f8ab",
           "properties": { "name": "triangle" },
           "geometry": {
             "type": "Polygon",
