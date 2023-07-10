@@ -80,10 +80,14 @@ let cuttlefishStatid = (function() {
 
   // Render an identifier array in list group format
   function renderListGroupArray(data) {
+    if(data.length === 1) {
+      return createElement('span', 'font-monospace', data[0].toString());
+    }
+
     let items = [];
 
     data.forEach(function(entry) {
-      items.push(createElement('li', 'list-group-item', entry));
+      items.push(createElement('li', 'list-group-item font-monospace', entry));
     });
 
     return createElement('ul', 'list-group list-group-flush', items);
