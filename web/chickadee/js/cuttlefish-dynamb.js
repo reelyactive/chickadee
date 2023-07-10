@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2021-2022
+ * Copyright reelyActive 2021-2023
  * We believe in an open Internet of Things
  */
 
@@ -24,12 +24,18 @@ let cuttlefishDynamb = (function() {
   const STANDARD_DATA_PROPERTIES = {
       acceleration: { icon: "fas fa-rocket", suffix: "g",
                       transform: "progressXYZ" },
+      amperage: { icon: "fas fa-arrow-circle-up", suffix: " A",
+                  transform: "toFixed(2)" },
+      amperages: { icon: "fas fa-arrow-circle-up", suffix: " A",
+                   transform: "toFixedArray(2)" },
       angleOfRotation: { icon: "fas fa-redo", transform: "rotationDegrees" },
       batteryPercentage: { icon: "fas fa-battery-half", suffix: " %",
                            transform: "progressPercentage" },
       batteryVoltage: { icon: "fas fa-battery-half", suffix: " V",
                         transform: "toFixed(2)" },
       deviceId: { icon: "fas fa-wifi", suffix: "", transform: "text" },
+      distance: { icon: "fas fa-expand-alt", suffix: " m",
+                  transform: "toFixed(2)" },
       elevation: { icon: "fas fa-layer-group", suffix: " m",
                    transform: "toFixed(2)" },
       heading: { icon: "fas fa-compass", transform: "rotationDegrees" },
@@ -41,6 +47,10 @@ let cuttlefishDynamb = (function() {
                            transform: "tableDigest" },
       isButtonPressed: { icon: "fas fa-hand-pointer", suffix: "",
                          transform: "booleanArray" },
+      isContactDetected: { icon: "fas fa-compress-alt", suffix: "",
+                           transform: "booleanArray" },
+      isMotionDetected: { icon: "fas fa-walking", suffix: "",
+                          transform: "booleanArray" },
       magneticField: { icon: "fas fa-magnet", suffix: " G",
                        transform: "progressXYZ" },
       nearest: { icon: "fas fa-people-arrows", suffix: "dBm",
@@ -48,18 +58,25 @@ let cuttlefishDynamb = (function() {
       position: { icon: "fas fa-map-pin", suffix: "", transform: "position" },
       pressure: { icon: "fas fa-cloud", suffix: " Pa",
                   transform: "toFixed(0)" },
+      pressures: { icon: "fas fa-cloud", suffix: " Pa",
+                   transform: "toFixedArray(0)" },
       relativeHumidity: { icon: "fas fa-water", suffix: " %",
                           transform: "progressPercentage" },
       speed: { icon: "fas fa-tachometer-alt", suffix: " m/s",
                transform: "toFixed(2)" },
       temperature: { icon: "fas fa-thermometer-half", suffix: " \u2103",
                      transform: "toFixed(2)" },
+      temperatures: { icon: "fas fa-thermometer-half", suffix: " \u2103",
+                      transform: "numberArray(2)" },
       timestamp: { icon: "fas fa-clock", suffix: "", transform: "timeOfDay" },
       txCount: { icon: "fas fa-satellite-dish", transform: "localeString",
                  suffix: " Tx" },
       unicodeCodePoints: { icon: "fas fa-language", suffix: "",
                           transform: "unicodeCodePoints" },
-      uptime: { icon: "fas fa-stopwatch", transform: "elapsedTime" }
+      uptime: { icon: "fas fa-stopwatch", transform: "elapsedTime" },
+      voltage: { icon: "fas fa-bolt", suffix: " V", transform: "toFixed(2)" },
+      voltages: { icon: "fas fa-bolt", suffix: " V",
+                  transform: "toFixedArray(2)" }
   };
 
   // Render a dynamb
@@ -173,8 +190,14 @@ let cuttlefishDynamb = (function() {
         return renderProgressXYZ(data, suffix);
       case 'rotationDegrees':
         return renderRotationDegrees(data);
+      case 'toFixed(0)':
+        return data.toFixed(0) + suffix;
       case 'toFixed(2)':
         return data.toFixed(2) + suffix;
+      case 'toFixedArray(0)':
+        return renderNumberArray(data, 0, suffix);
+      case 'toFixedArray(2)':
+        return renderNumberArray(data, 2, suffix);
       case 'localeString':
         return data.toLocaleString() + suffix;
       case 'tableNearest':
@@ -232,6 +255,21 @@ let cuttlefishDynamb = (function() {
     representation += (seconds + 's').padStart(3, '0');
 
     return representation;
+  }
+
+  // Render an array of numbers
+  function renderNumberArray(values, precision, suffix) {
+    let lis = [];
+
+    for(const value of values) {
+      let displayValue = Number.isFinite(value) ? value.toFixed(precision) :
+                                                  '\u2014';
+      let itemClass = Number.isFinite(value) ? 'list-inline-item' :
+                                               'list-inline-item text-muted';
+      lis.push(createElement('li', itemClass, displayValue + suffix));
+    }
+
+    return createElement('ul', 'list-inline mb-0', lis);
   }
 
   // Render an array of Unicode code points
