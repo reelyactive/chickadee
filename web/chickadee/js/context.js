@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2015-2021
+ * Copyright reelyActive 2015-2023
  * We believe in an open Internet of Things
  */
 
@@ -236,7 +236,7 @@ function createDeviceAccordion(device, signature) {
     accordion.appendChild(dynambItem);
   }
   if(device.hasOwnProperty('statid')) {
-    let statidContent = createStatidContent(device.statid);
+    let statidContent = cuttlefishStatid.render(device.statid);
     let statidIcon = createElement('i', 'fas fa-id-card');
     let statidTitle = createElement('span', null,
                                     [ statidIcon, '\u00a0 statid' ]);
@@ -272,21 +272,6 @@ function createNearestContent(nearest) {
     let row = createElement('tr', rowClass, [ device, rssi ]);
     tbody.appendChild(row);
   });
-
-  return createElement('table', 'table table-hover mb-0', tbody);
-}
-
-
-// Create the statid visualisation
-function createStatidContent(statid) {
-  let tbody = createElement('tbody');
-
-  for(const property in statid) {
-    let th = createElement('th', null, property);
-    let td = createElement('td', 'font-monospace', statid[property].toString());
-    let row = createElement('tr', null, [ th, td ]);
-    tbody.appendChild(row);
-  }
 
   return createElement('table', 'table table-hover mb-0', tbody);
 }
