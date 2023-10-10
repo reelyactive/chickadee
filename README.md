@@ -7,7 +7,7 @@ A contextual associations store and API for the IoT
 
 __chickadee__ is a contextual associations store and a core module of [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source middleware for context-aware physical spaces.
 
-Specifically, __chickadee__ associates wireless device identifiers with metadata such as a URL, a tag, a directory, and/or a position.  Additionally, it provides a contextual API when coupled with live data from a [barnacles](https://github.com/reelyactive/barnacles/) instance.  And finally, it provides an API to store and retrieve GeoJSON features.   __chickadee__ can run standalone, although it is usually run together with its peer modules.
+Specifically, __chickadee__ associates wireless device identifiers with metadata such as a URL, a tag, a directory, and/or a position.  Additionally, it provides a contextual API when coupled with live data from a [barnacles](https://github.com/reelyactive/barnacles/) instance and optional [chimps](https://github.com/reelyactive/chimps/) instance.  And finally, it provides an API to store and retrieve GeoJSON features.   __chickadee__ can run standalone, although it is usually run together with its peer modules.
 
 
 Installation
@@ -199,6 +199,26 @@ Retrieve the context of all active devices.
             "batteryPercentage": 67,
             "acceleration": [ -0.15625, -0.94921875, 0.109375 ]
           },
+          "spatem": {
+            "timestamp": 1624714123456,
+            "type": "position",
+            "data": {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "properties": {
+                    "isDevicePosition": true,
+                    "positioningEngine": "External"
+                  },
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [ -73.57123, 45.50883 ]
+                  }
+                }
+              ]
+            }
+          },
           "statid": {
             "uuids": [ "feaa" ],
             "uri": "https://sniffypedia.org/Product/Google_Eddystone/",
@@ -257,6 +277,26 @@ Retrieve the context of the active device with the given _id_ and _type_.
             "timestamp": 1624714123456,
             "batteryPercentage": 67,
             "acceleration": [ -0.15625, -0.94921875, 0.109375 ]
+          },
+          "spatem": {
+            "timestamp": 1624714123456,
+            "type": "position",
+            "data": {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "properties": {
+                    "isDevicePosition": true,
+                    "positioningEngine": "External"
+                  },
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [ -73.57123, 45.50883 ]
+                  }
+                }
+              ]
+            }
           },
           "statid": {
             "uuids": [ "feaa" ],
@@ -317,6 +357,26 @@ Retrieve the context of all active devices with (and within) the given _director
             "batteryPercentage": 67,
             "acceleration": [ -0.15625, -0.94921875, 0.109375 ]
           },
+          "spatem": {
+            "timestamp": 1624714123456,
+            "type": "position",
+            "data": {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "properties": {
+                    "isDevicePosition": true,
+                    "positioningEngine": "External"
+                  },
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [ -73.57123, 45.50883 ]
+                  }
+                }
+              ]
+            }
+          },
           "statid": {
             "uuids": [ "feaa" ],
             "uri": "https://sniffypedia.org/Product/Google_Eddystone/",
@@ -375,6 +435,26 @@ Retrieve the context of all active devices with the given _tag_.
             "timestamp": 1624714123456,
             "batteryPercentage": 67,
             "acceleration": [ -0.15625, -0.94921875, 0.109375 ]
+          },
+          "spatem": {
+            "timestamp": 1624714123456,
+            "type": "position",
+            "data": {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "properties": {
+                    "isDevicePosition": true,
+                    "positioningEngine": "External"
+                  },
+                  "geometry": {
+                    "type": "Point",
+                    "coordinates": [ -73.57123, 45.50883 ]
+                  }
+                }
+              ]
+            }
           },
           "statid": {
             "uuids": [ "feaa" ],
