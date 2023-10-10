@@ -235,6 +235,16 @@ function createDeviceAccordion(device, signature) {
                                          'dynambcontainer' + idSignature);
     accordion.appendChild(dynambItem);
   }
+  if(device.hasOwnProperty('spatem')) {
+    let spatemContent = cuttlefishSpatem.render(device.spatem);
+    let spatemIcon = createElement('i', 'fas fa-map-marked-alt');
+    let spatemTitle = createElement('span', null,
+                                    [ spatemIcon, '\u00a0 spatem' ]);
+    let spatemItem = createAccordionItem('spatem', accordionId, spatemTitle,
+                                         spatemContent,
+                                         'spatemcontainer' + idSignature);
+    accordion.appendChild(spatemItem);
+  }
   if(device.hasOwnProperty('statid')) {
     let statidContent = cuttlefishStatid.render(device.statid);
     let statidIcon = createElement('i', 'fas fa-id-card');
