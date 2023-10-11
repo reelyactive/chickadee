@@ -353,8 +353,23 @@ function createSocket() {
     let container = document.querySelector('#dynambcontainer' + idSignature);
 
     if(container) {
-      let content = cuttlefishDynamb.render(dynamb);
+      let content = cuttlefishDynamb.render(dynamb, null,
+                                            { hideDeviceId: true });
       machineReadableData.devices[signature].dynamb = dynamb;
+      jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
+      container.replaceChildren(content);
+    }
+  });
+
+  socket.on('spatem', function(spatem) {
+    let signature = spatem.deviceId + '/' + spatem.deviceIdType;
+    let idSignature = spatem.deviceId + spatem.deviceIdType;
+    let container = document.querySelector('#spatemcontainer' + idSignature);
+
+    if(container) {
+      let content = cuttlefishSpatem.render(spatem, null,
+                                            { hideDeviceId: true });
+      machineReadableData.devices[signature].spatem = spatem;
       jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
       container.replaceChildren(content);
     }

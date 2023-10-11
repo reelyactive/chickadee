@@ -37,7 +37,7 @@ let cuttlefishDynamb = (function() {
                            transform: "progressPercentage" },
       batteryVoltage: { icon: "fas fa-battery-half", suffix: " V",
                         transform: "toFixed(2)" },
-      deviceId: { icon: "fas fa-wifi", suffix: "", transform: "text" },
+      deviceId: { icon: "fas fa-wifi", suffix: "", transform: "monospace" },
       distance: { icon: "fas fa-expand-alt", suffix: " m",
                   transform: "toFixed(2)" },
       elevation: { icon: "fas fa-layer-group", suffix: " m",
@@ -87,6 +87,7 @@ let cuttlefishDynamb = (function() {
 
   // Render a dynamb
   function render(dynamb, target, options) {
+    options = options || {};
     let tbody = createElement('tbody');
     let table = createElement('table', 'table', tbody);
 
@@ -99,10 +100,11 @@ let cuttlefishDynamb = (function() {
       table.appendChild(caption);
     }
     if(dynamb.hasOwnProperty('deviceId') &&
-       dynamb.hasOwnProperty('deviceIdType')) {
+       dynamb.hasOwnProperty('deviceIdType') && !options.hideDeviceId) {
       let deviceId = dynamb.deviceId + ' / ' +
                      IDENTIFIER_TYPES[dynamb.deviceIdType];
       let tr = renderAsRow('deviceId', deviceId);
+      tr.setAttribute('class', 'table-light');
       tbody.appendChild(tr);
     }
 
@@ -182,6 +184,8 @@ let cuttlefishDynamb = (function() {
     suffix = suffix || '';
 
     switch(transform) {
+      case 'monospace':
+        return createElement('span', 'font-monospace', data + suffix);
       case 'booleanArray':
         return renderBooleanArray(data);
       case 'elapsedTime':
