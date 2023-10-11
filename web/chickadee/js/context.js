@@ -191,26 +191,27 @@ function createDeviceAccordion(device, signature) {
                                           nearestTitle, nearestContent);
     accordion.appendChild(nearestItem);
   }
-  if(device.hasOwnProperty('dynamb')) {
-    let dynambContent = cuttlefishDynamb.render(device.dynamb);
-    let dynambIcon = createElement('i', 'fas fa-tachometer-alt');
-    let dynambTitle = createElement('span', null,
-                                    [ dynambIcon, '\u00a0 dynamb' ]);
-    let dynambItem = createAccordionItem('dynamb', accordionId, dynambTitle,
-                                         dynambContent,
-                                         'dynambcontainer' + idSignature);
-    accordion.appendChild(dynambItem);
-  }
-  if(device.hasOwnProperty('spatem')) {
-    let spatemContent = cuttlefishSpatem.render(device.spatem);
-    let spatemIcon = createElement('i', 'fas fa-map-marked-alt');
-    let spatemTitle = createElement('span', null,
-                                    [ spatemIcon, '\u00a0 spatem' ]);
-    let spatemItem = createAccordionItem('spatem', accordionId, spatemTitle,
-                                         spatemContent,
-                                         'spatemcontainer' + idSignature);
-    accordion.appendChild(spatemItem);
-  }
+
+  let dynambContent = cuttlefishDynamb.render(device.dynamb || {});
+  let dynambIcon = createElement('i', 'fas fa-tachometer-alt');
+  let dynambTitle = createElement('span', null,
+                                  [ dynambIcon, '\u00a0 dynamb' ]);
+  let dynambItem = createAccordionItem('dynamb', accordionId, dynambTitle,
+                                       dynambContent,
+                                       'dynambcontainer' + idSignature);
+  dynambItem.hidden = !device.hasOwnProperty('dynamb');
+  accordion.appendChild(dynambItem);
+
+  let spatemContent = cuttlefishSpatem.render(device.spatem || {});
+  let spatemIcon = createElement('i', 'fas fa-map-marked-alt');
+  let spatemTitle = createElement('span', null,
+                                  [ spatemIcon, '\u00a0 spatem' ]);
+  let spatemItem = createAccordionItem('spatem', accordionId, spatemTitle,
+                                       spatemContent,
+                                       'spatemcontainer' + idSignature);
+  spatemItem.hidden = !device.hasOwnProperty('spatem');
+  accordion.appendChild(spatemItem);
+
   if(device.hasOwnProperty('statid')) {
     let statidContent = cuttlefishStatid.render(device.statid);
     let statidIcon = createElement('i', 'fas fa-id-card');
@@ -351,28 +352,24 @@ function createSocket() {
     let signature = dynamb.deviceId + '/' + dynamb.deviceIdType;
     let idSignature = dynamb.deviceId + dynamb.deviceIdType;
     let container = document.querySelector('#dynambcontainer' + idSignature);
-
-    if(container) {
-      let content = cuttlefishDynamb.render(dynamb, null,
-                                            { hideDeviceId: true });
-      machineReadableData.devices[signature].dynamb = dynamb;
-      jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
-      container.replaceChildren(content);
-    }
+    let content = cuttlefishDynamb.render(dynamb, null,
+                                          { hideDeviceId: true });
+    machineReadableData.devices[signature].dynamb = dynamb;
+    jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
+    container.replaceChildren(content);
+    container.hidden = false;
   });
 
   socket.on('spatem', function(spatem) {
     let signature = spatem.deviceId + '/' + spatem.deviceIdType;
     let idSignature = spatem.deviceId + spatem.deviceIdType;
     let container = document.querySelector('#spatemcontainer' + idSignature);
-
-    if(container) {
-      let content = cuttlefishSpatem.render(spatem, null,
-                                            { hideDeviceId: true });
-      machineReadableData.devices[signature].spatem = spatem;
-      jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
-      container.replaceChildren(content);
-    }
+    let content = cuttlefishSpatem.render(spatem, null,
+                                          { hideDeviceId: true });
+    machineReadableData.devices[signature].spatem = spatem;
+    jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
+    container.replaceChildren(content);
+    container.hidden = false;
   });
 
   socket.on('connect_error', function() {
