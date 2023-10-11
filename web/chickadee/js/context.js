@@ -199,6 +199,7 @@ function createDeviceAccordion(device, signature) {
   let dynambItem = createAccordionItem('dynamb', accordionId, dynambTitle,
                                        dynambContent,
                                        'dynambcontainer' + idSignature);
+  dynambItem.id = 'dynambitem' + idSignature;
   dynambItem.hidden = !device.hasOwnProperty('dynamb');
   accordion.appendChild(dynambItem);
 
@@ -209,6 +210,7 @@ function createDeviceAccordion(device, signature) {
   let spatemItem = createAccordionItem('spatem', accordionId, spatemTitle,
                                        spatemContent,
                                        'spatemcontainer' + idSignature);
+  spatemItem.id = 'spatemitem' + idSignature;
   spatemItem.hidden = !device.hasOwnProperty('spatem');
   accordion.appendChild(spatemItem);
 
@@ -357,7 +359,7 @@ function createSocket() {
     machineReadableData.devices[signature].dynamb = dynamb;
     jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
     container.replaceChildren(content);
-    container.hidden = false;
+    document.querySelector('#dynambitem' + idSignature).hidden = false;
   });
 
   socket.on('spatem', function(spatem) {
@@ -369,7 +371,7 @@ function createSocket() {
     machineReadableData.devices[signature].spatem = spatem;
     jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
     container.replaceChildren(content);
-    container.hidden = false;
+    document.querySelector('#spatemitem' + idSignature).hidden = false;
   });
 
   socket.on('connect_error', function() {
