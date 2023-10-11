@@ -108,7 +108,9 @@ let cuttlefishDynamb = (function() {
       tbody.appendChild(tr);
     }
 
-    for(const property in dynamb) {
+    let sorted = Object.keys(dynamb).sort((a, b) => a.localeCompare(b));
+
+    sorted.forEach((property) => {
       if((property !== 'timestamp') && (property !== 'deviceId') &&
          (property !== 'deviceIdType')) {
         let tr = renderAsRow(property, dynamb[property]);
@@ -117,7 +119,7 @@ let cuttlefishDynamb = (function() {
           tbody.appendChild(tr);
         }
       }
-    }
+    });
 
     if(target) {
       target.replaceChildren(table);
