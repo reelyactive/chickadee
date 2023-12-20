@@ -10,6 +10,7 @@ let cuttlefishStatid = (function() {
   const STANDARD_DATA_PROPERTIES = {
       appearance: { icon: "fas fa-eye" },
       deviceIds: { icon: "fas fa-barcode", transform: "idList" },
+      languages: { icon: "fas fa-language", transform: "stringArray" },
       name: { icon: "fas fa-id-card" },
       uri: { icon: "fas fa-link", transform: "uri" },
       uuids: { icon: "fas fa-barcode", transform: "idList" },
@@ -64,6 +65,8 @@ let cuttlefishStatid = (function() {
         return renderUri(data);
       case 'idList':
         return renderListGroupArray(data);
+      case 'stringArray':
+        return renderStringArray(data);
       default:
         return data.toString() + suffix;
     }
@@ -91,6 +94,17 @@ let cuttlefishStatid = (function() {
     });
 
     return createElement('ul', 'list-group list-group-flush', items);
+  }
+
+  // Render an array of strings
+  function renderStringArray(elements) {
+    let lis = [];
+
+    for(const element of elements) {
+      lis.push(createElement('li', 'list-inline-item', element));
+    }
+
+    return createElement('ul', 'list-inline mb-0', lis);
   }
 
   // Create an element as specified, appending optional content as child(ren)
