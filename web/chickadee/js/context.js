@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2015-2023
+ * Copyright reelyActive 2015-2024
  * We believe in an open Internet of Things
  */
 
@@ -155,7 +155,7 @@ function createDeviceCard(signature, device) {
   let header = createElement('div', 'card-header bg-dark text-white lead',
                              [ headerIcon, headerText ]);
   let body = createElement('div', 'card-body');
-  let footerIcon = createElement('i', 'fas fa-link text-muted');
+  let footerIcon = createElement('i', 'fas fa-link text-body-secondary');
   let footerText = createElement('a', 'text-truncate', deviceUrl);
   let footer = createElement('small', 'card-footer',
                              [ footerIcon, ' ', footerText ]);
@@ -245,7 +245,7 @@ function createNearestContent(nearest) {
   let tbody = createElement('tbody');
 
   nearest.forEach(function(item, index) {
-    let rowClass = (index === 0) ? 'table-success' : null;
+    let rowClass = (index === 0) ? 'table-active' : null;
     let device = createElement('td', 'font-monospace', item.device);
     let rssi = createElement('td', 'font-monospace', item.rssi + ' dBm');
     let row = createElement('tr', rowClass, [ device, rssi ]);

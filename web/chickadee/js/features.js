@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2022
+ * Copyright reelyActive 2022-2024
  * We believe in an open Internet of Things
  */
 
@@ -100,7 +100,7 @@ function createFeatureCard(id, feature, isEditable) {
   let header = createElement('div', 'card-header bg-dark text-white lead',
                              [ headerIcon, headerText ]);
   let body = createElement('div', 'card-body');
-  let footerIcon = createElement('i', 'fas fa-link text-muted');
+  let footerIcon = createElement('i', 'fas fa-link text-body-secondary');
   let footerText = createElement('a', 'text-truncate', featureUrl);
   let footer = createElement('small', 'card-footer',
                              [ footerIcon, ' ', footerText ]);

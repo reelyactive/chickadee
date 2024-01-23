@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2015-2019
+ * Copyright reelyActive 2015-2024
  * We believe in an open Internet of Things
  */
 
@@ -126,7 +126,7 @@ function createAssociationCard(signature, association, isEditable) {
   let header = createElement('div', 'card-header bg-dark text-white lead',
                              [ headerIcon, headerText ]);
   let body = createElement('div', 'card-body');
-  let footerIcon = createElement('i', 'fas fa-link text-muted');
+  let footerIcon = createElement('i', 'fas fa-link text-body-secondary');
   let footerText = createElement('a', 'text-truncate', associationUrl);
   let footer = createElement('small', 'card-footer',
                              [ footerIcon, ' ', footerText ]);
