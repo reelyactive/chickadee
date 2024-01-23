@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2021-2023
+ * Copyright reelyActive 2021-2024
  * We believe in an open Internet of Things
  */
 
@@ -111,7 +111,7 @@ let cuttlefishDynamb = (function() {
       let deviceId = dynamb.deviceId + ' / ' +
                      IDENTIFIER_TYPES[dynamb.deviceIdType];
       let tr = renderAsRow('deviceId', deviceId);
-      tr.setAttribute('class', 'table-light');
+      tr.setAttribute('class', 'table-active');
       tbody.appendChild(tr);
     }
 

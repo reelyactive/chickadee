@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2023
+ * Copyright reelyActive 2023-2024
  * We believe in an open Internet of Things
  */
 
@@ -40,7 +40,7 @@ let cuttlefishSpatem = (function() {
       let icon = createElement('i', 'fas fa-wifi');
       let th = createElement('th', 'text-center', icon);
       let td = createElement('td', 'align-middle font-monospace', deviceId);
-      let tr = createElement('tr', 'table-light', [ th, td ]);
+      let tr = createElement('tr', 'table-active', [ th, td ]);
       tbody.appendChild(tr);
     }
     if(spatem.hasOwnProperty('data') && Array.isArray(spatem.data.features)) {
