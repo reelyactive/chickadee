@@ -53,6 +53,8 @@ let cuttlefishDynamb = (function() {
                          transform: "booleanArray" },
       isContactDetected: { icon: "fas fa-compress-alt", suffix: "",
                            transform: "booleanArray" },
+      isHealthy: { icon: "fas fa-check-circle", suffix: "",
+                   transform: "health" },
       isLiquidDetected: { icon: "fas fa-tint", suffix: "",
                           transform: "booleanArray" },
       isMotionDetected: { icon: "fas fa-walking", suffix: "",
@@ -199,6 +201,8 @@ let cuttlefishDynamb = (function() {
         return renderBooleanArray(data);
       case 'elapsedTime':
         return renderElapsedTime(data);
+      case 'health':
+        return renderHealth(data);
       case 'unicodeCodePoints':
         return renderUnicodeCodePoints(data);
       case 'passages':
@@ -276,6 +280,14 @@ let cuttlefishDynamb = (function() {
     representation += (seconds + 's').padStart(3, '0');
 
     return representation;
+  }
+
+  // Render health status
+  function renderHealth(data) {
+    let icon = createElement('i', 'fas fa-heartbeat');
+    let buttonClass= data ? 'btn btn-sm btn-success' : 'btn btn-sm btn-danger';
+
+    return createElement('button', buttonClass, icon);
   }
 
   // Render an array of numbers
