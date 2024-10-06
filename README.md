@@ -29,10 +29,54 @@ Browse to [localhost:3001/associations/001bc50940810000/1](http://localhost:3001
 REST API
 --------
 
-__chickadee__'s REST API includes the following two base routes:
+__chickadee__'s REST API includes the following three base routes:
 - /associations _for retrieving/specifying metadata associations with devices_
 - /context _for retrieving the context of specific devices_
 - /features _for retrieving/specifying GeoJSON features_
+
+
+### GET /associations[?]
+
+Retrieve all associations, with optional query string.
+
+#### Example request
+
+| Method | Route         | Content-Type     |
+|:-------|:--------------|:-----------------|
+| GET    | /associations | application/json |
+
+#### Example response
+
+    {
+      "_meta": {
+        "message": "ok",
+        "statusCode": 200
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:3001/associations"
+        }
+      },
+      "associations": {
+        "001bc50940810000/1": {},
+        "001bc50940820000/1": {}
+      }
+    }
+
+By default, each association will be returned as an empty object.  To include one or more association properties, use a query string as specified below.
+
+#### Query strings
+
+The following query string parameters are supported:
+- tag _to filter on a specific tag_
+- directory _to filter on a specific directory_
+- include _to include a specific property in each returned association_
+
+For example GET /associations?tag=animal&include=url would return all associations with "animal" among their tags, and include _only_ the url property, if any, of each association.
+
+It is possible to search on multiple tag, directory and include parameters, for instance GET /associations?tag=new&tag=improved would return all associations with either "new", "improved", or both, among their tags.
+
+The directory parameter is hierarchical.  For instance GET /associations?directory=parc would return associations with directory "parc", "parc:office", "parc:lounge", and so on.
 
 
 ### GET /associations/{id}/{type}
