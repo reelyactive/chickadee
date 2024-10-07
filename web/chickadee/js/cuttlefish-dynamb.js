@@ -77,6 +77,8 @@ let cuttlefishDynamb = (function() {
                    transform: "toFixedArray(0)" },
       relativeHumidity: { icon: "fas fa-water", suffix: " %",
                           transform: "progressPercentage" },
+      soundPressure: { icon: "fas fa-volume-up", suffix: " dB",
+                       transform: "toFixed(0)" },
       speed: { icon: "fas fa-tachometer-alt", suffix: " m/s",
                transform: "toFixed(2)" },
       temperature: { icon: "fas fa-thermometer-half", suffix: " \u2103",
