@@ -5,7 +5,7 @@ chickadee
 A contextual associations store and API for the IoT
 ---------------------------------------------------
 
-__chickadee__ is a contextual associations store and a core module of [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source middleware for context-aware physical spaces.
+__chickadee__ is a contextual associations store and [hyperlocal context](https://www.reelyactive.com/context/) API for [Pareto Anywhere](https://www.reelyactive.com/pareto/anywhere/) open source IoT middleware.
 
 ![Overview of chickadee](https://reelyactive.github.io/chickadee/images/overview.png)
 
