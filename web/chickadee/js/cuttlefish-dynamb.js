@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2021-2024
+ * Copyright reelyActive 2021-2025
  * We believe in an open Internet of Things
  */
 
@@ -28,6 +28,8 @@ let cuttlefishDynamb = (function() {
   const STANDARD_DATA_PROPERTIES = {
       acceleration: { icon: "fas fa-rocket", suffix: "g",
                       transform: "progressXYZ" },
+      ammoniaConcentration: { icon: "fas fa-skull-crossbones",
+                              suffix: " NH\u2083", transform: "ppm" },
       amperage: { icon: "fas fa-arrow-circle-up", suffix: " A",
                   transform: "toFixed(2)" },
       amperages: { icon: "fas fa-arrow-circle-up", suffix: " A",
@@ -37,6 +39,10 @@ let cuttlefishDynamb = (function() {
                            transform: "progressPercentage" },
       batteryVoltage: { icon: "fas fa-battery-half", suffix: " V",
                         transform: "toFixed(2)" },
+      carbonDioxideConcentration: { icon: "fas fa-cloud", suffix: " CO\u2082",
+                                    transform: "ppm" },
+      carbonMonoxideConcentration: { icon: "fas fa-skull-crossbones",
+                                     suffix: " CO", transform: "ppm" },
       deviceId: { icon: "fas fa-wifi", suffix: "", transform: "monospace" },
       distance: { icon: "fas fa-expand-alt", suffix: " m",
                   transform: "toFixed(2)" },
@@ -63,8 +69,12 @@ let cuttlefishDynamb = (function() {
                          transform: "progressPercentage" },
       magneticField: { icon: "fas fa-magnet", suffix: " G",
                        transform: "progressXYZ" },
+      methaneConcentration: { icon: "fas fa-cloud", suffix: " CH\u2084",
+                              transform: "ppm" },
       nearest: { icon: "fas fa-people-arrows", suffix: "dBm",
                  transform: "tableNearest" },
+      nitrogenDioxideConcentration: { icon: "fas fa-skull-crossbones",
+                                      suffix: " NO\u2082", transform: "ppm" },
       numberOfOccupants: { icon: "fas fa-user-friends", suffix: " occupants",
                            transform: "toFixed(0)" },
       passageCounts: { icon: "fas fa-exchange-alt", suffix: " passages",
@@ -91,6 +101,9 @@ let cuttlefishDynamb = (function() {
       unicodeCodePoints: { icon: "fas fa-language", suffix: "",
                           transform: "unicodeCodePoints" },
       uptime: { icon: "fas fa-stopwatch", transform: "elapsedTime" },
+      volatileOrganicCompoundsConcentration: { icon: "fas fa-cloud",
+                                               suffix: " VOC",
+                                               transform: "ppm" },
       voltage: { icon: "fas fa-bolt", suffix: " V", transform: "toFixed(2)" },
       voltages: { icon: "fas fa-bolt", suffix: " V",
                   transform: "toFixedArray(2)" }
@@ -211,6 +224,8 @@ let cuttlefishDynamb = (function() {
         return renderPassages(data, suffix);
       case 'position':
         return renderPosition(data);
+      case 'ppm':
+        return renderPpm(data, suffix);
       case 'progressPercentage':
         return renderProgress(data, 100, 0, '%');
       case 'progressXYZ':
@@ -353,6 +368,11 @@ let cuttlefishDynamb = (function() {
     }
 
     return list;
+  }
+
+  // Render a ppm concentration
+  function renderPpm(data, suffix) {
+    return data + ' ppm' + suffix;
   }
 
   // Render a progress bar
