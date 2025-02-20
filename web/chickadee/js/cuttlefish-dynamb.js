@@ -80,6 +80,9 @@ let cuttlefishDynamb = (function() {
       passageCounts: { icon: "fas fa-exchange-alt", suffix: " passages",
                        transform: "passages" },
       pH: { icon: "fas fa-water", suffix: " pH", transform: "toFixed(2)" },
+      "pm1.0": { icon: "fas fa-virus", suffix: "1.0", transform: "pm" },
+      "pm2.5": { icon: "fas fa-virus", suffix: "2.5", transform: "pm" },
+      "pm10": { icon: "fas fa-virus", suffix: "10", transform: "pm" },
       position: { icon: "fas fa-map-pin", suffix: "", transform: "position" },
       pressure: { icon: "fas fa-cloud", suffix: " Pa",
                   transform: "toFixed(0)" },
@@ -101,6 +104,8 @@ let cuttlefishDynamb = (function() {
       unicodeCodePoints: { icon: "fas fa-language", suffix: "",
                           transform: "unicodeCodePoints" },
       uptime: { icon: "fas fa-stopwatch", transform: "elapsedTime" },
+      velocityOverall: { icon: "fas fa-tachometer-alt", suffix: " m/s",
+                         transform: "progressXYZ" },
       volatileOrganicCompoundsConcentration: { icon: "fas fa-cloud",
                                                suffix: " VOC",
                                                transform: "ppm" },
@@ -224,6 +229,8 @@ let cuttlefishDynamb = (function() {
         return renderPassages(data, suffix);
       case 'position':
         return renderPosition(data);
+      case 'pm':
+        return renderParticulateMatter(data, suffix);
       case 'ppm':
         return renderPpm(data, suffix);
       case 'progressPercentage':
@@ -370,6 +377,14 @@ let cuttlefishDynamb = (function() {
     return list;
   }
 
+  // Render a PM concentration
+  function renderParticulateMatter(data, suffix) {
+    let text = data + ' \u03bcg/m\u00b3 PM';
+    let sub = createElement('sub', null, suffix);
+
+    return createElement('span', null, [ text, sub ]);
+  }
+
   // Render a ppm concentration
   function renderPpm(data, suffix) {
     return data + ' ppm' + suffix;
@@ -381,7 +396,9 @@ let cuttlefishDynamb = (function() {
     suffix = suffix || '';
 
     let isPositive = (value >= 0);
-    let valueString = value.toFixed(decimalDigits) + suffix;
+    let valueString = (decimalDigits >= 0) ? value.toFixed(decimalDigits) :
+                                             value.toPrecision(-decimalDigits);
+    valueString += suffix;
     let widthPercentage = (100 * Math.abs(value) / maxValue).toFixed(0) + '%';
     let progressBar = createElement('div', 'progress-bar', valueString);
     let progressClass = isPositive ? 'progress' : 'progress flex-row-reverse';
@@ -397,22 +414,28 @@ let cuttlefishDynamb = (function() {
     suffix = suffix || '';
 
     let maxValue = Math.max(Math.max(...data), Math.abs(Math.min(...data)));
+    let isNegativeValues = data.some((value) => value < 0);
+    let isPositiveValues = data.some((value) => value >= 0);
     let magnitude = 0;
     let tbody = createElement('tbody', 'align-middle');
     let table = createElement('table', 'table table-borderless', tbody);
 
     data.forEach(function(value, index) {
-      let progressNeg = renderProgress(Math.min(value, 0), maxValue, 2, suffix);
-      let progressPos = renderProgress(Math.max(value, 0), maxValue, 2, suffix);
+      let progressNeg = renderProgress(Math.min(value,0), maxValue, -2, suffix);
+      let progressPos = renderProgress(Math.max(value,0), maxValue, -2, suffix);
       let tdNeg = createElement('td', null, progressNeg);
       let th = createElement('th', 'text-center small', AXIS_NAMES[index]);
       let tdPos = createElement('td', null, progressPos);
-      let tr = createElement('tr', null, [ tdNeg, th, tdPos ]);
+      let elements = [];
+      if(isNegativeValues) { elements.push(tdNeg); }
+      elements.push(th);
+      if(isPositiveValues) { elements.push(tdPos); }
+      let tr = createElement('tr', null, elements);
       tbody.appendChild(tr);
       magnitude += (value * value);
     });
 
-    magnitude = Math.sqrt(magnitude).toFixed(2);
+    magnitude = Math.sqrt(magnitude).toPrecision(2);
     let caption = createElement('caption', null, magnitude + suffix);
     table.appendChild(caption);
 
