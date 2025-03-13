@@ -5,7 +5,7 @@
     "name": "reelyActive",
     "email": "info@reelyactive.com"
   },
-  "description": "Contextual associations store and API.  We believe in an open Internet of Things.",
+  "description": "Contextual associations store and API for the IoT.  We believe in an open Internet of Things.",
   "keywords": [
     "reelyActive",
     "IoT",
@@ -13,7 +13,7 @@
     "API",
     "contextual associations"
   ],
-  "version": "1.8.4",
+  "version": "1.9.0",
   "engines": {
     "node": ">=10.0.0"
   },
