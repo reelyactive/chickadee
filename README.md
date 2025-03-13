@@ -202,9 +202,9 @@ The following routes are also supported:
 In each case, the response is as above.
 
 
-### GET /context
+### GET /context[?]
 
-Retrieve the context of all active devices.
+Retrieve the context of all active devices, with optional query string.
 
 #### Example request
 
@@ -280,10 +280,19 @@ Retrieve the context of all active devices.
       }
     }
 
+#### Query strings
 
-### GET /context/device/{id}/{type}
+The following query string parameter is supported:
+- include _to include only a specific property in each returned device_
 
-Retrieve the context of the active device with the given _id_ and _type_.
+For example GET /context?include=dynamb would return all devices, and include _only_ the dynamb property, if any, of each device.
+
+It is possible to query on multiple include parameters, for instance GET /context?include=nearest&include=directory would include either, or both, the nearest and directory properties, of each device.
+
+
+### GET /context/device/{id}/{type}[?]
+
+Retrieve the context of the active device with the given _id_ and _type_, with optional query string.
 
 #### Example request
 
@@ -359,10 +368,17 @@ Retrieve the context of the active device with the given _id_ and _type_.
       }
     }
 
+#### Query strings
 
-### GET /context/directory/{directory}
+The following query string parameter is supported:
+- include _to include only a specific property in the returned device_
 
-Retrieve the context of all active devices with (and within) the given _directory_.  As directories are hierarchical, specifying the directory _parc_ would include all subdirectories such as _parc:office_ and _parc:lounge_.
+For example GET /context/device/fee150bada55/2?include=dynamb would return the specified device, and include _only_ its dynamb property, if any.
+
+
+### GET /context/directory/{directory}[?]
+
+Retrieve the context of all active devices with (and within) the given _directory_, with optional query string.  As directories are hierarchical, specifying the directory _parc_ would include all subdirectories such as _parc:office_ and _parc:lounge_.
 
 #### Example request
 
@@ -438,10 +454,17 @@ Retrieve the context of all active devices with (and within) the given _director
       }
     }
 
+#### Query strings
 
-### GET /context/tag/{tag}
+The following query string parameter is supported:
+- include _to include only a specific property in each returned device_
 
-Retrieve the context of all active devices with the given _tag_.
+For example GET /context/directory/parc?include=nearest would return all devices with (and within) the parc _directory_, and include _only_ the nearest property, if any, of each device.
+
+
+### GET /context/tag/{tag}[?]
+
+Retrieve the context of all active devices with the given _tag_, with optional query string.
 
 #### Example request
 
@@ -516,6 +539,13 @@ Retrieve the context of all active devices with the given _tag_.
         }
       }
     }
+
+#### Query strings
+
+The following query string parameter is supported:
+- include _to include only a specific property in each returned device_
+
+For example GET /context/tag/animal?include=spatem would return all active devices with the animal _tag_, and include _only_ the spatem property, if any, of each device.
 
 
 ### POST /features
