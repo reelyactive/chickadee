@@ -696,13 +696,13 @@ The API will return an array (list) similar to the following, which includes eac
         "deviceId": "001bc50940810000",
         "deviceIdType": 1,
         "numberOfReceivedDevices": 42,
-        "numberOfStrongestReceivedDevices": 21,
+        "numberOfStrongestReceivedDevices": 21
       },
       {
         "deviceId": "001bc50940820000",
         "deviceIdType": 1,
         "numberOfReceivedDevices": 36,
-        "numberOfStrongestReceivedDevices": 27,
+        "numberOfStrongestReceivedDevices": 27
       }
     ]
 
