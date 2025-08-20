@@ -282,7 +282,8 @@ Retrieve the context of all active devices, with optional query string.
 
 #### Query strings
 
-The following query string parameter is supported:
+The following query string parameters are supported, in order of precedence:
+- format _to format the returned JSON a specific way_ (see [Format Options](#format-options))
 - include _to include only a specific property in each returned device_
 
 For example GET /context?include=dynamb would return all devices, and include _only_ the dynamb property, if any, of each device.
@@ -370,8 +371,9 @@ Retrieve the context of the active device with the given _id_ and _type_, with o
 
 #### Query strings
 
-The following query string parameter is supported:
-- include _to include only a specific property in the returned device_
+The following query string parameters are supported, in order of precedence:
+- format _to format the returned JSON a specific way_ (see [Format Options](#format-options))
+- include _to include only a specific property in each returned device_
 
 For example GET /context/device/fee150bada55/2?include=dynamb would return the specified device, and include _only_ its dynamb property, if any.
 
@@ -456,7 +458,8 @@ Retrieve the context of all active devices with (and within) the given _director
 
 #### Query strings
 
-The following query string parameter is supported:
+The following query string parameters are supported, in order of precedence:
+- format _to format the returned JSON a specific way_ (see [Format Options](#format-options))
 - include _to include only a specific property in each returned device_
 
 For example GET /context/directory/parc?include=nearest would return all devices with (and within) the parc _directory_, and include _only_ the nearest property, if any, of each device.
@@ -542,7 +545,8 @@ Retrieve the context of all active devices with the given _tag_, with optional q
 
 #### Query strings
 
-The following query string parameter is supported:
+The following query string parameters are supported, in order of precedence:
+- format _to format the returned JSON a specific way_ (see [Format Options](#format-options))
 - include _to include only a specific property in each returned device_
 
 For example GET /context/tag/animal?include=spatem would return all active devices with the animal _tag_, and include _only_ the spatem property, if any, of each device.
@@ -651,6 +655,56 @@ Remove the GeoJSON feature with the given _id_.
           "href": "http://localhost:3001/features/df52b802f4054bdb815102be1d76f8ab"
         }
       }
+
+
+Format Options
+--------------
+
+The _format_ query parameter of the /context API supports the following mutually-exclusive options:
+- geojson
+- dynamblist
+
+### format=geojson
+
+The API will return a GeoJSON FeatureCollection similar to the following, which includes the first feature from each returned device with a [spatem](https://reelyactive.github.io/diy/cheatsheet/#spatem):
+
+    {
+      "type": "FeatureCollection",
+      "features": [{
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [ 1, 2, 3 ]
+        },
+        "properties": { "deviceId": "fee150bada55", "deviceIdType": 2 },
+        {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [ 3, 2, 1 ]
+        },
+        "properties": { "deviceId": "bada55beac04", "deviceIdType": 3 }
+      ]
+    }
+
+### format=dynamblist
+
+The API will return an array (list) similar to the following, which includes each dynamb from the returned devices:
+
+    [
+      {
+        "deviceId": "001bc50940810000",
+        "deviceIdType": 1,
+        "numberOfReceivedDevices": 42,
+        "numberOfStrongestReceivedDevices": 21,
+      },
+      {
+        "deviceId": "001bc50940820000",
+        "deviceIdType": 1,
+        "numberOfReceivedDevices": 36,
+        "numberOfStrongestReceivedDevices": 27,
+      }
+    ]
 
 
 Socket.IO
