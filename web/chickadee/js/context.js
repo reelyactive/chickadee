@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2015-2024
+ * Copyright reelyActive 2015-2025
  * We believe in an open Internet of Things
  */
 
@@ -93,7 +93,16 @@ function pollAndDisplay() {
 
       if(status === STATUS_OK) {
         let isSpecificDevice = window.location.pathname.includes(DEVICE_ROUTE);
-        updateDevices(response.devices);
+
+        if(response.devices) {
+          updateDevices(response.devices);
+        }
+        else if(Array.isArray(response)) {
+          updateDynambList(response);
+        }
+        else if(response.type === 'FeatureCollection') {
+          updateGeoJSON(response);
+        }
         context.hidden = false;
 
         if(isSpecificDevice) {
@@ -141,6 +150,38 @@ function updateDevices(devicesList) {
     let deviceCard = createDeviceCard(deviceSignature, device);
     content.appendChild(deviceCard);
   }
+
+  context.replaceChildren(content);
+}
+
+
+// Update the dynamblist in the DOM
+function updateDynambList(dynambList) {
+  let content = new DocumentFragment();
+
+  dynambList.forEach((dynamb) => {
+    let dynambContent = cuttlefishDynamb.render(dynamb || {});
+    content.appendChild(dynambContent);
+  });
+
+  context.replaceChildren(content);
+}
+
+
+// Update the geojson in the DOM
+function updateGeoJSON(geojson) {
+  let content = new DocumentFragment();
+
+  geojson.features.forEach((feature) => {
+    let spatem = {
+        deviceId: feature.properties.deviceId,
+        deviceIdType: feature.properties.deviceIdType,
+        type: feature.properties.isDevicePosition ? 'position' : location,
+        data: { type: "FeatureCollection", features: [ feature ] }
+    };
+    let featureContent = cuttlefishSpatem.render(spatem);
+    content.appendChild(featureContent);
+  });
 
   context.replaceChildren(content);
 }
