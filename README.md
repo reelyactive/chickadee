@@ -285,6 +285,7 @@ Retrieve the context of all active devices, with optional query string.
 The following query string parameters are supported, in order of precedence:
 - format _to format the returned JSON a specific way_ (see [Format Options](#format-options))
 - include _to include only a specific property in each returned device_
+- depth _to limit the graph to a specific depth (ex: 1)_
 
 For example GET /context?include=dynamb would return all devices, and include _only_ the dynamb property, if any, of each device.
 
@@ -374,6 +375,7 @@ Retrieve the context of the active device with the given _id_ and _type_, with o
 The following query string parameters are supported, in order of precedence:
 - format _to format the returned JSON a specific way_ (see [Format Options](#format-options))
 - include _to include only a specific property in each returned device_
+- depth _to limit the graph to a specific depth (ex: 1)_
 
 For example GET /context/device/fee150bada55/2?include=dynamb would return the specified device, and include _only_ its dynamb property, if any.
 
@@ -461,6 +463,7 @@ Retrieve the context of all active devices with (and within) the given _director
 The following query string parameters are supported, in order of precedence:
 - format _to format the returned JSON a specific way_ (see [Format Options](#format-options))
 - include _to include only a specific property in each returned device_
+- depth _to limit the graph to a specific depth (ex: 1)_
 
 For example GET /context/directory/parc?include=nearest would return all devices with (and within) the parc _directory_, and include _only_ the nearest property, if any, of each device.
 
@@ -548,6 +551,7 @@ Retrieve the context of all active devices with the given _tag_, with optional q
 The following query string parameters are supported, in order of precedence:
 - format _to format the returned JSON a specific way_ (see [Format Options](#format-options))
 - include _to include only a specific property in each returned device_
+- depth _to limit the graph to a specific depth (ex: 1)_
 
 For example GET /context/tag/animal?include=spatem would return all active devices with the animal _tag_, and include _only_ the spatem property, if any, of each device.
 
