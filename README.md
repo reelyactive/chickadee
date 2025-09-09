@@ -691,6 +691,8 @@ The API will return a GeoJSON FeatureCollection similar to the following, which 
       ]
     }
 
+The _depth_ query parameter may be used to limit the GeoJSON FeatureCollection to only devices of interest, excluding their nearest peers (ex: ?format=geojson&depth=1).
+
 ### format=dynamblist
 
 The API will return an array (list) similar to the following, which includes each dynamb from the returned devices:
@@ -709,6 +711,8 @@ The API will return an array (list) similar to the following, which includes eac
         "numberOfStrongestReceivedDevices": 27
       }
     ]
+
+The _depth_ query parameter may be used to limit the list to only devices of interest, excluding their nearest peers (ex: ?format=dynamblist&depth=1).
 
 
 Socket.IO
