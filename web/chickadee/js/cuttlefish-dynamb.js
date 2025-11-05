@@ -59,14 +59,26 @@ let cuttlefishDynamb = (function() {
                            transform: "tableDigest" },
       isButtonPressed: { icon: "fas fa-hand-pointer", suffix: "",
                          transform: "booleanArray" },
+      isButtonPressedCycle: { icon: "fas fa-hand-pointer", transform: "cycle" },
       isContactDetected: { icon: "fas fa-compress-alt", suffix: "",
                            transform: "booleanArray" },
+      isContactDetectedCycle: { icon: "fas fa-compress-alt",
+                                transform: "cycle" },
       isHealthy: { icon: "fas fa-check-circle", suffix: "",
                    transform: "health" },
+      isInputDetected: { icon: "fas fa-check", suffix: "",
+                         transform: "booleanArray" },
+      isInputDetectedCycle: { icon: "fas fa-check", transform: "cycle" },
       isLiquidDetected: { icon: "fas fa-tint", suffix: "",
                           transform: "booleanArray" },
+      isLiquidDetectedCycle: { icon: "fas fa-tint", transform: "cycle" },
       isMotionDetected: { icon: "fas fa-walking", suffix: "",
                           transform: "booleanArray" },
+      isMotionDetectedCycle: { icon: "fas fa-walking", transform: "cycle" },
+      isOccupancyDetected: { icon: "fas fa-user-check", suffix: "",
+                             transform: "booleanArray" },
+      isOccupancyDetectedCycle: { icon: "fas fa-user-check",
+                                  transform: "cycle" },
       levelPercentage: { icon: "fas fa-tachometer-alt", suffix: " %",
                          transform: "progressPercentage" },
       luminousFlux: { icon: "fas fa-lightbulb", suffix: " lm",
@@ -79,8 +91,12 @@ let cuttlefishDynamb = (function() {
                  transform: "tableNearest" },
       nitrogenDioxideConcentration: { icon: "fas fa-skull-crossbones",
                                       suffix: " NO\u2082", transform: "ppm" },
+      nitrogenOxidesIndex: { icon: "fas fa-skull-crossbones",
+                             suffix: " NO\u2093", transform: "index" },
       numberOfOccupants: { icon: "fas fa-user-friends", suffix: " occupants",
                            transform: "toFixed(0)" },
+      numberOfOccupantsCycle: { icon: "fas fa-user-friends",
+                                transform: "cycle" },
       numberOfReceivedDevices: { icon: "fas fa-broadcast-tower",
                                  suffix: " Rx (total)",
                                  transform: "toFixed(0)" },
@@ -89,6 +105,7 @@ let cuttlefishDynamb = (function() {
                                           transform: "toFixed(0)" },
       passageCounts: { icon: "fas fa-exchange-alt", suffix: " passages",
                        transform: "passages" },
+      passageCountsCycle: { icon: "fas fa-exchange-alt", transform: "cycle" },
       pH: { icon: "fas fa-water", suffix: " pH", transform: "toFixed(2)" },
       "pm1.0": { icon: "fas fa-virus", suffix: "1.0", transform: "pm" },
       "pm2.5": { icon: "fas fa-virus", suffix: "2.5", transform: "pm" },
@@ -111,6 +128,7 @@ let cuttlefishDynamb = (function() {
       timestamp: { icon: "fas fa-clock", suffix: "", transform: "timeOfDay" },
       txCount: { icon: "fas fa-satellite-dish", transform: "localeString",
                  suffix: " Tx" },
+      txCycle: { icon: "fas fa-satellite-dish", transform: "cycle" },
       unicodeCodePoints: { icon: "fas fa-language", suffix: "",
                           transform: "unicodeCodePoints" },
       uptime: { icon: "fas fa-stopwatch", transform: "elapsedTime" },
@@ -229,10 +247,14 @@ let cuttlefishDynamb = (function() {
         return createElement('span', 'font-monospace', data + suffix);
       case 'booleanArray':
         return renderBooleanArray(data);
+      case 'cycle':
+        return renderCycle(data);
       case 'elapsedTime':
         return renderElapsedTime(data);
       case 'health':
         return renderHealth(data);
+      case 'index':
+        return suffix + ' index ' + data;
       case 'unicodeCodePoints':
         return renderUnicodeCodePoints(data);
       case 'passages':
@@ -283,6 +305,13 @@ let cuttlefishDynamb = (function() {
     let buttonGroup = createElement('div', 'btn-group btn-group-sm', buttons);
 
     return createElement('div', 'btn-toolbar', buttonGroup);
+  }
+
+  // Render a cycle
+  function renderCycle(data) {
+    let badge = createElement('span', 'badge text-bg-info', data);
+
+    return createElement('span', 'align-middle', [ 'Cycle ', badge ]);
   }
 
   // Render an elapsed time in the appropriate units
