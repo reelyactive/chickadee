@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2015-2025
+ * Copyright reelyActive 2015-2026
  * We believe in an open Internet of Things
  */
 
@@ -255,6 +255,17 @@ function createDeviceAccordion(device, signature) {
   spatemItem.hidden = !device.hasOwnProperty('spatem');
   accordion.appendChild(spatemItem);
 
+  let encryptedContent = cuttlefishEncrypted.render(device.encrypted || {});
+  let encryptedIcon = createElement('i', 'fas fa-lock');
+  let encryptedTitle = createElement('span', null,
+                                     [ encryptedIcon, '\u00a0 encrypted' ]);
+  let encryptedItem = createAccordionItem('encrypted', accordionId,
+                                          encryptedTitle, encryptedContent,
+                                          'encryptedcontainer' + idSignature);
+  encryptedItem.id = 'encrypteditem' + idSignature;
+  encryptedItem.hidden = !device.hasOwnProperty('encrypted');
+  accordion.appendChild(encryptedItem);
+
   if(device.hasOwnProperty('statid')) {
     let statidContent = cuttlefishStatid.render(device.statid);
     let statidIcon = createElement('i', 'fas fa-id-card');
@@ -413,6 +424,18 @@ function createSocket() {
     jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
     container.replaceChildren(content);
     document.querySelector('#spatemitem' + idSignature).hidden = false;
+  });
+
+  socket.on('encrypted', function(encrypted) {
+    let signature = encrypted.deviceId + '/' + encrypted.deviceIdType;
+    let idSignature = encrypted.deviceId + encrypted.deviceIdType;
+    let container = document.querySelector('#encryptedcontainer' + idSignature);
+    let content = cuttlefishEncrypted.render(encrypted, null,
+                                             { hideDeviceId: true });
+    machineReadableData.devices[signature].encrypted = encrypted;
+    jsonResponse.textContent = JSON.stringify(machineReadableData, null, 2);
+    container.replaceChildren(content);
+    document.querySelector('#encrypteditem' + idSignature).hidden = false;
   });
 
   socket.on('connect_error', function() {

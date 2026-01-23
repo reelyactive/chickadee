@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2021-2025
+ * Copyright reelyActive 2021-2026
  * We believe in an open Internet of Things
  */
 
@@ -41,15 +41,21 @@ let cuttlefishDynamb = (function() {
                            transform: "progressPercentage" },
       batteryVoltage: { icon: "fas fa-battery-half", suffix: " V",
                         transform: "toFixed(2)" },
-      carbonDioxideConcentration: { icon: "fas fa-cloud", suffix: " CO\u2082",
+      carbonDioxideConcentration: { icon: "fas fa-smog", suffix: " CO\u2082",
                                     transform: "ppm" },
       carbonMonoxideConcentration: { icon: "fas fa-skull-crossbones",
                                      suffix: " CO", transform: "ppm" },
-      deviceId: { icon: "fas fa-wifi", suffix: "", transform: "monospace" },
+      count: { icon: "fas fa-hashtag", transform: "localeString" },
+      counts: { icon: "fas fa-hashtag", transform: "localeStringArray",
+                suffix: "" },
+      deviceId: { icon: "fas fa-wifi", transform: "monospace" },
       distance: { icon: "fas fa-expand-alt", suffix: " m",
                   transform: "toFixed(2)" },
+      duration: { icon: "fas fa-stopwatch", transform: "elapsedTime" },
+      durations: { icon: "fas fa-stopwatch", transform: "elapsedTimeArray" },
       elevation: { icon: "fas fa-layer-group", suffix: " m",
                    transform: "toFixed(2)" },
+      energy: { icon: "fas fa-plug", suffix: " kWh", transform: "toFixed(2)" },
       heading: { icon: "fas fa-compass", transform: "rotationDegrees" },
       heartRate: { icon: "fas fa-heartbeat", suffix: " bpm",
                    transform: "toFixed(0)" },
@@ -57,35 +63,41 @@ let cuttlefishDynamb = (function() {
                      transform: "toFixed(0)" },
       interactionDigest: { icon: "fas fa-history", suffix: "interactions",
                            transform: "tableDigest" },
-      isButtonPressed: { icon: "fas fa-hand-pointer", suffix: "",
+      isButtonPressed: { icon: "fas fa-hand-pointer",
                          transform: "booleanArray" },
       isButtonPressedCycle: { icon: "fas fa-hand-pointer", transform: "cycle" },
-      isContactDetected: { icon: "fas fa-compress-alt", suffix: "",
+      isCarbonMonoxideDetected: { icon: "fas fa-skull-crossbones",
+                                  transform: "booleanArray" },
+      isCarbonMonoxideDetectedCycle: { icon: "fas fa-skull-crossbones",
+                                       transform: "cycle" },
+      isContactDetected: { icon: "fas fa-compress-alt",
                            transform: "booleanArray" },
       isContactDetectedCycle: { icon: "fas fa-compress-alt",
                                 transform: "cycle" },
-      isHealthy: { icon: "fas fa-check-circle", suffix: "",
-                   transform: "health" },
-      isInputDetected: { icon: "fas fa-check", suffix: "",
-                         transform: "booleanArray" },
+      isGasDetected: { icon: "fas fa-smog", transform: "booleanArray" },
+      isGasDetectedCycle: { icon: "fas fa-smog", transform: "cycle" },
+      isHealthy: { icon: "fas fa-check-circle", transform: "health" },
+      isInputDetected: { icon: "fas fa-check", transform: "booleanArray" },
       isInputDetectedCycle: { icon: "fas fa-check", transform: "cycle" },
-      isLiquidDetected: { icon: "fas fa-tint", suffix: "",
-                          transform: "booleanArray" },
+      isLightDetected: { icon: "fas fa-lightbulb", transform: "booleanArray" },
+      isLightDetectedCycle: { icon: "fas fa-lightbulb", transform: "cycle" },
+      isLiquidDetected: { icon: "fas fa-tint", transform: "booleanArray" },
       isLiquidDetectedCycle: { icon: "fas fa-tint", transform: "cycle" },
-      isMotionDetected: { icon: "fas fa-walking", suffix: "",
-                          transform: "booleanArray" },
+      isMotionDetected: { icon: "fas fa-walking", transform: "booleanArray" },
       isMotionDetectedCycle: { icon: "fas fa-walking", transform: "cycle" },
-      isOccupancyDetected: { icon: "fas fa-user-check", suffix: "",
+      isOccupancyDetected: { icon: "fas fa-user-check",
                              transform: "booleanArray" },
       isOccupancyDetectedCycle: { icon: "fas fa-user-check",
                                   transform: "cycle" },
+      isSmokeDetected: { icon: "fas fa-fire", transform: "booleanArray" },
+      isSmokeDetectedCycle: { icon: "fas fa-fire", transform: "cycle" },
       levelPercentage: { icon: "fas fa-tachometer-alt", suffix: " %",
                          transform: "progressPercentage" },
       luminousFlux: { icon: "fas fa-lightbulb", suffix: " lm",
                       transform: "toFixed(0)" },
       magneticField: { icon: "fas fa-magnet", suffix: " G",
                        transform: "progressXYZ" },
-      methaneConcentration: { icon: "fas fa-cloud", suffix: " CH\u2084",
+      methaneConcentration: { icon: "fas fa-smog", suffix: " CH\u2084",
                               transform: "ppm" },
       nearest: { icon: "fas fa-people-arrows", suffix: "dBm",
                  transform: "tableNearest" },
@@ -110,11 +122,13 @@ let cuttlefishDynamb = (function() {
       "pm1.0": { icon: "fas fa-virus", suffix: "1.0", transform: "pm" },
       "pm2.5": { icon: "fas fa-virus", suffix: "2.5", transform: "pm" },
       "pm10": { icon: "fas fa-virus", suffix: "10", transform: "pm" },
-      position: { icon: "fas fa-map-pin", suffix: "", transform: "position" },
+      position: { icon: "fas fa-map-pin", transform: "position" },
+      power: { icon: "fas fa-cloud", suffix: " W", transform: "toFixed(2)" },
       pressure: { icon: "fas fa-cloud", suffix: " Pa",
                   transform: "toFixed(0)" },
       pressures: { icon: "fas fa-cloud", suffix: " Pa",
                    transform: "toFixedArray(0)" },
+      raw: { icon: "fas fa-code", transform: "monospace" },
       relativeHumidity: { icon: "fas fa-water", suffix: " %",
                           transform: "progressPercentage" },
       soundPressure: { icon: "fas fa-volume-up", suffix: " dB",
@@ -125,16 +139,17 @@ let cuttlefishDynamb = (function() {
                      transform: "toFixed(2)" },
       temperatures: { icon: "fas fa-thermometer-half", suffix: " \u2103",
                       transform: "toFixedArray(2)" },
-      timestamp: { icon: "fas fa-clock", suffix: "", transform: "timeOfDay" },
+      text: { icon: "fas fa-comment" },
+      timestamp: { icon: "fas fa-clock", transform: "timeOfDay" },
       txCount: { icon: "fas fa-satellite-dish", transform: "localeString",
                  suffix: " Tx" },
       txCycle: { icon: "fas fa-satellite-dish", transform: "cycle" },
-      unicodeCodePoints: { icon: "fas fa-language", suffix: "",
+      unicodeCodePoints: { icon: "fas fa-language",
                           transform: "unicodeCodePoints" },
       uptime: { icon: "fas fa-stopwatch", transform: "elapsedTime" },
       velocityOverall: { icon: "fas fa-tachometer-alt", suffix: " m/s",
                          transform: "progressXYZ" },
-      volatileOrganicCompoundsConcentration: { icon: "fas fa-cloud",
+      volatileOrganicCompoundsConcentration: { icon: "fas fa-smog",
                                                suffix: " VOC",
                                                transform: "ppm" },
       voltage: { icon: "fas fa-bolt", suffix: " V", transform: "toFixed(2)" },
@@ -251,6 +266,8 @@ let cuttlefishDynamb = (function() {
         return renderCycle(data);
       case 'elapsedTime':
         return renderElapsedTime(data);
+      case 'elapsedTimeArray':
+        return renderElapsedTimeArray(data);
       case 'health':
         return renderHealth(data);
       case 'index':
@@ -281,6 +298,8 @@ let cuttlefishDynamb = (function() {
         return renderNumberArray(data, 2, suffix);
       case 'localeString':
         return data.toLocaleString() + suffix;
+      case 'localeStringArray':
+        return renderLocaleStringArray(data, suffix);
       case 'tableNearest':
         return renderTableDevices(data, 'rssi', suffix);
       case 'tableDigest':
@@ -336,13 +355,35 @@ let cuttlefishDynamb = (function() {
     }
     if((remainingTime !== elapsedTime) || (remainingTime > MS_IN_MINUTE)) {
       let minutes = Math.floor(remainingTime / MS_IN_MINUTE);
-      representation += (minutes + 'm').padStart(3, '0');
+      let minutesString = (representation.length === 0) ? minutes.toString() :
+                                           minutes.toString().padStart(2, '0');
+      representation += minutesString + 'm';
       remainingTime -= (minutes * MS_IN_MINUTE);
     }
-    let seconds = Math.round(remainingTime / MS_IN_SECOND);
-    representation += (seconds + 's').padStart(3, '0');
+    let seconds = Math.floor(remainingTime / MS_IN_SECOND);
+    let secondsString = (representation.length === 0) ? seconds.toString() :
+                                           seconds.toString().padStart(2, '0');
+    remainingTime -= (seconds * MS_IN_SECOND);
+    let decimalString = (remainingTime === 0) ? '' :
+                               '.' + remainingTime.toString().padStart(3, '0');
+    representation += secondsString + decimalString + 's';
 
     return representation;
+  }
+
+  // Render an array of elapsed times, each in the appropriate units
+  function renderElapsedTimeArray(values) {
+    let lis = [];
+
+    for(const value of values) {
+      let displayValue = Number.isFinite(value) ? renderElapsedTime(value) :
+                                                  '\u2014';
+      let itemClass = Number.isFinite(value) ? 'list-inline-item' :
+                                        'list-inline-item text-body-secondary';
+      lis.push(createElement('li', itemClass, displayValue));
+    }
+
+    return createElement('ul', 'list-inline mb-0', lis);
   }
 
   // Render health status
@@ -353,6 +394,21 @@ let cuttlefishDynamb = (function() {
     return createElement('button', buttonClass, icon);
   }
 
+  // Render an array of numbers each rendered as localeString
+  function renderLocaleStringArray(values, suffix) {
+    let lis = [];
+
+    for(const value of values) {
+      let displayValue = Number.isFinite(value) ? value.toLocaleString() :
+                                                  '\u2014';
+      let itemClass = Number.isFinite(value) ? 'list-inline-item' :
+                                        'list-inline-item text-body-secondary';
+      lis.push(createElement('li', itemClass, displayValue + suffix));
+    }
+
+    return createElement('ul', 'list-inline mb-0', lis);
+  }
+
   // Render an array of numbers
   function renderNumberArray(values, precision, suffix) {
     let lis = [];
@@ -361,7 +417,7 @@ let cuttlefishDynamb = (function() {
       let displayValue = Number.isFinite(value) ? value.toFixed(precision) :
                                                   '\u2014';
       let itemClass = Number.isFinite(value) ? 'list-inline-item' :
-                                               'list-inline-item text-muted';
+                                        'list-inline-item text-body-secondary';
       lis.push(createElement('li', itemClass, displayValue + suffix));
     }
 
@@ -385,9 +441,11 @@ let cuttlefishDynamb = (function() {
 
     if(Array.isArray(passages)) {
       if(passages.length === 2) {
-        let entries = [ createElement('i', 'fas fa-sign-in-alt text-muted'),
+        let entries = [ createElement('i',
+                                      'fas fa-sign-in-alt text-body-secondary'),
                         '\u00a0' + passages[0] ];
-        let exits = [ createElement('i', 'fas fa-sign-out-alt text-muted'),
+        let exits = [ createElement('i',
+                                    'fas fa-sign-out-alt text-body-secondary'),
                       '\u00a0' + passages[1] ];
         lis.push(createElement('li', 'list-inline-item', entries));
         lis.push(createElement('li', 'list-inline-item', exits));

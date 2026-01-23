@@ -1,5 +1,5 @@
 /**
- * Copyright reelyActive 2021-2023
+ * Copyright reelyActive 2021-2026
  * We believe in an open Internet of Things
  */
 
@@ -10,11 +10,14 @@ let cuttlefishStatid = (function() {
   const STANDARD_DATA_PROPERTIES = {
       appearance: { icon: "fas fa-eye" },
       deviceIds: { icon: "fas fa-barcode", transform: "idList" },
+      deviceType: { icon: "fas fa-info-circle" },
+      firmwareVersion: { icon: "fas fa-info", transform: "firmwareVersion" },
+      hardwareVersion: { icon: "fas fa-info", transform: "hardwareVersion" }, 
       languages: { icon: "fas fa-language", transform: "stringArray" },
       name: { icon: "fas fa-id-card" },
       uri: { icon: "fas fa-link", transform: "uri" },
       uuids: { icon: "fas fa-barcode", transform: "idList" },
-      version: { icon: "fas fa-info", suffix: " (version)" }
+      version: { icon: "fas fa-info", transform: "version" }
   };
 
   // Render a statid
@@ -67,6 +70,12 @@ let cuttlefishStatid = (function() {
         return renderListGroupArray(data);
       case 'stringArray':
         return renderStringArray(data);
+      case 'firmwareVersion':
+        return renderVersion(data, 'FW v');
+      case 'hardwareVersion':
+        return renderVersion(data, 'HW v');
+      case 'version':
+        return renderVersion(data, 'v');
       default:
         return data.toString() + suffix;
     }
@@ -105,6 +114,14 @@ let cuttlefishStatid = (function() {
     }
 
     return createElement('ul', 'list-inline mb-0', lis);
+  }
+
+  // Render a version
+  function renderVersion(data, type) {
+    let typeString = createElement('span', 'text-body-secondary', type || 'v');
+    let versionString = createElement('span', 'font-monospace', data);
+
+    return createElement('span', null, [ typeString, versionString ]);
   }
 
   // Create an element as specified, appending optional content as child(ren)
